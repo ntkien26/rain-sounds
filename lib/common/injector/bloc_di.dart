@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/app/app_bloc.dart';
 import 'package:rain_sounds/presentation/screens/main/main_bloc.dart';
+import 'package:rain_sounds/presentation/screens/music/music_bloc.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_bloc.dart';
 
 class BlocDI {
@@ -10,5 +12,6 @@ class BlocDI {
     injector.registerLazySingleton<AppBloc>(() => AppBloc());
     injector.registerFactory<SplashBloc>(() => SplashBloc());
     injector.registerFactory<MainBloc>(() => MainBloc());
+    injector.registerFactory<MusicBloc>(() => MusicBloc(restClient: getIt.get()));
   }
 }
