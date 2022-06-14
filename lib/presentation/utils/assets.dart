@@ -1,0 +1,7 @@
+class ImagePaths {
+
+}
+
+class SvgPaths {
+  
+}
