@@ -1,4 +1,8 @@
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
+import 'package:rain_sounds/presentation/screens/more/more_screen.dart';
+import 'package:rain_sounds/presentation/screens/music/music_screen.dart';
+import 'package:rain_sounds/presentation/screens/sleep/sleep_screen.dart';
+import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
 class MainScreen extends StatefulWidget {
@@ -56,7 +60,10 @@ class MainScreenState extends State<MainScreen>
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: const <Widget>[
-
+            SleepScreen(),
+            SoundsScreen(),
+            MusicScreen(),
+            MoreScreen()
         ],
       ),
     );
@@ -77,6 +84,14 @@ class MainScreenState extends State<MainScreen>
     ),
     const BottomNavigationBarItem(
       label: "Sounds",
+      icon: Icon(Icons.music_note),
+    ),
+    const BottomNavigationBarItem(
+      label: "Music",
+      icon: Icon(Icons.music_note),
+    ),
+    const BottomNavigationBarItem(
+      label: "More",
       icon: Icon(Icons.music_note),
     ),
   ];
