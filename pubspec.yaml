@@ -57,6 +57,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/mixs.json
+    - assets/sounds.json
     - assets/images/
     - assets/icons/
 

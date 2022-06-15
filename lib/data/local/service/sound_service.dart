@@ -7,6 +7,7 @@ import 'package:rain_sounds/domain/manager/audio_manager.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 List<Mix> mixesFromJson(String str) => List<Mix>.from(json.decode(str).map((category) => Mix.fromJson(category)));
+List<Sound> soundsFromJson(String str) => List<Sound>.from(json.decode(str).map((sound) => Sound.fromJson(sound)));
 
 class SoundService {
   // in-memory categories
@@ -22,6 +23,10 @@ class SoundService {
     return await rootBundle.loadString(Assets.mixesJson);
   }
 
+  Future<String> _loadSoundsAsset() async {
+    return await rootBundle.loadString(Assets.soundsJson);
+  }
+
   Future<List<Mix>> loadMixes() async {
     if (mixes.isNotEmpty) {
       return mixes;
@@ -30,7 +35,7 @@ class SoundService {
     String jsonString = await _loadMixesAsset();
     mixes.clear();
     mixes.addAll(mixesFromJson(jsonString));
-    _mapSounds();
+    _loadSounds();
     return mixes;
   }
 
@@ -47,6 +52,13 @@ class SoundService {
     return sounds
         .where((sound) => sound.id.toString().substring(0, 1) == categoryId)
         .toList(); //sound id = 201, 2 is category id
+  }
+
+  Future<List<Sound>> _loadSounds() async {
+    sounds.clear();
+    String jsonString = await _loadSoundsAsset();
+    sounds.addAll(soundsFromJson(jsonString));
+    return sounds;
   }
 
   Future<List<Sound>> getSelectedSounds() async {
