@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/more_screen.dart';
 import 'package:rain_sounds/presentation/screens/music/music_screen.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
+import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
 class MainScreen extends StatefulWidget {
@@ -50,9 +52,11 @@ class MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: kBottomBarColor,
         items: bottomBarItems,
         onTap: _onTappedBar,
-        selectedItemColor: kFirstPrimaryColor,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white38,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
       ),
@@ -78,21 +82,29 @@ class MainScreenState extends State<MainScreen>
 
   final List<BottomNavigationBarItem> bottomBarItems =
   <BottomNavigationBarItem>[
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "Sleep",
-      icon: Icon(Icons.music_note),
+      icon: Container(
+          margin: const EdgeInsets.all(6),
+          height: 20, width: 20, child: Image.asset(ImagePaths.ic_sleep)),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "Sounds",
-      icon: Icon(Icons.music_note),
+      icon: Container(
+          margin: const EdgeInsets.all(6),
+          height: 20, width: 20, child: Image.asset(ImagePaths.ic_sounds)),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "Music",
-      icon: Icon(Icons.music_note),
+      icon: Container(
+          margin: const EdgeInsets.all(6),
+          height: 20, width: 20, child: Image.asset(ImagePaths.ic_music)),
     ),
-    const BottomNavigationBarItem(
+    BottomNavigationBarItem(
       label: "More",
-      icon: Icon(Icons.music_note),
+      icon: Container(
+          margin: const EdgeInsets.all(6),
+          height: 20, width: 20, child: Image.asset(ImagePaths.ic_setting)),
     ),
   ];
 

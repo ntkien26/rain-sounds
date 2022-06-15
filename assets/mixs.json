@@ -1,0 +1,609 @@
+[
+  {
+    "mixSoundId": 251,
+    "category": 4,
+    "name": "Piano",
+    "cover": {
+      "thumbnail": "piano_crop",
+      "background": "piano"
+    },
+    "sounds": [
+      {
+        "id": 201,
+        "volume": 80
+      },
+      {
+        "id": 123,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 222,
+    "category": 4,
+    "name": "Relax Time",
+    "cover": {
+      "thumbnail": "relax_crop",
+      "background": "relax"
+    },
+    "sounds": [
+      {
+        "id": 138,
+        "volume": 80
+      },
+      {
+        "id": 109,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 201,
+    "category": 3,
+    "name": "Spring Rain",
+    "cover": {
+      "thumbnail": "spring_rain_crop",
+      "background": "spring_rain"
+    },
+    "sounds": [
+      {
+        "id": 102,
+        "volume": 80
+      },
+      {
+        "id": 104,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 240,
+    "category": 3,
+    "name": "Heavy Rain",
+    "cover": {
+      "thumbnail": "heavy_rain_crop",
+      "background": "heavy_rain"
+    },
+    "sounds": [
+      {
+        "id": 103,
+        "volume": 80
+      },
+      {
+        "id": 104,
+        "volume": 80
+      },
+      {
+        "id": 110,
+        "volume": 80
+      },
+      {
+        "id": 114,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 224,
+    "category": 4,
+    "name": "Memories",
+    "cover": {
+      "thumbnail": "memories_crop",
+      "background": "memories"
+    },
+    "sounds": [
+      {
+        "id": 143,
+        "volume": 80
+      },
+      {
+        "id": 101,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 216,
+    "category": 3,
+    "name": "Light Rain",
+    "cover": {
+      "thumbnail": "light_rain_crop",
+      "background": "light_rain"
+    },
+    "sounds": [
+      {
+        "id": 109,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 250,
+    "category": 4,
+    "name": "Zither",
+    "cover": {
+      "thumbnail": "zither_crop",
+      "background": "zither"
+    },
+    "sounds": [
+      {
+        "id": 144,
+        "volume": 80
+      },
+      {
+        "id": 125,
+        "volume": 30
+      }
+    ]
+  },
+  {
+    "mixSoundId": 229,
+    "category": 2,
+    "name": "Clock",
+    "cover": {
+      "thumbnail": "clock_crop",
+      "background": "clock"
+    },
+    "sounds": [
+      {
+        "id": 146,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 211,
+    "category": 4,
+    "name": "Autumn Jungle",
+    "cover": {
+      "thumbnail": "autumn_crop",
+      "background": "autumn"
+    },
+    "sounds": [
+      {
+        "id": 105,
+        "volume": 80
+      },
+      {
+        "id": 125,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 235,
+    "category": 3,
+    "name": "Rain on Leaves",
+    "cover": {
+      "thumbnail": "rain_on_leave_crop",
+      "background": "rain_on_leave"
+    },
+    "sounds": [
+      {
+        "id": 101,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 208,
+    "category": 3,
+    "name": "Rain on Roof",
+    "cover": {
+      "thumbnail": "rain_on_roof_thumbnail",
+      "background": "rain_on_roof"
+    },
+    "sounds": [
+      {
+        "id": 107,
+        "volume": 80
+      },
+      {
+        "id": 118,
+        "volume": 40
+      }
+    ]
+  },
+  {
+    "mixSoundId": 213,
+    "category": 2,
+    "name": "City Life",
+    "cover": {
+      "thumbnail": "city_life_crop",
+      "background": "city_life"
+    },
+    "sounds": [
+      {
+        "id": 121,
+        "volume": 80
+      },
+      {
+        "id": 106,
+        "volume": 40
+      }
+    ]
+  },
+  {
+    "mixSoundId": 219,
+    "category": 2,
+    "name": "Lullaby Music Box",
+    "cover": {
+      "thumbnail": "mix_lullaby_music_box",
+      "background": "big_mix_lullaby_music_box"
+    },
+    "sounds": [
+      {
+        "id": 160,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 203,
+    "category": 4,
+    "name": "Beach",
+    "cover": {
+      "thumbnail": "beach_crop",
+      "background": "beach"
+    },
+    "sounds": [
+      {
+        "id": 112,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 204,
+    "category": 6,
+    "name": "Forest Adventure",
+    "cover": {
+      "thumbnail": "forest_adventure_crop",
+      "background": "forest_adventure"
+    },
+    "sounds": [
+      {
+        "id": 116,
+        "volume": 80
+      },
+      {
+        "id": 115,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 233,
+    "category": 3,
+    "name": "Rainy Weekend",
+    "cover": {
+      "thumbnail": "rain_weeken_crop",
+      "background": "rain_weeken"
+    },
+    "sounds": [
+      {
+        "id": 139,
+        "volume": 80
+      },
+      {
+        "id": 109,
+        "volume": 60
+      }
+    ]
+  },
+  {
+    "mixSoundId": 220,
+    "category": 4,
+    "name": "Nature Melody",
+    "cover": {
+      "thumbnail": "melody_crop",
+      "background": "melody"
+    },
+    "sounds": [
+      {
+        "id": 141,
+        "volume": 80
+      },
+      {
+        "id": 116,
+        "volume": 60
+      }
+    ]
+  },
+  {
+    "mixSoundId": 210,
+    "category": 5,
+    "name": "Babbling Brook",
+    "cover": {
+      "thumbnail": "mix_babbling_brook",
+      "background": "big_mix_babbling_brook"
+    },
+    "sounds": [
+      {
+        "id": 115,
+        "volume": 80
+      },
+      {
+        "id": 125,
+        "volume": 60
+      }
+    ]
+  },
+  {
+    "mixSoundId": 209,
+    "category": 5,
+    "name": "Rain in Forest",
+    "cover": {
+      "thumbnail": "rain_in_forest_crop",
+      "background": "rain_in_forest"
+    },
+    "sounds": [
+      {
+        "id": 101,
+        "volume": 80
+      },
+      {
+        "id": 104,
+        "volume": 60
+      }
+    ]
+  },
+  {
+    "mixSoundId": 215,
+    "category": 2,
+    "name": "Fire",
+    "cover": {
+      "thumbnail": "fire_crop",
+      "background": "fire"
+    },
+    "sounds": [
+      {
+        "id": 118,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 212,
+    "category": 2,
+    "name": "Flying Sky",
+    "cover": {
+      "thumbnail": "fly_sky_crop",
+      "background": "fly_sky"
+    },
+    "sounds": [
+      {
+        "id": 120,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 214,
+    "category": 2,
+    "name": "Cave",
+    "cover": {
+      "thumbnail": "mix_cave",
+      "background": "big_mix_cave"
+    },
+    "sounds": [
+      {
+        "id": 117,
+        "volume": 80
+      },
+      {
+        "id": 118,
+        "volume": 60
+      }
+    ]
+  },
+  {
+    "mixSoundId": 202,
+    "category": 4,
+    "name": "Peaceful Night",
+    "cover": {
+      "thumbnail": "peaceful_night_crop",
+      "background": "peaceful_night"
+    },
+    "sounds": [
+      {
+        "id": 111,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 228,
+    "category": 5,
+    "name": "Meditate in Forest",
+    "cover": {
+      "thumbnail": "meditate_in_forest_crop",
+      "background": "meditate_in_forest"
+    },
+    "sounds": [
+      {
+        "id": 136,
+        "volume": 80
+      },
+      {
+        "id": 115,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 217,
+    "category": 2,
+    "name": "Evening Beach",
+    "cover": {
+      "thumbnail": "sunset_crop",
+      "background": "sunset"
+    },
+    "sounds": [
+      {
+        "id": 135,
+        "volume": 80
+      },
+      {
+        "id": 112,
+        "volume": 50
+      }
+    ]
+  },
+  {
+    "mixSoundId": 223,
+    "category": 5,
+    "name": "Yoga Music",
+    "cover": {
+      "thumbnail": "yoga_crop",
+      "background": "yoga"
+    },
+    "sounds": [
+      {
+        "id": 147,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 227,
+    "category": 5,
+    "name": "Zen",
+    "cover": {
+      "thumbnail": "zen_crop",
+      "background": "zen"
+    },
+    "sounds": [
+      {
+        "id": 148,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 226,
+    "category": 5,
+    "name": "Meditation",
+    "cover": {
+      "thumbnail": "meditation_crop",
+      "background": "meditation"
+    },
+    "sounds": [
+      {
+        "id": 140,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 205,
+    "category": 2,
+    "name": "Train Journey",
+    "cover": {
+      "thumbnail": "train_crop",
+      "background": "train"
+    },
+    "sounds": [
+      {
+        "id": 119,
+        "volume": 80
+      },
+      {
+        "id": 132,
+        "volume": 40
+      }
+    ]
+  },
+  {
+    "mixSoundId": 231,
+    "category": 5,
+    "name": "Bell",
+    "cover": {
+      "thumbnail": "bell_crop",
+      "background": "bell"
+    },
+    "sounds": [
+      {
+        "id": 155,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 232,
+    "category": 6,
+    "name": "Focus",
+    "cover": {
+      "thumbnail": "focus_crop",
+      "background": "focus"
+    },
+    "sounds": [
+      {
+        "id": 137,
+        "volume": 80
+      }
+    ]
+  },
+  {
+    "mixSoundId": 230,
+    "category": 6,
+    "name": "Cafe",
+    "cover": {
+      "thumbnail": "cafe_crop",
+      "background": "cafe"
+    },
+    "sounds": [
+      {
+        "id": 131,
+        "volume": 80
+      },
+      {
+        "id": 132,
+        "volume": 40
+      }
+    ]
+  },
+  {
+    "mixSoundId": 207,
+    "category": 2,
+    "name": "Countryside",
+    "cover": {
+      "thumbnail": "countryside_crop",
+      "background": "countryside"
+    },
+    "sounds": [
+      {
+        "id": 111,
+        "volume": 80
+      },
+      {
+        "id": 118,
+        "volume": 65
+      }
+    ]
+  },
+  {
+    "mixSoundId": 206,
+    "category": 2,
+    "name": "Cold Winter",
+    "cover": {
+      "thumbnail": "winter_crop",
+      "background": "winter"
+    },
+    "sounds": [
+      {
+        "id": 108,
+        "volume": 80
+      },
+      {
+        "id": 118,
+        "volume": 80
+      },
+      {
+        "id": 113,
+        "volume": 80
+      }
+    ]
+  }
+  
+]
