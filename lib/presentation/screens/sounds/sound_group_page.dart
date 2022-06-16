@@ -7,7 +7,9 @@ import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/constants.dart';
 
 class SoundGroupPage extends StatelessWidget {
-  const SoundGroupPage({Key? key, required this.sounds, required this.soundsBloc}) : super(key: key);
+  const SoundGroupPage(
+      {Key? key, required this.sounds, required this.soundsBloc})
+      : super(key: key);
 
   final List<Sound> sounds;
   final SoundsBloc soundsBloc;
@@ -16,6 +18,7 @@ class SoundGroupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
         crossAxisCount: 3,
+        mainAxisSpacing: 15,
         children: sounds
             .map((e) => SoundItem(
                   sound: e,
@@ -28,7 +31,8 @@ class SoundGroupPage extends StatelessWidget {
 class SoundItem extends StatefulWidget {
   const SoundItem({
     Key? key,
-    required this.sound, required this.soundsBloc,
+    required this.sound,
+    required this.soundsBloc,
   }) : super(key: key);
 
   final Sound sound;
@@ -58,27 +62,28 @@ class _SoundItemState extends State<SoundItem> {
       widget.soundsBloc.add(UpdateSound(
           soundId: widget.sound.id, active: active, volume: volume));
     }
-
+    final extension = widget.sound.icon?.split('.').last;
     return InkWell(
       splashColor: Colors.black,
       onTap: _onButtonClick,
-      child: SizedBox(
-        height: 100,
-        width: 100,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 50,
-              width: 50,
-            ),
-            SvgPicture.asset('${Assets.baseIconPath}/${widget.sound.icon}.svg'),
-            Text(
-              widget.sound.name ?? '',
-              style: const TextStyle(color: Colors.white),
-            ),
-            buildVolumeSlider()
-          ],
-        ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 50,
+            width: 50,
+            child: extension == 'svg'
+                ? SvgPicture.asset(
+                    '${Assets.baseIconPath}/${widget.sound.icon}.svg')
+                : Image.asset(
+                    '${Assets.baseIconPath}/${widget.sound.icon}.png'),
+          ),
+          const SizedBox(height: 12,),
+          Text(
+            widget.sound.name ?? '',
+            style: const TextStyle(color: Colors.white),
+          ),
+          buildVolumeSlider()
+        ],
       ),
     );
   }

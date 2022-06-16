@@ -62,7 +62,11 @@ class SoundService {
   }
 
   Future<List<Sound>> getSelectedSounds() async {
-    return sounds.where((sound) => sound.active).toList();
+    final list = sounds.where((sound) => sound.active).toList();
+    list.forEach((element) {
+      print('Sound:  ${element.name}-${element.icon}-${element.volume}');
+    });
+    return list;
   }
 
   Future<List<Sound>> playAllSelectedSounds() async {
@@ -104,8 +108,10 @@ class SoundService {
       sounds[soundIndex] = sound;
 
       if (active) {
+        print('playAllSelectedSounds');
         playAllSelectedSounds();
       } else {
+        print('stop: ${sound.name}');
         audioManager.stop(sound);
         if((await getSelectedSounds()).isEmpty) {
           isPlaying = false;

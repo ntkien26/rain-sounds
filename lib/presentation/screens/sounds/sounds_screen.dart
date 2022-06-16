@@ -2,6 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sound_group_page.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
@@ -36,14 +37,19 @@ class _SoundsScreenState extends State<SoundsScreen> {
               bloc: _bloc,
               builder: (BuildContext context, SoundsState state) {
                 final totalPage = (state.sounds!.length / 9).round();
-                print('totalPage: $totalPage');
-                var lists = List.generate(
-                    totalPage,
-                    (i) => state.sounds?.sublist(
-                        totalPage * i,
-                        (i + 1) * totalPage <= state.sounds!.length
-                            ? (i + 1) * totalPage
-                            : null));
+                print('length: ${state.sounds!.length} totalPage: $totalPage');
+                final List<List<Sound>> lists = List.empty(growable: true);
+                for (int i = 0; i < totalPage; i++) {
+                  int startIndex = i * 9 ;
+                  int endIndex = startIndex + 9;
+                  if (endIndex < state.sounds!.length) {
+                    var page = state.sounds?.sublist(startIndex, endIndex) ?? List.empty();
+                    lists.add(page);
+                  } else {
+                    var page = state.sounds?.sublist(startIndex, state.sounds!.length) ?? List.empty();
+                    lists.add(page);
+                  }
+                }
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -62,15 +68,23 @@ class _SoundsScreenState extends State<SoundsScreen> {
                                 fontWeight: FontWeight.w500),
                           ),
                         )),
+                    const SizedBox(
+                      height: 36,
+                    ),
                     Expanded(
                       child: PageView.builder(
                           itemCount: totalPage,
+                          onPageChanged: (page) {
+                            setState(() {
+                              _selectedIndex = page;
+                            });
+                          },
                           itemBuilder: (BuildContext context, int index) {
-                            return SoundGroupPage(sounds: lists[index] ?? List.empty(), soundsBloc: _bloc,);
+                            return SoundGroupPage(sounds: lists[index], soundsBloc: _bloc,);
                           }),
                     ),
                     DotsIndicator(
-                      dotsCount: 7,
+                      dotsCount: totalPage,
                       position: _selectedIndex.toDouble(),
                       decorator: const DotsDecorator(
                         color: Colors.white30, // Inactive color

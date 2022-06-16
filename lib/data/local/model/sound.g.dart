@@ -9,8 +9,8 @@ part of 'sound.dart';
 Sound _$SoundFromJson(Map<String, dynamic> json) => Sound(
       id: json['id'] as int,
       name: json['name'] as String?,
-      fileName: json['fileName'] as String? ?? "",
-      icon: json['icon'] as String? ?? "",
+      fileName: json['fileName'] as String?,
+      icon: json['icon'] as String?,
       volume: (json['volume'] as num?)?.toDouble() ?? 80,
       active: json['active'] as bool? ?? false,
     );

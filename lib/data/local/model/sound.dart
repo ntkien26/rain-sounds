@@ -6,7 +6,7 @@ part 'sound.g.dart';
 class Sound {
   int id;
   String? name;
-  String fileName = "";
+  String? fileName;
   String? icon;
   double volume = 80;
   bool active = false;
@@ -14,16 +14,16 @@ class Sound {
   Sound(
       {required this.id,
       this.name,
-      this.fileName = "",
-      this.icon = "",
+      this.fileName,
+      this.icon,
       this.volume = 80,
       this.active = false});
 
   Sound copyWith(
       {int? id,
       String? name,
-      String? fileName = "",
-      String? icon = "",
+      String? fileName,
+      String? icon,
       double? volume = 80,
       bool? active = false}) {
     return Sound(

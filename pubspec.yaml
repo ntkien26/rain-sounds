@@ -61,5 +61,6 @@ flutter:
     - assets/sounds.json
     - assets/images/
     - assets/icons/
+    - assets/sounds/
 
 
