@@ -95,7 +95,7 @@ class SoundService {
     return playing;
   }
 
-  Future<bool> updateSound(String soundId, bool active, double volume) async {
+  Future<bool> updateSound(int soundId, bool active, double volume) async {
     if (sounds.isEmpty) return false;
 
     int soundIndex = sounds.indexWhere((sound) => sound.id == soundId);

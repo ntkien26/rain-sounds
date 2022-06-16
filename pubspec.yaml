@@ -47,6 +47,7 @@ dependencies:
   dio: ^4.0.6
   dots_indicator: ^2.1.0
   audioplayers: ^1.0.0
+  equatable: ^2.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
