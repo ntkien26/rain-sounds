@@ -48,6 +48,9 @@ dependencies:
   dots_indicator: ^2.1.0
   audioplayers: ^1.0.0
   equatable: ^2.0.3
+  badges: ^2.0.3
+  firebase_messaging: ^11.4.2
+  awesome_notifications: ^0.6.21
 dev_dependencies:
   flutter_test:
     sdk: flutter

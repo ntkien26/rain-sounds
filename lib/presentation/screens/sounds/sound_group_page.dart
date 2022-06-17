@@ -18,7 +18,6 @@ class SoundGroupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
         crossAxisCount: 3,
-        mainAxisSpacing: 15,
         children: sounds
             .map((e) => SoundItem(
                   sound: e,
@@ -73,16 +72,18 @@ class _SoundItemState extends State<SoundItem> {
             width: 50,
             child: extension == 'svg'
                 ? SvgPicture.asset(
-                    '${Assets.baseIconPath}/${widget.sound.icon}.svg')
+                    '${Assets.baseIconPath}/${widget.sound.icon}')
                 : Image.asset(
-                    '${Assets.baseIconPath}/${widget.sound.icon}.png'),
+                    '${Assets.baseIconPath}/${widget.sound.icon}'),
           ),
           const SizedBox(height: 12,),
           Text(
             widget.sound.name ?? '',
+            textAlign: TextAlign.center,
+            maxLines: 1,
             style: const TextStyle(color: Colors.white),
           ),
-          buildVolumeSlider()
+          active ? buildVolumeSlider() : const SizedBox()
         ],
       ),
     );

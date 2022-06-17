@@ -12,7 +12,8 @@ class AudioManager {
     print('Play: ${sound.fileName}');
     if (!playing.containsKey(sound.id)) {
       AudioPlayer audioPlayer = AudioPlayer();
-      audioPlayer.play(AssetSource('${Assets.baseSoundsPath}${sound.fileName}.ogg'), volume: sound.volume.toDouble());
+      audioPlayer.setReleaseMode(ReleaseMode.loop);
+      audioPlayer.play(AssetSource('${Assets.baseSoundsPath}${sound.fileName}.aac'), volume: sound.volume.toDouble());
       playing[sound.id] = audioPlayer;
     }
     playing[sound.id]?.setVolume(sound.volume / Constants.maxSliderValue); // volume applies between 0 and 1

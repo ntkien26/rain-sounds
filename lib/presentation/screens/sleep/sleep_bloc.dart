@@ -22,10 +22,6 @@ class SleepBloc extends Bloc<SleepEvent, SleepState>{
       return;
     }
 
-    mixes.forEach((element) {
-      print('Mix: ${element.name}');
-    });
-
     emit(state.copyWith(status: SleepStatus.success, mixes: mixes));
   }
 }

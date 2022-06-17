@@ -14,6 +14,7 @@ class SoundService {
   List<Mix> mixes = <Mix>[];
   List<Sound> sounds = <Sound>[];
   bool isPlaying = false;
+  int totalActiveSound = 0;
 
   final AudioManager audioManager;
 
@@ -63,9 +64,7 @@ class SoundService {
 
   Future<List<Sound>> getSelectedSounds() async {
     final list = sounds.where((sound) => sound.active).toList();
-    list.forEach((element) {
-      print('Sound:  ${element.name}-${element.icon}-${element.volume}');
-    });
+    totalActiveSound = list.length;
     return list;
   }
 
@@ -79,6 +78,9 @@ class SoundService {
     // check if there were any selected sounds then player state is changed
     if(selected.isNotEmpty) {
       isPlaying = true;
+      print('isPlaying: true');
+    } else {
+      print('isPlaying: false');
     }
 
     return selected;
@@ -108,10 +110,8 @@ class SoundService {
       sounds[soundIndex] = sound;
 
       if (active) {
-        print('playAllSelectedSounds');
         playAllSelectedSounds();
       } else {
-        print('stop: ${sound.name}');
         audioManager.stop(sound);
         if((await getSelectedSounds()).isEmpty) {
           isPlaying = false;

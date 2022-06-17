@@ -25,4 +25,8 @@ class IconPaths {
   static const String ic_sounds = '${Assets.baseIconPath}/ic_tab_sounds.xml';
   static const String ic_music = '${Assets.baseIconPath}/ic_tab_mix.xml';
   static const String ic_more = '${Assets.baseIconPath}/ic_tab_setting.xml';
+  static const String ic_set_time = '${Assets.baseIconPath}/ic_set_time.svg';
+  static const String ic_play = '${Assets.baseIconPath}/ic_play.svg';
+  static const String ic_pause = '${Assets.baseIconPath}/ic_pause.svg';
+  static const String ic_sound = '${Assets.baseIconPath}/ic_sound.svg';
 }
