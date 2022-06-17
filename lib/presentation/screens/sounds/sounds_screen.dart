@@ -20,7 +20,6 @@ class SoundsScreen extends StatefulWidget {
 
 class _SoundsScreenState extends State<SoundsScreen> {
   int _selectedIndex = 0;
-  final PageController _pageController = PageController();
   final SoundsBloc _bloc = getIt<SoundsBloc>();
 
   @override
