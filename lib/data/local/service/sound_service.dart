@@ -123,8 +123,12 @@ class SoundService {
         playAllSelectedSounds();
       } else {
         audioManager.stop(sound);
-        final currentSelected = await getSelectedSounds();
-        isPlaying = currentSelected.isNotEmpty;
+        if (isPlaying) {
+          final currentSelected = await getSelectedSounds();
+          isPlaying = currentSelected.isNotEmpty;
+        } else {
+          totalActiveSound -= 1;
+        }
       }
 
       return true;
