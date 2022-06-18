@@ -29,4 +29,6 @@ class IconPaths {
   static const String ic_play = '${Assets.baseIconPath}/ic_play.svg';
   static const String ic_pause = '${Assets.baseIconPath}/ic_pause.svg';
   static const String ic_sound = '${Assets.baseIconPath}/ic_sound.svg';
+  static const String icPremium = '${Assets.baseIconPath}/ic_premium.svg';
+
 }
