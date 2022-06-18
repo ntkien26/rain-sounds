@@ -19,6 +19,16 @@ class NavigationService {
     );
   }
 
+  Future<void> navigateToScreen({
+    required Widget screen,
+  }) {
+    return navigatorKey.currentState!.push(
+      MaterialPageRoute(builder: (BuildContext context) {
+        return screen;
+      })
+    );
+  }
+
   Future<void> navigateToAndRemoveUntil(
       String routeName,
       RoutePredicate predicate, {

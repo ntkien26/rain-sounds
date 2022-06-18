@@ -6,8 +6,11 @@ import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/audio_manager.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
-List<Mix> mixesFromJson(String str) => List<Mix>.from(json.decode(str).map((category) => Mix.fromJson(category)));
-List<Sound> soundsFromJson(String str) => List<Sound>.from(json.decode(str).map((sound) => Sound.fromJson(sound)));
+List<Mix> mixesFromJson(String str) =>
+    List<Mix>.from(json.decode(str).map((category) => Mix.fromJson(category)));
+
+List<Sound> soundsFromJson(String str) =>
+    List<Sound>.from(json.decode(str).map((sound) => Sound.fromJson(sound)));
 
 class SoundService {
   // in-memory categories
@@ -52,7 +55,7 @@ class SoundService {
   Future<List<Sound>> loadSounds(String categoryId) async {
     return sounds
         .where((sound) => sound.id.toString().substring(0, 1) == categoryId)
-        .toList(); //sound id = 201, 2 is category id
+        .toList();
   }
 
   Future<List<Sound>> _loadSounds() async {
@@ -64,6 +67,9 @@ class SoundService {
 
   Future<List<Sound>> getSelectedSounds() async {
     final list = sounds.where((sound) => sound.active).toList();
+    for (var element in list) {
+      print('Selected sound: ${element.name}');
+    }
     totalActiveSound = list.length;
     return list;
   }
@@ -75,12 +81,9 @@ class SoundService {
       audioManager.play(element);
     }
 
-    // check if there were any selected sounds then player state is changed
-    if(selected.isNotEmpty) {
+    if (selected.isNotEmpty) {
+      print('SoundService is Playing');
       isPlaying = true;
-      print('isPlaying: true');
-    } else {
-      print('isPlaying: false');
     }
 
     return selected;
@@ -91,19 +94,26 @@ class SoundService {
 
     for (var element in playing) {
       audioManager.stop(element);
+      updateSound(element.id, false, element.volume);
     }
+    isPlaying = false;
+    print('SoundService stopped');
+    return playing;
+  }
 
-    // check if there were any selected sounds then player state is changed
-    if(playing.isNotEmpty) {
-      isPlaying = false;
+  Future<List<Sound>> pauseAllPlayingSounds() async {
+    List<Sound> playing = await getSelectedSounds();
+
+    for (var element in playing) {
+      audioManager.pause(element);
     }
-
+    isPlaying = false;
+    print('SoundService paused');
     return playing;
   }
 
   Future<bool> updateSound(int soundId, bool active, double volume) async {
     if (sounds.isEmpty) return false;
-
     int soundIndex = sounds.indexWhere((sound) => sound.id == soundId);
     if (soundIndex > -1) {
       Sound sound = sounds[soundIndex].copyWith(active: active, volume: volume);
@@ -113,15 +123,21 @@ class SoundService {
         playAllSelectedSounds();
       } else {
         audioManager.stop(sound);
-        if((await getSelectedSounds()).isEmpty) {
-          isPlaying = false;
-        }
+        final currentSelected = await getSelectedSounds();
+        isPlaying = currentSelected.isNotEmpty;
       }
 
       return true;
     }
 
     return false;
+  }
+
+  Future<void> playSounds(List<Sound> sounds) async {
+    await stopAllPlayingSounds();
+    for (var element in sounds) {
+      updateSound(element.id, true, element.volume);
+    }
   }
 
 }

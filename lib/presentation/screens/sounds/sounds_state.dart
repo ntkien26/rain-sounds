@@ -9,12 +9,12 @@ class SoundsState {
       {this.status = SoundsStatus.empty,
       this.sounds,
       this.totalSelected,
-      bool? isPlaying});
+      this.isPlaying});
 
   final SoundsStatus status;
   final List<Sound>? sounds;
   final int? totalSelected;
-  final bool? isPlaying = false;
+  final bool? isPlaying;
 
   SoundsState copyWith(
       {SoundsStatus? status,

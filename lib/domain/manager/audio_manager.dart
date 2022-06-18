@@ -16,11 +16,20 @@ class AudioManager {
       audioPlayer.play(AssetSource('${Assets.baseSoundsPath}${sound.fileName}.aac'), volume: sound.volume.toDouble());
       playing[sound.id] = audioPlayer;
     }
-    playing[sound.id]?.setVolume(sound.volume / Constants.maxSliderValue); // volume applies between 0 and 1
+    // Volume applies between 0 and 1
+    playing[sound.id]?.setVolume(sound.volume / Constants.maxSliderValue);
     playing[sound.id]?.resume();
   }
 
+  pause(Sound sound) async {
+    print('Pause: ${sound.fileName}');
+    if (playing.containsKey(sound.id)) {
+      await playing[sound.id]?.pause();
+    }
+  }
+
   stop(Sound sound) async {
+    print('Stop: ${sound.fileName}');
     if (playing.containsKey(sound.id)) {
       await playing[sound.id]?.stop();
     }

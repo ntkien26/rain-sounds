@@ -18,6 +18,7 @@ class SoundGroupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
         crossAxisCount: 3,
+        mainAxisSpacing: 4,
         children: sounds
             .map((e) => SoundItem(
                   sound: e,
@@ -67,21 +68,36 @@ class _SoundItemState extends State<SoundItem> {
       onTap: _onButtonClick,
       child: Column(
         children: [
-          SizedBox(
-            height: 50,
-            width: 50,
-            child: extension == 'svg'
-                ? SvgPicture.asset(
-                    '${Assets.baseIconPath}/${widget.sound.icon}')
-                : Image.asset(
-                    '${Assets.baseIconPath}/${widget.sound.icon}'),
+          const SizedBox(
+            height: 8,
           ),
-          const SizedBox(height: 12,),
-          Text(
-            widget.sound.name ?? '',
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            style: const TextStyle(color: Colors.white),
+          Container(
+            height: 65,
+            width: 65,
+            margin: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+                color: active ? Colors.blueAccent : Colors.white10,
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            child: SizedBox(
+              child: extension == 'svg'
+                  ? SvgPicture.asset(
+                      '${Assets.baseIconPath}/${widget.sound.icon}')
+                  : Image.asset('${Assets.baseIconPath}/${widget.sound.icon}'),
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Expanded(
+            child: Text(
+              widget.sound.name ?? '',
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          const SizedBox(
+            height: 12,
           ),
           active ? buildVolumeSlider() : const SizedBox()
         ],
@@ -89,7 +105,7 @@ class _SoundItemState extends State<SoundItem> {
     );
   }
 
-  Slider buildVolumeSlider() {
+  Widget buildVolumeSlider() {
     _onVolumeChanged(double volume) {
       setState(() {
         this.volume = volume;
@@ -98,15 +114,17 @@ class _SoundItemState extends State<SoundItem> {
           soundId: widget.sound.id, active: active, volume: volume));
     }
 
-    return Slider(
-      value: volume,
-      min: Constants.minSliderValue,
-      max: Constants.maxSliderValue,
-      onChanged: active
-          ? (double newValue) {
-              _onVolumeChanged(newValue.round().toDouble());
-            }
-          : null,
+    return Expanded(
+      child: Slider(
+        value: volume,
+        min: Constants.minSliderValue,
+        max: Constants.maxSliderValue,
+        onChanged: active
+            ? (double newValue) {
+                _onVolumeChanged(newValue.round().toDouble());
+              }
+            : null,
+      ),
     );
   }
 }

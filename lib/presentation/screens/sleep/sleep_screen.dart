@@ -66,7 +66,7 @@ class _SleepScreenState extends State<SleepScreen> {
                 height: 24,
               ),
               SizedBox(
-                height: 36,
+                height: 26,
                 child: ScrollablePositionedList.builder(
                     itemScrollController: itemScrollController,
                     scrollDirection: Axis.horizontal,
@@ -144,14 +144,11 @@ class _SleepScreenState extends State<SleepScreen> {
             index: index, duration: const Duration(microseconds: 300));
       },
       child: Container(
-        width: 75,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         margin: const EdgeInsets.symmetric(horizontal: 8),
         decoration: BoxDecoration(
-            color: _selectedIndex == index ? Colors.blue : Colors.transparent,
-            border: Border.all(
-              color: Colors.white,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
+            color: _selectedIndex == index ? Colors.blue : Colors.white10,
+            borderRadius: const BorderRadius.all(Radius.circular(12))),
         child: Center(
           child: Text(
             category.title,

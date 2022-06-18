@@ -15,3 +15,10 @@ class UpdateSound extends SoundsEvent {
   @override
   List<Object> get props => [soundId, active];
 }
+
+class ToggleSoundsEvent extends SoundsEvent {
+
+  @override
+  List<Object?> get props => [];
+
+}

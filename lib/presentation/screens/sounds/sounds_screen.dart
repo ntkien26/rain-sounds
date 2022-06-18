@@ -8,6 +8,7 @@ import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sound_group_page.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
+import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
@@ -38,7 +39,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
               bloc: _bloc,
               builder: (BuildContext context, SoundsState state) {
                 print(
-                    'State changed: ${state.status} - ${state.sounds?.length} - ${state.totalSelected}');
+                    'State changed: ${state.status}} - isPlaying ${state.isPlaying}');
                 int totalPage = (state.sounds!.length / 9).round();
                 if ((state.sounds!.length / 9).round() <
                     state.sounds!.length / 9) {
@@ -104,7 +105,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                       ),
                     ),
                     const SizedBox(
-                      height: 16,
+                      height: 24,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -114,7 +115,10 @@ class _SoundsScreenState extends State<SoundsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             buildSetTimeButton(),
-                            buildPlayButton(state.isPlaying ?? false),
+                            PlayingButton(isPlaying: state.isPlaying ?? false,
+                              onTap: () {
+                              _bloc.add(ToggleSoundsEvent());
+                            },),
                             buildSelectedButton(state.totalSelected ?? 0)
                           ],
                         ),
@@ -128,21 +132,6 @@ class _SoundsScreenState extends State<SoundsScreen> {
               }),
         ),
       ),
-    );
-  }
-
-  Container buildPlayButton(bool isPlaying) {
-    return Container(
-      width: 160,
-      height: 36,
-      decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.white,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(20))),
-      child: isPlaying
-          ? SvgPicture.asset(IconPaths.ic_pause)
-          : SvgPicture.asset(IconPaths.ic_play),
     );
   }
 
@@ -195,6 +184,37 @@ class _SoundsScreenState extends State<SoundsScreen> {
           style: TextStyle(color: Colors.white),
         )
       ],
+    );
+  }
+}
+
+class PlayingButton extends StatelessWidget {
+  const PlayingButton({
+    Key? key,
+    required this.isPlaying,
+    required this.onTap,
+  }) : super(key: key);
+
+  final bool isPlaying;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 160,
+        height: 36,
+        decoration: BoxDecoration(
+          color: Colors.white10,
+            border: Border.all(
+              color: Colors.white,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        child: isPlaying
+            ? SvgPicture.asset(IconPaths.ic_pause)
+            : SvgPicture.asset(IconPaths.ic_play),
+      ),
     );
   }
 }

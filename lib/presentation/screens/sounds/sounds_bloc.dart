@@ -18,24 +18,26 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
     emit(state.copyWith(
         status: SoundsStatus.success,
         sounds: soundService.sounds,
+        isPlaying: soundService.isPlaying,
         totalSelected: soundService.totalActiveSound));
   }
 
   Future<void> _onSoundEvent(
       SoundsEvent event, Emitter<SoundsState> emit) async {
     if (event is UpdateSound) {
-      soundService.updateSound(event.soundId, event.active, event.volume);
+      await soundService.updateSound(event.soundId, event.active, event.volume);
       emit(state.copyWith(
           status: SoundsStatus.update,
           totalSelected: soundService.totalActiveSound,
           isPlaying: soundService.isPlaying));
-      NotificationUtils.updateNotificationMediaPlayer(
-          0,
-          MediaModel(
-              diskImagePath: IconPaths.ic_sounds,
-              bandName: "Sleep Sounds",
-              trackName: "trackName",
-              trackSize: const Duration(seconds: 30)));
+    } else if (event is ToggleSoundsEvent) {
+      if (soundService.isPlaying) {
+        await soundService.pauseAllPlayingSounds();
+      } else {
+        await soundService.playAllSelectedSounds();
+      }
+      emit(state.copyWith(
+          isPlaying: soundService.isPlaying));
     }
   }
 }
