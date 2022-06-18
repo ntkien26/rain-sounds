@@ -29,4 +29,15 @@ class IconPaths {
   static const String ic_play = '${Assets.baseIconPath}/ic_play.svg';
   static const String ic_pause = '${Assets.baseIconPath}/ic_pause.svg';
   static const String ic_sound = '${Assets.baseIconPath}/ic_sound.svg';
+  static const String icPremium = '${Assets.baseIconPath}/ic_premium.svg';
+  static const String icPremiumNoColor = '${Assets.baseIconPath}/ic_premium_no_color.svg';
+  static const String icBedReminder = '${Assets.baseIconPath}/ic_bed_reminder.svg';
+  static const String icStar = '${Assets.baseIconPath}/ic_star.svg';
+  static const String icFeedBack = '${Assets.baseIconPath}/ic_feedback.svg';
+  static const String icShareApp = '${Assets.baseIconPath}/ic_share.svg';
+  static const String icWarn = '${Assets.baseIconPath}/ic_warn.svg';
+
+
+
+
 }
