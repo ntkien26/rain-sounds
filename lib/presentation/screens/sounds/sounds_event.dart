@@ -22,3 +22,9 @@ class ToggleSoundsEvent extends SoundsEvent {
   List<Object?> get props => [];
 
 }
+
+class StopAllSoundsEvent extends SoundsEvent {
+
+  @override
+  List<Object?> get props => [];
+}

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:rain_sounds/common/injector/app_di.dart';
 import 'package:rain_sounds/common/injector/bloc_di.dart';
 import 'package:rain_sounds/common/injector/network_di.dart';
 import 'package:rain_sounds/common/injector/screen_di.dart';
@@ -12,6 +13,7 @@ class AppInjector {
   static final GetIt injector = GetIt.instance;
 
   static Future<void> initializeDependencies() async {
+    await AppDI.init(injector);
     await NetworkDI.init(injector);
     await ServiceDI.init(injector);
     await ScreenDI.init(injector);
