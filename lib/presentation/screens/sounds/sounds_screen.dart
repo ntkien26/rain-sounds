@@ -3,14 +3,17 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
+import 'package:rain_sounds/presentation/screens/timer/count_down_timer.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sound_group_page.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
 class SoundsScreen extends StatefulWidget {
   const SoundsScreen({Key? key}) : super(key: key);
@@ -22,6 +25,12 @@ class SoundsScreen extends StatefulWidget {
 class _SoundsScreenState extends State<SoundsScreen> {
   int _selectedIndex = 0;
   final SoundsBloc _bloc = getIt<SoundsBloc>();
+
+  @override
+  void dispose() {
+    print('Sound screen dispose');
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +124,12 @@ class _SoundsScreenState extends State<SoundsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             buildSetTimeButton(),
-                            PlayingButton(isPlaying: state.isPlaying ?? false,
+                            PlayingButton(
+                              isPlaying: state.isPlaying ?? false,
                               onTap: () {
-                              _bloc.add(ToggleSoundsEvent());
-                            },),
+                                _bloc.add(ToggleSoundsEvent());
+                              },
+                            ),
                             buildSelectedButton(state.totalSelected ?? 0)
                           ],
                         ),
@@ -146,7 +157,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
             position: BadgePosition.topEnd(end: -14),
             badgeContent: Text(
               totalSelected.toString(),
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
             badgeColor: Colors.blueAccent,
             child: SvgPicture.asset(
@@ -179,9 +190,12 @@ class _SoundsScreenState extends State<SoundsScreen> {
         const SizedBox(
           height: 4,
         ),
-        const Text(
-          '30:00',
-          style: TextStyle(color: Colors.white),
+        CountDownTimer(
+          secondsRemaining: duration.inSeconds,
+          whenTimeExpires: () {
+            _bloc.add(StopAllSoundsEvent());
+          },
+          countDownTimerStyle: const TextStyle(color: Colors.white),
         )
       ],
     );
@@ -206,7 +220,7 @@ class PlayingButton extends StatelessWidget {
         width: 160,
         height: 36,
         decoration: BoxDecoration(
-          color: Colors.white10,
+            color: Colors.white10,
             border: Border.all(
               color: Colors.white,
             ),
