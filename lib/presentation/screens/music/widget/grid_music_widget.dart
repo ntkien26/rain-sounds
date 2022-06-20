@@ -49,8 +49,8 @@ class GridMusicWidget extends StatelessWidget {
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                   colors: [
-                                    kGradientOrangeColor,
                                     kGradientPurpleColor,
+                                    kGradientOrangeColor,
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(6)),
