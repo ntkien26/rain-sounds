@@ -36,19 +36,19 @@ class _SleepScreenState extends State<SleepScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(ImagePaths.background_more_screen),
-                  fit: BoxFit.fill)),
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(ImagePaths.bgMoreScreen),
+                fit: BoxFit.fill)),
+        child: SafeArea(
           child: Column(
             children: [
               const SizedBox(
-                height: 32,
+                height: 16,
               ),
               const Align(
                   alignment: Alignment.centerLeft,
@@ -66,7 +66,7 @@ class _SleepScreenState extends State<SleepScreen> {
                 height: 24,
               ),
               SizedBox(
-                height: 26,
+                height: 28,
                 child: ScrollablePositionedList.builder(
                     itemScrollController: itemScrollController,
                     scrollDirection: Axis.horizontal,

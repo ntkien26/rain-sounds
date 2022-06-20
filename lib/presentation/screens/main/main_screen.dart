@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/more_screen.dart';
 import 'package:rain_sounds/presentation/screens/music/music_screen.dart';
@@ -86,25 +85,25 @@ class MainScreenState extends State<MainScreen>
       label: "Sleep",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.ic_sleep)),
+          height: 20, width: 20, child: Image.asset(ImagePaths.icSleep)),
     ),
     BottomNavigationBarItem(
       label: "Sounds",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.ic_sounds)),
+          height: 20, width: 20, child: Image.asset(ImagePaths.icSounds)),
     ),
     BottomNavigationBarItem(
       label: "Music",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.ic_music)),
+          height: 20, width: 20, child: Image.asset(ImagePaths.icMusic)),
     ),
     BottomNavigationBarItem(
       label: "More",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.ic_setting)),
+          height: 20, width: 20, child: Image.asset(ImagePaths.icSettings)),
     ),
   ];
 

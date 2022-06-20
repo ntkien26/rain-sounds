@@ -26,7 +26,7 @@ class _MoreScreenState extends State<MoreScreen> {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(ImagePaths.background_more_screen),
+              image: AssetImage(ImagePaths.bgMoreScreen),
               fit: BoxFit.fill)),
       child: SafeArea(
           child: Padding(

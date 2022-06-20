@@ -47,7 +47,7 @@ class MixItem extends StatelessWidget {
                 image: DecorationImage(
                     image: AssetImage(
                         '${Assets.baseImagesPath}/${mix.cover?.thumbnail}.webp')),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
+                borderRadius: const BorderRadius.all(Radius.circular(12))),
           ),
           const SizedBox(
             height: 8,
