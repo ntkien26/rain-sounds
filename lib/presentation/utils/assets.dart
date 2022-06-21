@@ -37,4 +37,5 @@ class IconPaths {
   static const String icShareApp = '${Assets.baseIconPath}/ic_share.svg';
   static const String icWarn = '${Assets.baseIconPath}/ic_warn.svg';
   static const String icClose = '${Assets.baseIconPath}/ic_close.svg';
+  static const String icCloseArrow = '${Assets.baseIconPath}/ic_close_arrow.svg';
 }

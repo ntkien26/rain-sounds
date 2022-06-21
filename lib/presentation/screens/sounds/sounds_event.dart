@@ -28,3 +28,8 @@ class StopAllSoundsEvent extends SoundsEvent {
   @override
   List<Object?> get props => [];
 }
+
+class RefreshEvent extends SoundsEvent {
+  @override
+  List<Object?> get props => [];
+}

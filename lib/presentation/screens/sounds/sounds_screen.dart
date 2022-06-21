@@ -3,11 +3,13 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/timer_controller.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/custom_selected_sound/selected_sounds_screen.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sound_group_page.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
@@ -147,42 +149,71 @@ class _SoundsScreenState extends State<SoundsScreen> {
     );
   }
 
+  void refreshData() {
+    _soundsBloc.add(RefreshEvent());
+  }
+
+  void onGoBack(dynamic value) {
+    refreshData();
+  }
+
+  void navigateSelectedSoundsScreen() {
+    Route route = MaterialPageRoute(builder: (context) => SelectedSoundsScreen(
+      soundsBloc: _soundsBloc,
+    ));
+    Navigator.push(context, route).then(onGoBack);
+  }
+
   Widget buildSelectedButton(int totalSelected) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 24,
-          width: 24,
-          child: Badge(
-            showBadge: true,
-            position: BadgePosition.topEnd(end: -14),
-            badgeContent: Text(
-              totalSelected.toString(),
-              style: const TextStyle(color: Colors.white),
-            ),
-            badgeColor: Colors.blueAccent,
-            child: SvgPicture.asset(
-              IconPaths.icSound,
-              color: Colors.white,
+    return InkWell(
+      onTap: () {
+        if (_soundsBloc.soundService.totalActiveSound > 0) {
+          navigateSelectedSoundsScreen();
+        } else {
+          Fluttertoast.showToast(
+              msg: "Choose a sound to create a custom",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.SNACKBAR,
+              timeInSecForIosWeb: 1,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        }
+      },
+      child: Column(
+        children: [
+          SizedBox(
+            height: 24,
+            width: 24,
+            child: Badge(
+              showBadge: true,
+              position: BadgePosition.topEnd(end: -14),
+              badgeContent: Text(
+                totalSelected.toString(),
+                style: const TextStyle(color: Colors.white),
+              ),
+              badgeColor: Colors.blueAccent,
+              child: SvgPicture.asset(
+                IconPaths.icSound,
+                color: Colors.white,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        const Text(
-          'Selected',
-          style: TextStyle(color: Colors.white),
-        )
-      ],
+          const SizedBox(
+            height: 4,
+          ),
+          const Text(
+            'Selected',
+            style: TextStyle(color: Colors.white),
+          )
+        ],
+      ),
     );
   }
 
   Widget buildSetTimeButton() {
     return InkWell(
       onTap: () {
-        getIt<NavigationService>()
-            .navigateToScreen(screen: SetTimerScreen());
+        getIt<NavigationService>().navigateToScreen(screen: SetTimerScreen());
       },
       child: AnimatedBuilder(
           animation: _timerController,

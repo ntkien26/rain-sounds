@@ -19,7 +19,8 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
         status: SoundsStatus.success,
         sounds: soundService.sounds,
         isPlaying: soundService.isPlaying,
-        totalSelected: soundService.totalActiveSound));
+        totalSelected: soundService.totalActiveSound)
+    );
   }
 
   Future<void> _onSoundEvent(
@@ -37,6 +38,8 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
         await soundService.playAllSelectedSounds();
       }
       emit(state.copyWith(isPlaying: soundService.isPlaying));
+    } else if (event is RefreshEvent) {
+      _fetchSound();
     }
   }
 }

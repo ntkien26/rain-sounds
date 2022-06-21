@@ -53,6 +53,7 @@ dependencies:
   awesome_notifications: ^0.6.21
   scrollable_positioned_list: ^0.3.2
   simple_ripple_animation: ^0.0.3
+  fluttertoast: ^8.0.9
 dev_dependencies:
   flutter_test:
     sdk: flutter

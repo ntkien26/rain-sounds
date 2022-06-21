@@ -47,14 +47,10 @@ class _SoundItemState extends State<SoundItem> {
   double volume = 1;
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     active = widget.sound.active;
     volume = widget.sound.volume.toDouble();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    
     _onButtonClick() {
       setState(() {
         active = !active;
