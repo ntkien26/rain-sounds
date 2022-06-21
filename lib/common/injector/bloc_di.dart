@@ -6,6 +6,7 @@ import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_blo
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_bloc.dart';
+import 'package:rain_sounds/domain/manager/timer_controller.dart';
 
 class BlocDI {
   BlocDI._();
@@ -14,9 +15,11 @@ class BlocDI {
     injector.registerLazySingleton<AppBloc>(() => AppBloc());
     injector.registerFactory<SplashBloc>(() => SplashBloc());
     injector.registerFactory<MainBloc>(() => MainBloc());
-    injector.registerFactory<MusicBloc>(() => MusicBloc(musicService: injector()));
+    injector.registerFactory<MusicBloc>(() =>
+        MusicBloc(musicService: injector()));
     injector.registerFactory<SleepBloc>(() => SleepBloc(injector()));
-    injector.registerFactory<SoundsBloc>(() => SoundsBloc(injector()));
-    injector.registerFactory<NowMixPlayingBloc>(() => NowMixPlayingBloc(injector()));
-  }
+    injector.registerFactory<SoundsBloc>(() => SoundsBloc(soundService: injector(), timerController: injector()));
+    injector.registerFactory<NowMixPlayingBloc>(() =>
+        NowMixPlayingBloc(injector()));
+    }
 }

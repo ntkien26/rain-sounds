@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/screens/music/music_bloc.dart';
@@ -22,8 +23,7 @@ class _MusicScreenState extends State<MusicScreen> {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(ImagePaths.background_music_screen),
-              fit: BoxFit.fill)),
+              image: AssetImage(ImagePaths.bgMusicScreen), fit: BoxFit.fill)),
       child: BlocBuilder<MusicBloc, MusicState>(
         bloc: _bloc,
         builder: (BuildContext context, MusicState state) {
@@ -31,7 +31,7 @@ class _MusicScreenState extends State<MusicScreen> {
             case MusicStatus.empty:
               break;
             case MusicStatus.loading:
-              return const CupertinoActivityIndicator();
+              return const Center(child: CircularProgressIndicator());
             case MusicStatus.success:
               return SafeArea(
                 child: Padding(

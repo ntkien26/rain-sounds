@@ -8,27 +8,27 @@ class Assets {
 }
 
 class ImagePaths {
-  static const String background_splash_screen = '${Assets.baseImagesPath}/background_splash_screen.png';
-  static const String background_sleep_screen = '${Assets.baseImagesPath}/background_splash_screen.png';
-  static const String background_sounds_screen = '${Assets.baseImagesPath}/background_tab_sounds.webp';
-  static const String background_music_screen = '${Assets.baseImagesPath}/background_tab_music.png';
-  static const String background_more_screen = '${Assets.baseImagesPath}/background_tab_more.png';
-  static const String ic_sleep = '${Assets.baseImagesPath}/ic_moon_2.png';
-  static const String ic_sounds = '${Assets.baseImagesPath}/ic_note.png';
-  static const String ic_music = '${Assets.baseImagesPath}/ic_music.png';
-  static const String ic_setting = '${Assets.baseImagesPath}/ic_setting.png';
+  static const String bgSplashScreen = '${Assets.baseImagesPath}/background_splash_screen.png';
+  static const String bgSleepScreen = '${Assets.baseImagesPath}/background_splash_screen.png';
+  static const String bgSoundsScreen = '${Assets.baseImagesPath}/background_tab_sounds.webp';
+  static const String bgMusicScreen = '${Assets.baseImagesPath}/background_tab_music.png';
+  static const String bgMoreScreen = '${Assets.baseImagesPath}/background_tab_more.png';
+  static const String icSleep = '${Assets.baseImagesPath}/ic_moon_2.png';
+  static const String icSounds = '${Assets.baseImagesPath}/ic_note.png';
+  static const String icMusic = '${Assets.baseImagesPath}/ic_music.png';
+  static const String icSettings = '${Assets.baseImagesPath}/ic_setting.png';
 }
 
 class IconPaths {
-  static const String ic_sleep =
+  static const String icSleep =
       '${Assets.baseIconPath}/ic_home_black_24dp.xml';
-  static const String ic_sounds = '${Assets.baseIconPath}/ic_tab_sounds.xml';
-  static const String ic_music = '${Assets.baseIconPath}/ic_tab_mix.xml';
-  static const String ic_more = '${Assets.baseIconPath}/ic_tab_setting.xml';
-  static const String ic_set_time = '${Assets.baseIconPath}/ic_set_time.svg';
-  static const String ic_play = '${Assets.baseIconPath}/ic_play.svg';
-  static const String ic_pause = '${Assets.baseIconPath}/ic_pause.svg';
-  static const String ic_sound = '${Assets.baseIconPath}/ic_sound.svg';
+  static const String icSounds = '${Assets.baseIconPath}/ic_tab_sounds.xml';
+  static const String icMusic = '${Assets.baseIconPath}/ic_tab_mix.xml';
+  static const String icMore = '${Assets.baseIconPath}/ic_tab_setting.xml';
+  static const String icSetTime = '${Assets.baseIconPath}/ic_set_time.svg';
+  static const String icPlay = '${Assets.baseIconPath}/ic_play.svg';
+  static const String icPause = '${Assets.baseIconPath}/ic_pause.svg';
+  static const String icSound = '${Assets.baseIconPath}/ic_sound.svg';
   static const String icPremium = '${Assets.baseIconPath}/ic_premium.svg';
   static const String icPremiumNoColor = '${Assets.baseIconPath}/ic_premium_no_color.svg';
   static const String icBedReminder = '${Assets.baseIconPath}/ic_bed_reminder.svg';
@@ -36,8 +36,5 @@ class IconPaths {
   static const String icFeedBack = '${Assets.baseIconPath}/ic_feedback.svg';
   static const String icShareApp = '${Assets.baseIconPath}/ic_share.svg';
   static const String icWarn = '${Assets.baseIconPath}/ic_warn.svg';
-
-
-
-
+  static const String icClose = '${Assets.baseIconPath}/ic_close.svg';
 }

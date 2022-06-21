@@ -1,15 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rain_sounds/common/utils/notification_util.dart';
-import 'package:rain_sounds/data/local/model/media_model.dart';
 import 'package:rain_sounds/data/local/service/sound_service.dart';
+import 'package:rain_sounds/domain/manager/timer_controller.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
-import 'package:rain_sounds/presentation/utils/assets.dart';
 
 class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
   final SoundService soundService;
+  final TimerController timerController;
 
-  SoundsBloc(this.soundService) : super(SoundsState.initial) {
+  SoundsBloc({required this.soundService, required this.timerController})
+      : super(SoundsState.initial) {
     _fetchSound();
     on<SoundsEvent>(_onSoundEvent);
   }
@@ -36,8 +36,7 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
       } else {
         await soundService.playAllSelectedSounds();
       }
-      emit(state.copyWith(
-          isPlaying: soundService.isPlaying));
+      emit(state.copyWith(isPlaying: soundService.isPlaying));
     }
   }
 }

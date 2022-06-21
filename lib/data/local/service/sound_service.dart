@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/audio_manager.dart';
+import 'package:rain_sounds/domain/manager/timer_controller.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 List<Mix> mixesFromJson(String str) =>
@@ -20,8 +21,9 @@ class SoundService {
   int totalActiveSound = 0;
 
   final AudioManager audioManager;
+  final TimerController timerController;
 
-  SoundService(this.audioManager);
+  SoundService({required this.audioManager, required this.timerController});
 
   Future<String> _loadMixesAsset() async {
     return await rootBundle.loadString(Assets.mixesJson);
@@ -84,6 +86,7 @@ class SoundService {
     if (selected.isNotEmpty) {
       print('SoundService is Playing');
       isPlaying = true;
+      timerController.start();
     }
 
     return selected;
@@ -97,6 +100,7 @@ class SoundService {
       updateSound(element.id, false, element.volume);
     }
     isPlaying = false;
+    timerController.pause();
     print('SoundService stopped');
     return playing;
   }
@@ -108,6 +112,7 @@ class SoundService {
       audioManager.pause(element);
     }
     isPlaying = false;
+    timerController.pause();
     print('SoundService paused');
     return playing;
   }
@@ -126,6 +131,12 @@ class SoundService {
         if (isPlaying) {
           final currentSelected = await getSelectedSounds();
           isPlaying = currentSelected.isNotEmpty;
+
+          if (currentSelected.isEmpty) {
+            timerController.pause();
+            timerController.reset();
+          }
+
         } else {
           totalActiveSound -= 1;
         }
