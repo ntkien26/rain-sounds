@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/domain/manager/timer_controller.dart';
+import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_screen.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_bloc.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_event.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_state.dart';
@@ -66,15 +68,50 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                   ),
                   SizedBox(
                     height: 80,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      reverse: true,
-                      itemCount: state.mix?.sounds == null
-                          ? 1
-                          : state.mix!.sounds!.length + 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == 0) {
+                    child: InkWell(
+                      onTap: () {
+                        getIt
+                            .get<NavigationService>()
+                            .navigateToScreen(screen: EditSelectedSoundScreen());
+                      },
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        reverse: true,
+                        itemCount: state.mix?.sounds == null
+                            ? 1
+                            : state.mix!.sounds!.length + 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index == 0) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  margin: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
+                                      color: Colors.white30,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8))),
+                                  child: SizedBox(
+                                    child: SvgPicture.asset(IconPaths.icEdit),
+                                  ),
+                                ),
+                                const Text(
+                                  'Edit',
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  style: TextStyle(color: Colors.white70),
+                                ),
+                              ],
+                            );
+                          }
+                          index -= 1;
+
+                          // return row
+                          var sound = state.mix?.sounds?[index];
+                          final extension = sound?.icon?.split('.').last;
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -85,53 +122,25 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                                 decoration: const BoxDecoration(
                                     color: Colors.white30,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(8))),
+                                        BorderRadius.all(Radius.circular(20))),
                                 child: SizedBox(
-                                  child: SvgPicture.asset(IconPaths.icEdit),
+                                  child: extension == 'svg'
+                                      ? SvgPicture.asset(
+                                          '${Assets.baseIconPath}/${sound?.icon}')
+                                      : Image.asset(
+                                          '${Assets.baseIconPath}/${sound?.icon}'),
                                 ),
                               ),
-                              const Text(
-                                'Edit',
+                              Text(
+                                '${sound?.volume.toInt().toString()}%',
                                 textAlign: TextAlign.center,
                                 maxLines: 1,
-                                style: TextStyle(color: Colors.white70),
+                                style: const TextStyle(color: Colors.white70),
                               ),
                             ],
                           );
-                        }
-                        index -= 1;
-
-                        // return row
-                        var sound = state.mix?.sounds?[index];
-                        final extension = sound?.icon?.split('.').last;
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              margin: const EdgeInsets.all(8),
-                              decoration: const BoxDecoration(
-                                  color: Colors.white30,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              child: SizedBox(
-                                child: extension == 'svg'
-                                    ? SvgPicture.asset(
-                                        '${Assets.baseIconPath}/${sound?.icon}')
-                                    : Image.asset(
-                                        '${Assets.baseIconPath}/${sound?.icon}'),
-                              ),
-                            ),
-                            Text(
-                              '${sound?.volume.toInt().toString()}%',
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              style: const TextStyle(color: Colors.white70),
-                            ),
-                          ],
-                        );
-                      },
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(

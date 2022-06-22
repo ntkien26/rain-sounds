@@ -43,7 +43,8 @@ class _SleepScreenState extends State<SleepScreen> {
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(ImagePaths.bgMoreScreen),
-                fit: BoxFit.fill)),
+                fit: BoxFit.fill)
+        ),
         child: SafeArea(
           child: Column(
             children: [
