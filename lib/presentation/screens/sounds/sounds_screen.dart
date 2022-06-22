@@ -256,8 +256,8 @@ class PlayingButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 160,
-        height: 36,
+        width: 180,
+        height: 40,
         decoration: BoxDecoration(
             color: Colors.white10,
             border: Border.all(

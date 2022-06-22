@@ -16,7 +16,10 @@ class NowMixPlayingBloc extends Bloc<NowMixPlayingEvent, NowMixPlayingState> {
 
     if (event is PlayMixEvent) {
       await soundService.playSounds(event.mix.sounds ?? List.empty());
-      emit(state.copyWith(isPlaying: true));
+      final selectedSound = await soundService.getSelectedSounds();
+      event.mix.sounds?.clear();
+      event.mix.sounds?.insertAll(0, selectedSound);
+      emit(state.copyWith(isPlaying: true, mix: event.mix));
     } else if (event is ToggleMixEvent) {
       if (soundService.isPlaying) {
         await soundService.pauseAllPlayingSounds();
