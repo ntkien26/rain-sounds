@@ -39,4 +39,6 @@ class IconPaths {
   static const String icClose = '${Assets.baseIconPath}/ic_close.svg';
   static const String icCloseArrow = '${Assets.baseIconPath}/ic_close_arrow.svg';
   static const String icEdit = '${Assets.baseIconPath}/ic_edit.svg';
+  static const String icChecked = '${Assets.baseIconPath}/ic_checked.svg';
+
 }
