@@ -3,10 +3,10 @@ import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/constants.dart';
 
-class AudioManager {
+class LocalSoundPlayer {
   Map<int, AudioPlayer> playing = {};
 
-  AudioManager();
+  LocalSoundPlayer();
 
   play(Sound sound) async {
     print('Play: ${sound.fileName}');

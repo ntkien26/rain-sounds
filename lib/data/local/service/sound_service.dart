@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
-import 'package:rain_sounds/domain/manager/audio_manager.dart';
+import 'package:rain_sounds/domain/manager/local_sound_player.dart';
 import 'package:rain_sounds/domain/manager/timer_controller.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
@@ -20,10 +20,10 @@ class SoundService {
   bool isPlaying = false;
   int totalActiveSound = 0;
 
-  final AudioManager audioManager;
+  final LocalSoundPlayer localSoundManager;
   final TimerController timerController;
 
-  SoundService({required this.audioManager, required this.timerController});
+  SoundService({required this.localSoundManager, required this.timerController});
 
   Future<String> _loadMixesAsset() async {
     return await rootBundle.loadString(Assets.mixesJson);
@@ -80,7 +80,7 @@ class SoundService {
     List<Sound> selected = await getSelectedSounds();
 
     for (var element in selected) {
-      audioManager.play(element);
+      localSoundManager.play(element);
     }
 
     if (selected.isNotEmpty) {
@@ -96,7 +96,7 @@ class SoundService {
     List<Sound> playing = await getSelectedSounds();
 
     for (var element in playing) {
-      audioManager.stop(element);
+      localSoundManager.stop(element);
       updateSound(element.id, false, element.volume);
     }
     isPlaying = false;
@@ -109,7 +109,7 @@ class SoundService {
     List<Sound> playing = await getSelectedSounds();
 
     for (var element in playing) {
-      audioManager.pause(element);
+      localSoundManager.pause(element);
     }
     isPlaying = false;
     timerController.pause();
@@ -127,7 +127,7 @@ class SoundService {
       if (active) {
         playAllSelectedSounds();
       } else {
-        audioManager.stop(sound);
+        localSoundManager.stop(sound);
         if (isPlaying) {
           final currentSelected = await getSelectedSounds();
           isPlaying = currentSelected.isNotEmpty;
