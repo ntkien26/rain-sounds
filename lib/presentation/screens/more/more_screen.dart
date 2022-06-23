@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rain_sounds/data/local/model/more.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
+import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
 import 'package:rain_sounds/presentation/screens/more/widget/more_item_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/widget/premium_item_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
@@ -26,8 +27,7 @@ class _MoreScreenState extends State<MoreScreen> {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(ImagePaths.bgMoreScreen),
-              fit: BoxFit.fill)),
+              image: AssetImage(ImagePaths.bgMoreScreen), fit: BoxFit.fill)),
       child: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(16),
@@ -57,6 +57,15 @@ class _MoreScreenState extends State<MoreScreen> {
                           titleItem: listItem[index].titleItem ?? '',
                           isTime: listItem[index].isTime,
                           isLast: listItem[index].isLast,
+                          onTap: () {
+                            if (index == 0) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) =>
+                                          const BedTimeReminderScreen()));
+                            }
+                          },
                         ),
                       ),
                     ),
