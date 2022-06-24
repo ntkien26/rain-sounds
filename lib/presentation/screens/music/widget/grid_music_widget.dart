@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/music/now_playing_screen.dart';
@@ -18,9 +19,7 @@ class GridMusicWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery
-        .of(context)
-        .size;
+    final Size size = MediaQuery.of(context).size;
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -31,16 +30,20 @@ class GridMusicWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       children: List.generate(
         listMusic?.length ?? 1,
-            (index) {
+        (index) {
           final musicItem = listMusic?[index];
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
                 onTap: () {
-                  getIt<NavigationService>().navigateToScreen(
-                      screen: NowPlayingScreen(
-                          musicModel: musicItem ?? MusicModel()));
+                  getIt<AdHelper>().showInterstitialAd(
+                      onAdShowedFullScreenContent: () {
+                        getIt<NavigationService>().navigateToScreen(
+                            screen: NowPlayingScreen(
+                                musicModel: musicItem ?? MusicModel()));
+                      },
+                      onAdDismissedFullScreenContent: () {});
                 },
                 child: Container(
                   height: size.width * 0.4,
@@ -52,29 +55,29 @@ class GridMusicWidget extends StatelessWidget {
                     children: [
                       musicItem?.badge != ""
                           ? Container(
-                        padding: const EdgeInsets.all(4),
-                        child: Text(
-                          '${musicItem?.badge}',
-                          style: TextStyleConstant.iconTextStyle,
-                        ),
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                kGradientPurpleColor,
-                                kGradientOrangeColor,
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(6)),
-                      )
+                              padding: const EdgeInsets.all(4),
+                              child: Text(
+                                '${musicItem?.badge}',
+                                style: TextStyleConstant.iconTextStyle,
+                              ),
+                              decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      kGradientPurpleColor,
+                                      kGradientOrangeColor,
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(6)),
+                            )
                           : const SizedBox(),
                       musicItem?.premium == true
                           ? SvgPicture.asset(
-                        IconPaths.icPremium,
-                        height: 20,
-                        width: 20,
-                      )
+                              IconPaths.icPremium,
+                              height: 24,
+                              width: 24,
+                            )
                           : const SizedBox(),
                     ],
                   ),

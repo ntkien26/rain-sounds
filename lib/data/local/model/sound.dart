@@ -10,6 +10,7 @@ class Sound {
   String? icon;
   double volume = 80;
   bool active = false;
+  bool premium = false;
 
   Sound(
       {required this.id,
@@ -17,7 +18,8 @@ class Sound {
       this.fileName,
       this.icon,
       this.volume = 80,
-      this.active = false});
+      this.active = false,
+      this.premium = false});
 
   Sound copyWith(
       {int? id,
@@ -25,14 +27,16 @@ class Sound {
       String? fileName,
       String? icon,
       double? volume = 80,
-      bool? active = false}) {
+      bool? active = false,
+      bool? premium = false}) {
     return Sound(
         id: id ?? this.id,
         name: name ?? this.name,
         fileName: fileName ?? this.fileName,
         icon: icon ?? this.icon,
         volume: volume ?? this.volume,
-        active: active ?? this.active);
+        active: active ?? this.active,
+        premium: premium ?? this.premium);
   }
 
   factory Sound.fromJson(Map<String, dynamic> json) => _$SoundFromJson(json);

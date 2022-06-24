@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
@@ -14,8 +15,10 @@ class CategoryMixPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
         crossAxisCount: 2,
-        mainAxisSpacing: 5,
-        childAspectRatio: 1,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 16,
+        childAspectRatio: 0.9,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         children: mixes
             .map((e) => MixItem(
                   mix: e,
@@ -38,16 +41,35 @@ class MixItem extends StatelessWidget {
             .navigateToScreen(screen: NowMixPlayingScreen(mix: mix));
       },
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: size.width * 0.5,
-            height: size.width * 0.4,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                        '${Assets.baseImagesPath}/${mix.cover?.thumbnail}.webp')),
-                borderRadius: const BorderRadius.all(Radius.circular(12))),
+          Stack(
+            children: [
+              Container(
+                width: size.width * 0.5,
+                height: size.width * 0.4,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                            '${Assets.baseImagesPath}/${mix.cover?.thumbnail}.webp'),
+                        fit: BoxFit.cover),
+                    borderRadius: const BorderRadius.all(Radius.circular(6))),
+              ),
+              if (mix.premium == true)
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset(
+                      IconPaths.icPremium,
+                      height: 24,
+                      width: 24,
+                    ),
+                  ),
+                )
+              else
+                const SizedBox()
+            ],
           ),
           const SizedBox(
             height: 8,

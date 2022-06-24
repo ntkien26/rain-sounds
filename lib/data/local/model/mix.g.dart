@@ -7,7 +7,7 @@ part of 'mix.dart';
 // **************************************************************************
 
 Mix _$MixFromJson(Map<String, dynamic> json) => Mix(
-      mixSoundId: json['mixSoundId'] as int?,
+      mixSoundId: json['mixSoundId'] as int,
       category: json['category'] as int?,
       name: json['name'] as String?,
       cover: json['cover'] == null
@@ -16,6 +16,7 @@ Mix _$MixFromJson(Map<String, dynamic> json) => Mix(
       sounds: (json['sounds'] as List<dynamic>?)
           ?.map((e) => Sound.fromJson(e as Map<String, dynamic>))
           .toList(),
+      premium: json['premium'] as bool?,
     );
 
 Map<String, dynamic> _$MixToJson(Mix instance) => <String, dynamic>{
@@ -24,4 +25,5 @@ Map<String, dynamic> _$MixToJson(Mix instance) => <String, dynamic>{
       'name': instance.name,
       'cover': instance.cover,
       'sounds': instance.sounds,
+      'premium': instance.premium,
     };

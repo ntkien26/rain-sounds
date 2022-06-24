@@ -50,7 +50,7 @@ class _SoundItemState extends State<SoundItem> {
   Widget build(BuildContext context) {
     active = widget.sound.active;
     volume = widget.sound.volume.toDouble();
-    
+
     _onButtonClick() {
       setState(() {
         active = !active;
@@ -58,6 +58,7 @@ class _SoundItemState extends State<SoundItem> {
       widget.soundsBloc.add(UpdateSound(
           soundId: widget.sound.id, active: active, volume: volume));
     }
+
     final extension = widget.sound.icon?.split('.').last;
     return InkWell(
       splashColor: Colors.black,
@@ -67,19 +68,37 @@ class _SoundItemState extends State<SoundItem> {
           const SizedBox(
             height: 8,
           ),
-          Container(
-            height: 65,
-            width: 65,
-            margin: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-                color: active ? Colors.blueAccent : Colors.white10,
-                borderRadius: const BorderRadius.all(Radius.circular(20))),
-            child: SizedBox(
-              child: extension == 'svg'
-                  ? SvgPicture.asset(
-                      '${Assets.baseIconPath}/${widget.sound.icon}')
-                  : Image.asset('${Assets.baseIconPath}/${widget.sound.icon}'),
-            ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                height: 65,
+                width: 65,
+                margin: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                    color: active ? Colors.blueAccent : Colors.white10,
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                child: SizedBox(
+                  child: extension == 'svg'
+                      ? SvgPicture.asset(
+                          '${Assets.baseIconPath}/${widget.sound.icon}')
+                      : Image.asset(
+                          '${Assets.baseIconPath}/${widget.sound.icon}'),
+                ),
+              ),
+              if (widget.sound.premium == true)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: SvgPicture.asset(
+                    IconPaths.icPremium,
+                    height: 20,
+                    width: 20,
+                  ),
+                )
+              else
+                const SizedBox()
+            ],
           ),
           const SizedBox(
             height: 12,

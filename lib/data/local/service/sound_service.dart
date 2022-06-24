@@ -23,7 +23,8 @@ class SoundService {
   final LocalSoundPlayer localSoundManager;
   final TimerController timerController;
 
-  SoundService({required this.localSoundManager, required this.timerController});
+  SoundService(
+      {required this.localSoundManager, required this.timerController});
 
   Future<String> _loadMixesAsset() async {
     return await rootBundle.loadString(Assets.mixesJson);
@@ -41,17 +42,24 @@ class SoundService {
     String jsonString = await _loadMixesAsset();
     mixes.clear();
     mixes.addAll(mixesFromJson(jsonString));
-    _loadSounds();
+    await _loadSounds();
+    await _loadPremiumMixes();
     return mixes;
   }
 
-  // Map all the sounds from categories to a flatten list
-  Future<List<Sound>> _mapSounds() async {
-    sounds.clear();
-    for (var category in mixes) {
-      sounds.addAll(category.sounds ?? List.empty());
-    }
-    return sounds;
+  Future<List<Mix>> _loadPremiumMixes() async {
+    final premiumSounds = sounds.where((element) => element.premium);
+    mixes.forEach((mix) {
+      bool isPremium = false;
+      mix.sounds?.forEach((sound) {
+        if (premiumSounds.any((premiumSound) => sound.id == premiumSound.id)) {
+          isPremium = true;
+          print('Premium mix: ${mix.name}');
+        }
+      });
+      updateMix(mix.mixSoundId, isPremium);
+    });
+    return mixes;
   }
 
   Future<List<Sound>> loadSounds(String categoryId) async {
@@ -117,6 +125,17 @@ class SoundService {
     return playing;
   }
 
+  Future<bool> updateMix(int mixId, bool premium) async {
+    if (mixes.isEmpty) return false;
+    int mixIndex = mixes.indexWhere((mix) => mix.mixSoundId == mixId);
+    if (mixIndex > -1) {
+      Mix mix = mixes[mixIndex].copyWith(premium: premium);
+      mixes[mixIndex] = mix;
+    }
+
+    return true;
+  }
+
   Future<bool> updateSound(int soundId, bool active, double volume) async {
     if (sounds.isEmpty) return false;
     int soundIndex = sounds.indexWhere((sound) => sound.id == soundId);
@@ -136,7 +155,6 @@ class SoundService {
             timerController.pause();
             timerController.reset();
           }
-
         } else {
           totalActiveSound -= 1;
         }
@@ -154,5 +172,4 @@ class SoundService {
       updateSound(element.id, true, element.volume);
     }
   }
-
 }

@@ -13,6 +13,7 @@ Sound _$SoundFromJson(Map<String, dynamic> json) => Sound(
       icon: json['icon'] as String?,
       volume: (json['volume'] as num?)?.toDouble() ?? 80,
       active: json['active'] as bool? ?? false,
+      premium: json['premium'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$SoundToJson(Sound instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$SoundToJson(Sound instance) => <String, dynamic>{
       'icon': instance.icon,
       'volume': instance.volume,
       'active': instance.active,
+      'premium': instance.premium,
     };

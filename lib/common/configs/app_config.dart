@@ -1,3 +1,4 @@
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rain_sounds/common/configs/notification_config.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
@@ -15,6 +16,7 @@ class AppConfig {
     WidgetsFlutterBinding.ensureInitialized();
     await AppInjector.initializeDependencies();
     await NotificationConfig.init();
+    MobileAds.instance.initialize();
   }
 
 }
