@@ -1,17 +1,14 @@
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationConfig {
   static final FlutterLocalNotificationsPlugin _notifications =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
     AwesomeNotifications().initialize(
-      // set the icon to null if you want to use the default app icon
+        // set the icon to null if you want to use the default app icon
         'resource://drawable/res_app_icon',
         [
           NotificationChannel(
@@ -28,10 +25,11 @@ class NotificationConfig {
         ],
         // Channel groups are only visual and are not required
         channelGroups: [
-          NotificationChannelGroup(channelGroupkey: 'media_player_tests', channelGroupName: 'Media Player tests')
+          NotificationChannelGroup(
+              channelGroupkey: 'media_player_tests',
+              channelGroupName: 'Media Player tests')
         ],
-        debug: true
-    );
+        debug: true);
 
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
@@ -73,14 +71,22 @@ class NotificationConfig {
   }
 
   static Future<void> showNotification(String title, String body) async {
-    AwesomeNotifications().createNotification(
+    String localTimeZone =
+        await AwesomeNotifications().getLocalTimeZoneIdentifier();
+    await AwesomeNotifications().createNotification(
         content: NotificationContent(
-            id: 10,
-            channelKey: 'basic_channel',
-            title: 'Simple Notification',
-            body: 'Simple body'
-        )
-    );
+          id: 1111,
+          channelKey: 'scheduled',
+          title: 'wait 5 seconds to show',
+          body: 'now is 5 seconds later',
+          wakeUpScreen: true,
+          category: NotificationCategory.Alarm,
+        ),
+        schedule: NotificationInterval(
+          interval: 5,
+          timeZone: localTimeZone,
+          preciseAlarm: true,
+        ));
   }
 
   static void onDidReceiveLocalNotification(

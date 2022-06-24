@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/domain/manager/timer_controller.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
@@ -25,6 +26,14 @@ class NowMixPlayingScreen extends StatefulWidget {
 class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
   final NowMixPlayingBloc _bloc = getIt.get();
   final TimerController _timerController = getIt<TimerController>();
+
+  final AdHelper adHelper = getIt.get();
+
+  @override
+  void initState() {
+    super.initState();
+    adHelper.showInterstitialAd(onAdShowedFullScreenContent: () {}, onAdDismissedFullScreenContent: () {});
+  }
 
   @override
   Widget build(BuildContext context) {

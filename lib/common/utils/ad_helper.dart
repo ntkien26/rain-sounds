@@ -29,8 +29,15 @@ class AdHelper {
 
   int countToDisplayAds = 0;
 
-  void showInterstitialAd({required VoidCallback onAdShowedFullScreenContent,
-    required VoidCallback onAdDismissedFullScreenContent}) {
+  void showInterstitialAd(
+      {required VoidCallback onAdShowedFullScreenContent,
+      required VoidCallback onAdDismissedFullScreenContent}) {
+    if (!shouldShowInterstitialAds()) {
+      onAdDismissedFullScreenContent();
+      countAds();
+      return;
+    }
+
     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: const AdRequest(),
@@ -41,6 +48,8 @@ class AdHelper {
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdShowedFullScreenContent: (ad) {
               onAdShowedFullScreenContent();
+              _isInterstitialAdReady = false;
+              _interstitialAd = null;
             },
             onAdDismissedFullScreenContent: (ad) {
               onAdDismissedFullScreenContent();
@@ -59,14 +68,23 @@ class AdHelper {
   }
 
   void _showInterstitialAd() {
-    if (_isInterstitialAdReady && countToDisplayAds == 0 || countToDisplayAds == 5) {
+    if (_isInterstitialAdReady && shouldShowInterstitialAds()) {
       _interstitialAd?.show();
       print('Ad showed');
-      if (countToDisplayAds < 5) {
-        countToDisplayAds += 1;
-      } else {
-        countToDisplayAds = 0;
-      }
+      countAds();
     }
+  }
+
+  void countAds() {
+    if (countToDisplayAds < 5) {
+      countToDisplayAds += 1;
+    } else {
+      countToDisplayAds = 0;
+    }
+  }
+
+  bool shouldShowInterstitialAds() {
+    print('shouldShowInterstitialAds');
+    return countToDisplayAds == 0 || countToDisplayAds == 5;
   }
 }
