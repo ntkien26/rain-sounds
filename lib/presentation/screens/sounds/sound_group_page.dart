@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
+import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
@@ -52,11 +55,16 @@ class _SoundItemState extends State<SoundItem> {
     volume = widget.sound.volume.toDouble();
 
     _onButtonClick() {
-      setState(() {
-        active = !active;
-      });
-      widget.soundsBloc.add(UpdateSound(
-          soundId: widget.sound.id, active: active, volume: volume));
+      if (widget.sound.premium) {
+        getIt<NavigationService>()
+            .navigateToScreen(screen: const InAppPurchaseScreen());
+      } else {
+        setState(() {
+          active = !active;
+        });
+        widget.soundsBloc.add(UpdateSound(
+            soundId: widget.sound.id, active: active, volume: volume));
+      }
     }
 
     final extension = widget.sound.icon?.split('.').last;

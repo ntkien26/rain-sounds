@@ -17,6 +17,7 @@ class ImagePaths {
   static const String icSounds = '${Assets.baseImagesPath}/ic_note.png';
   static const String icMusic = '${Assets.baseImagesPath}/ic_music.png';
   static const String icSettings = '${Assets.baseImagesPath}/ic_setting.png';
+  static const String bgPremium = '${Assets.baseImagesPath}/pic_premium_bg.webp';
 }
 
 class IconPaths {
@@ -40,5 +41,6 @@ class IconPaths {
   static const String icCloseArrow = '${Assets.baseIconPath}/ic_close_arrow.svg';
   static const String icEdit = '${Assets.baseIconPath}/ic_edit.svg';
   static const String icChecked = '${Assets.baseIconPath}/ic_checked.svg';
-
+  static const String icCheckedGreen = '${Assets.baseIconPath}/ic_checked_green.svg';
+  static const String icSelectBlue = '${Assets.baseIconPath}/ic_select_blue.svg';
 }

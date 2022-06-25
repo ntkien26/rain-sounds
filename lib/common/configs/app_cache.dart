@@ -41,7 +41,7 @@ class AppCache {
     return _prefs.getBool(_enableReminder) ?? false;
   }
 
-  void enableReminderFor(String day, bool enable) {
+  Future<void> enableReminderFor(String day, bool enable) async {
     switch (day) {
       case "Sun":
         {

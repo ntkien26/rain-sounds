@@ -54,7 +54,6 @@ class SoundService {
       mix.sounds?.forEach((sound) {
         if (premiumSounds.any((premiumSound) => sound.id == premiumSound.id)) {
           isPremium = true;
-          print('Premium mix: ${mix.name}');
         }
       });
       updateMix(mix.mixSoundId, isPremium);

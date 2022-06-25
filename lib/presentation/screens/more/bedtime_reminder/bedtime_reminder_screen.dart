@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
-import 'package:rain_sounds/common/configs/notification_config.dart';
+import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
@@ -18,15 +18,18 @@ class BedTimeReminderScreen extends StatefulWidget {
 
 class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
   final AppCache appCache = getIt.get();
+  final NotificationService notificationService = getIt.get();
+  TimeOfDay? timeOfDay;
+  DateTime now = DateTime.now();
 
   final List<ListOfDayModel> listOfDays = [
-    ListOfDayModel('S', 'Sun', false),
-    ListOfDayModel('M', 'Mon', false),
-    ListOfDayModel('T', 'Tues', false),
-    ListOfDayModel('W', 'Wed', false),
-    ListOfDayModel('T', 'Thus', false),
-    ListOfDayModel('F', 'Fri', false),
-    ListOfDayModel('SA', 'Sat', false),
+    ListOfDayModel('S', 'Sun', 7, false),
+    ListOfDayModel('M', 'Mon', 1, false),
+    ListOfDayModel('T', 'Tues', 2, false),
+    ListOfDayModel('W', 'Wed', 3, false),
+    ListOfDayModel('T', 'Thus', 4, false),
+    ListOfDayModel('F', 'Fri', 5, false),
+    ListOfDayModel('SA', 'Sat', 6, false),
   ];
 
   bool switchValue = false;
@@ -49,6 +52,7 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
         appCache.isEnableDayForReminder(listOfDays[5].fullName);
     listOfDays[6].onCheck =
         appCache.isEnableDayForReminder(listOfDays[6].fullName);
+    timeOfDay = const TimeOfDay(hour: 21, minute: 30);
   }
 
   @override
@@ -129,10 +133,33 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                       const SizedBox(
                         height: 8,
                       ),
-                      Text(
-                        '21:30',
-                        style: TextStyleConstant.textTextStyle
-                            .copyWith(fontSize: 13, color: k8f8b9a),
+                      InkWell(
+                        onTap: () async {
+                          timeOfDay = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.fromDateTime(
+                                now.add(
+                                  const Duration(minutes: 1),
+                                ),
+                              ),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData(
+                                    colorScheme: const ColorScheme.light(
+                                      primary: Colors.teal,
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              });
+                        },
+                        child: Text(
+                          timeOfDay != null
+                              ? '${timeOfDay?.hour.toString()}:${timeOfDay?.minute.toString()}'
+                              : '21:30',
+                          style: TextStyleConstant.textTextStyle
+                              .copyWith(fontSize: 13, color: k8f8b9a),
+                        ),
                       ),
                       const SizedBox(
                         height: 40,
@@ -194,14 +221,13 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: InkWell(
-                  onTap: () {
-                    appCache.enableReminder(switchValue);
+                  onTap: () async {
+                    await appCache.enableReminder(switchValue);
                     for (var element in listOfDays) {
-                      appCache.enableReminderFor(
+                      await appCache.enableReminderFor(
                           element.fullName, element.onCheck);
                     }
-                    NotificationConfig.showNotification(
-                        'BedTime', 'Time for bed');
+                    await setUpReminder();
                     getIt<NavigationService>().pop();
                   },
                   child: SvgPicture.asset(
@@ -217,12 +243,28 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
       ),
     );
   }
+
+  Future<void> setUpReminder() async {
+    if (!appCache.isEnableReminder()) {
+      await notificationService.cancelScheduledNotifications();
+      return;
+    }
+
+    final daysChecked = listOfDays.where((element) => element.onCheck);
+    await notificationService.cancelScheduledNotifications();
+    for (var element in daysChecked) {
+      notificationService.createReminderNotification(NotificationWeekAndTime(
+          dayOfTheWeek: element.weekDay,
+          timeOfDay: timeOfDay ?? const TimeOfDay(hour: 21, minute: 30)));
+    }
+  }
 }
 
 class ListOfDayModel {
   String shortName;
   String fullName;
+  int weekDay;
   bool onCheck;
 
-  ListOfDayModel(this.shortName, this.fullName, this.onCheck);
+  ListOfDayModel(this.shortName, this.fullName, this.weekDay, this.onCheck);
 }

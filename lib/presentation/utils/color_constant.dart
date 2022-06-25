@@ -21,3 +21,14 @@ const Color k1d132b = Color(0xff1d132b);
 const Color k1f172f = Color(0xff1f172f);
 const Color k1f7af0 = Color(0xff1f7af0);
 const Color k505ffa = Color(0xff505ffa);
+
+//in app purchase screen
+const Color k5f5490 = Color(0xff5f5490);
+const Color k4b3fad = Color(0xff4b3fad);
+const Color k7d7b88 = Color(0xff7d7b88);
+const Color k893c82 = Color(0xff893c82);
+const Color k795ec8 = Color(0xff795ec8);
+const Color k299ac6 = Color(0xff299ac6);
+const Color kb62f69 = Color(0xffb62f69);
+const Color kf9d136 = Color(0xfff9d136);
+const Color k78f721 = Color(0xff78f721);

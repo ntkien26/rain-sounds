@@ -19,4 +19,14 @@ class TextStyleConstant{
        fontSize: 11,
        color: Colors.white,
        fontWeight: FontWeight.w500);
+   static TextStyle normalTextStyle = const TextStyle(
+     fontSize: 15,
+     color: Colors.white,);
+   static TextStyle smallTextStyle = const TextStyle(
+       fontSize: 13,
+       color: Colors.white,
+       fontWeight: FontWeight.w300);
+   static TextStyle mediumTextStyle = const TextStyle(
+     fontSize: 16,
+     color: Colors.white,);
  }
