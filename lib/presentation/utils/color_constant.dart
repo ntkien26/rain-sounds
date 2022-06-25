@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const Color kFirstPrimaryColor = Colors.white;
 const Color kBottomBarColor = Color(0xff090816);
+const Color bgColor = Color(0xff090816);
 
 //Music Screen Color
 const Color kGradientPurpleColor = Color(0xffc51cee);
