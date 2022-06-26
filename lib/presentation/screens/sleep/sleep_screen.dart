@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/presentation/screens/sleep/category_mix_page.dart';
+import 'package:rain_sounds/presentation/screens/sleep/widget/category_mix_page.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
