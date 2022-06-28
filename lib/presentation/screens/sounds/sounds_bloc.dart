@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/service/sound_service.dart';
+import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/domain/manager/timer_controller.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
@@ -7,11 +9,13 @@ import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
   final SoundService soundService;
   final TimerController timerController;
+  final NotificationService notificationService = getIt.get();
 
   SoundsBloc({required this.soundService, required this.timerController})
       : super(SoundsState.initial) {
     _fetchSound();
     on<SoundsEvent>(_onSoundEvent);
+    _listenToPlaybackState();
   }
 
   Future<void> _fetchSound() async {
@@ -19,8 +23,7 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
         status: SoundsStatus.success,
         sounds: soundService.sounds,
         isPlaying: soundService.isPlaying,
-        totalSelected: soundService.totalActiveSound)
-    );
+        totalSelected: soundService.totalActiveSound));
   }
 
   Future<void> _onSoundEvent(
@@ -33,13 +36,19 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
           isPlaying: soundService.isPlaying));
     } else if (event is ToggleSoundsEvent) {
       if (soundService.isPlaying) {
-        await soundService.pauseAllPlayingSounds();
+        await soundService.pause();
       } else {
-        await soundService.playAllSelectedSounds();
+        await soundService.play();
       }
       emit(state.copyWith(isPlaying: soundService.isPlaying));
     } else if (event is RefreshEvent) {
       _fetchSound();
     }
+  }
+
+  void _listenToPlaybackState() {
+    soundService.playbackState.listen((playbackState) {
+      emit(state.copyWith(isPlaying: soundService.isPlaying));
+    });
   }
 }

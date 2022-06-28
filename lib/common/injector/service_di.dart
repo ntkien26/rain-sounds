@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rain_sounds/data/local/service/sound_service.dart';
 import 'package:rain_sounds/data/remote/service/music_service.dart';
@@ -14,9 +15,11 @@ class ServiceDI {
     injector
         .registerLazySingleton<MusicService>(() => MusicService(injector()));
     injector.registerLazySingleton<LocalSoundPlayer>(() => LocalSoundPlayer());
-    injector.registerLazySingleton<TimerController>(() =>
-        TimerController(appCache: injector()));
-    injector.registerLazySingleton<SoundService>(() =>
-        SoundService(localSoundManager: injector(), timerController: injector()));
+    injector.registerLazySingleton<TimerController>(
+        () => TimerController(appCache: injector()));
+    injector.registerSingleton<SoundService>(await AudioService.init(
+      builder: () => SoundService(
+          localSoundManager: injector(), timerController: injector()),
+    ));
   }
 }

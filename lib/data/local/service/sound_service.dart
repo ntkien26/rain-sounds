@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/services.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
@@ -13,7 +14,7 @@ List<Mix> mixesFromJson(String str) =>
 List<Sound> soundsFromJson(String str) =>
     List<Sound>.from(json.decode(str).map((sound) => Sound.fromJson(sound)));
 
-class SoundService {
+class SoundService extends BaseAudioHandler {
   // in-memory categories
   List<Mix> mixes = <Mix>[];
   List<Sound> sounds = <Sound>[];
@@ -143,7 +144,7 @@ class SoundService {
       sounds[soundIndex] = sound;
 
       if (active) {
-        playAllSelectedSounds();
+        play();
       } else {
         localSoundManager.stop(sound);
         if (isPlaying) {
@@ -166,9 +167,30 @@ class SoundService {
   }
 
   Future<void> playSounds(List<Sound> sounds) async {
-    await stopAllPlayingSounds();
+    await stop();
     for (var element in sounds) {
       updateSound(element.id, true, element.volume);
     }
+  }
+
+  @override
+  Future<void> play() {
+    playbackState.add(playbackState.value
+        .copyWith(playing: true, controls: [MediaControl.pause]));
+    return playAllSelectedSounds();
+  }
+
+  @override
+  Future<void> pause() {
+    playbackState.add(playbackState.value
+        .copyWith(playing: false, controls: [MediaControl.play]));
+    return pauseAllPlayingSounds();
+  }
+
+  @override
+  Future<void> stop() {
+    playbackState.add(playbackState.value
+        .copyWith(playing: false, controls: [MediaControl.stop]));
+    return stopAllPlayingSounds();
   }
 }

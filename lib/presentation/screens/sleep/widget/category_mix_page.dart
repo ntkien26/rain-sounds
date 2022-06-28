@@ -232,7 +232,7 @@ class MixItem extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  height: size.height * 0.2,
+                  height: size.height * 0.185,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
