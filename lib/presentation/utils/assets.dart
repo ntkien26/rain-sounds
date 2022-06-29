@@ -18,6 +18,7 @@ class ImagePaths {
   static const String icMusic = '${Assets.baseImagesPath}/ic_music.png';
   static const String icSettings = '${Assets.baseImagesPath}/ic_setting.png';
   static const String bgPremium = '${Assets.baseImagesPath}/pic_premium_bg.webp';
+  static const String icMoon = '${Assets.baseImagesPath}/ic_moon.png';
 }
 
 class IconPaths {
