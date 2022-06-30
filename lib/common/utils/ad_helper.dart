@@ -27,6 +27,9 @@ class AdHelper {
   InterstitialAd? _interstitialAd;
   bool _isInterstitialAdReady = false;
 
+  late RewardedAd _rewardedAd;
+  bool _isRewardedAdReady = false;
+
   int countToDisplayAds = 0;
 
   void showInterstitialAd(
@@ -80,6 +83,41 @@ class AdHelper {
       countToDisplayAds += 1;
     } else {
       countToDisplayAds = 0;
+    }
+  }
+
+  void showRewardedAd({required VoidCallback onUserRewarded}) {
+    RewardedAd.load(
+      adUnitId: AdHelper.rewardedAdUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          _rewardedAd = ad;
+          _showRewardedAd(onUserRewarded);
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              print('Reward ads dismissed');
+              _isRewardedAdReady = false;
+              _rewardedAd.dispose();
+            },
+          );
+          _isRewardedAdReady = true;
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load a rewarded ad: ${err.message}');
+          _isRewardedAdReady = false;
+        },
+      ),
+    );
+  }
+
+  void _showRewardedAd(VoidCallback onUserEarnedReward) {
+    if (_isRewardedAdReady) {
+      _rewardedAd.show(
+          onUserEarnedReward: (AdWithoutView adWithoutView, RewardItem item) {
+        print('You got reward: ${item.amount} - ${item.type}');
+        onUserEarnedReward();
+      });
     }
   }
 
