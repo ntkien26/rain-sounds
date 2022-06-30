@@ -7,8 +7,14 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/app/app_bloc.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await AppConfig().configApp();
   runApp(const MyApp());
 }

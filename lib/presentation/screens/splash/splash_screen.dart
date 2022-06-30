@@ -69,14 +69,14 @@ class SplashScreenState extends State<SplashScreen>
         }
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(ImagePaths.bgSplashScreen),
-                    fit: BoxFit.fill)),
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(ImagePaths.bgSplashScreen),
+                  fit: BoxFit.fill)),
+          child: SafeArea(
             child: Column(
               children: [
                 const SizedBox(
