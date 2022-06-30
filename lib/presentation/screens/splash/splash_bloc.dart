@@ -14,7 +14,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       Emitter<SplashState> emit,
       ) async {
     emit(state.copyWith(status: SplashStatus.initializing));
-    await Future<void>.delayed(const Duration(milliseconds: 3000));
+    await Future<void>.delayed(const Duration(milliseconds: 30000));
     emit(state.copyWith(status: SplashStatus.done));
   }
 }

@@ -18,6 +18,25 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+  double _height = 0.0;
+  double _width = 0.0;
+
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SplashBloc>(
@@ -35,6 +54,11 @@ class SplashScreenState extends State<SplashScreen>
           case SplashStatus.init:
             break;
           case SplashStatus.initializing:
+            setState(() {
+              _height = 120;
+              _width = 120;
+            });
+            _controller.forward();
             break;
           case SplashStatus.done:
             getIt<NavigationService>().navigateToAndRemoveUntil(
@@ -45,13 +69,73 @@ class SplashScreenState extends State<SplashScreen>
         }
       },
       child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(ImagePaths.bgSplashScreen),
-                  fit: BoxFit.fill)),
+        body: SafeArea(
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(ImagePaths.bgSplashScreen),
+                    fit: BoxFit.fill)),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 32,
+                ),
+                SizedBox(
+                  height: 120,
+                  child: AnimatedContainer(
+                      height: _height,
+                      width: _width,
+                      duration: const Duration(milliseconds: 700),
+                      child: Image.asset(ImagePaths.icMoon)),
+                ),
+                const Spacer(),
+                Column(
+                  children: [
+                    SizeTransition(
+                      sizeFactor: _animation,
+                      child: const Center(
+                        child: Text(
+                          'Rain sounds - Sleep sounds',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      width: 200,
+                      height: 2,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizeTransition(
+                      sizeFactor: _animation,
+                      child: const Center(
+                        child: Text(
+                          'Help you sleep better',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const Spacer(
+                  flex: 2,
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
