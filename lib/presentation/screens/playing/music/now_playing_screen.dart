@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
-import 'package:rain_sounds/domain/manager/timer_controller.dart';
+import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
 import 'now_playing_bloc.dart';
@@ -23,15 +23,9 @@ class NowPlayingScreen extends StatefulWidget {
 
 class _NowPlayingScreenState extends State<NowPlayingScreen> {
   final NowPlayingBloc _bloc = getIt.get();
-  final TimerController _timerController = getIt<TimerController>();
+  final PlaybackTimer _timerController = getIt<PlaybackTimer>();
 
   final AdHelper adHelper = getIt.get();
-
-  @override
-  void initState() {
-    super.initState();
-    adHelper.showInterstitialAd(onAdShowedFullScreenContent: () {}, onAdDismissedFullScreenContent: () {});
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
@@ -24,9 +25,12 @@ class SplashScreenState extends State<SplashScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
 
+  final AdHelper adHelper = getIt.get();
+
   @override
   void initState() {
     super.initState();
+    adHelper.preloadInterstitialAd();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
@@ -61,10 +65,13 @@ class SplashScreenState extends State<SplashScreen>
             _controller.forward();
             break;
           case SplashStatus.done:
-            getIt<NavigationService>().navigateToAndRemoveUntil(
-              MainScreen.routePath,
-              (Route<void> route) => false,
-            );
+            if (adHelper.isInterstitialAdsReady()) {
+              adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+                navigateToMainScreen();
+              });
+            } else {
+              navigateToMainScreen();
+            }
             break;
         }
       },
@@ -138,6 +145,13 @@ class SplashScreenState extends State<SplashScreen>
           ),
         ),
       ),
+    );
+  }
+
+  void navigateToMainScreen() {
+    getIt<NavigationService>().navigateToAndRemoveUntil(
+      MainScreen.routePath,
+      (Route<void> route) => false,
     );
   }
 }

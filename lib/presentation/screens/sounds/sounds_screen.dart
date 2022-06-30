@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
-import 'package:rain_sounds/domain/manager/timer_controller.dart';
+import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/custom_selected_sound/selected_sounds_screen.dart';
@@ -28,7 +28,7 @@ class SoundsScreen extends StatefulWidget {
 class _SoundsScreenState extends State<SoundsScreen> {
   int _selectedIndex = 0;
   final SoundsBloc _soundsBloc = getIt<SoundsBloc>();
-  final TimerController _timerController = getIt<TimerController>();
+  final PlaybackTimer _timerController = getIt<PlaybackTimer>();
 
   @override
   void dispose() {

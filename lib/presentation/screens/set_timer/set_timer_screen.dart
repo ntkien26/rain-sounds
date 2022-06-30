@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
-import 'package:rain_sounds/domain/manager/timer_controller.dart';
+import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 class SetTimerScreen extends StatelessWidget {
   SetTimerScreen({Key? key}) : super(key: key);
   final AppCache appCache = getIt.get();
-  final TimerController timerController = getIt.get();
+  final PlaybackTimer timerController = getIt.get();
 
   @override
   Widget build(BuildContext context) {

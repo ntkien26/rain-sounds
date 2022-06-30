@@ -2,13 +2,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/service/sound_service.dart';
 import 'package:rain_sounds/domain/manager/notification_manager.dart';
-import 'package:rain_sounds/domain/manager/timer_controller.dart';
+import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 
 class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
   final SoundService soundService;
-  final TimerController timerController;
+  final PlaybackTimer timerController;
   final NotificationService notificationService = getIt.get();
 
   SoundsBloc({required this.soundService, required this.timerController})

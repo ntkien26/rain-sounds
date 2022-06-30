@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
@@ -93,6 +94,9 @@ class MixItem extends StatefulWidget {
 }
 
 class _MixItemState extends State<MixItem> {
+
+  final AdHelper adHelper = getIt.get();
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -165,16 +169,7 @@ class _MixItemState extends State<MixItem> {
                         ),
                         InkWell(
                           onTap: () {
-                            adHelper.showRewardedAd(onUserRewarded: () async {
-                              setState(() {
-                                widget.mix.premium = false;
-                              });
-                              await soundService.updateMix(
-                                  widget.mix.mixSoundId, false);
-                              Navigator.pop(context);
-                              getIt<NavigationService>().navigateToScreen(
-                                  screen: NowMixPlayingScreen(mix: widget.mix));
-                            });
+                            unlockMix(adHelper, soundService, context);
                           },
                           child: Container(
                             height: size.height * 0.075,
@@ -245,8 +240,11 @@ class _MixItemState extends State<MixItem> {
                 );
               });
         } else {
-          getIt<NavigationService>()
-              .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
+          adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+            getIt<NavigationService>()
+                .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
+          });
+
         }
       },
       child: Container(
@@ -292,5 +290,24 @@ class _MixItemState extends State<MixItem> {
         ),
       ),
     );
+  }
+
+  Future<void> unlockMix(AdHelper adHelper, SoundService soundService, BuildContext context) async {
+     adHelper.showRewardedAd(onUserRewarded: () async {
+      setState(() {
+        widget.mix.premium = false;
+      });
+      await soundService.updateMix(
+          widget.mix.mixSoundId, false);
+      Navigator.pop(context);
+      getIt<NavigationService>().navigateToScreen(
+          screen: NowMixPlayingScreen(mix: widget.mix));
+    }, isLoadingAd: (loading) {
+      if (loading) {
+        EasyLoading.show(status: 'Loading ads...');
+      } else {
+        EasyLoading.dismiss();
+      }
+    });
   }
 }

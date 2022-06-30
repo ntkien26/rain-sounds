@@ -7,12 +7,12 @@ class MoreItemWidget extends StatelessWidget {
     Key? key,
     required this.iconSvg,
     required this.titleItem,
-    this.isTime,
+    this.tailingText,
     this.isLast, this.onTap,
   }) : super(key: key);
   final String iconSvg;
   final String titleItem;
-  final bool? isTime;
+  final String? tailingText;
   final bool? isLast;
   final VoidCallback? onTap;
 
@@ -20,49 +20,46 @@ class MoreItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      iconSvg,
-                      height: 24,
-                      width: 24,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Text(
-                      titleItem,
-                      style: TextStyleConstant.songTitleTextStyle,
-                    )
-                  ],
-                ),
-                isTime == true
-                    ? Text(
-                        '21:30',
-                        style: TextStyleConstant.songTitleTextStyle,
-                      )
-                    : const SizedBox(),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            isLast == false
-                ? const Divider(
-                    color: Color(0xff512944),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    iconSvg,
+                    height: 24,
+                    width: 24,
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Text(
+                    titleItem,
+                    style: TextStyleConstant.songTitleTextStyle,
                   )
-                : const SizedBox(),
-            const SizedBox(
-              height: 16,
-            ),
-          ],
-        ),
+                ],
+              ),
+              if (tailingText != null)
+                Text(
+                  tailingText ?? '',
+                  style: TextStyleConstant.songTitleTextStyle,
+                )
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          isLast == false
+              ? const Divider(
+                  color: Color(0xff512944),
+                )
+              : const SizedBox(),
+          const SizedBox(
+            height: 16,
+          ),
+        ],
       ),
     );
   }

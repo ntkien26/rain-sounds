@@ -1,13 +1,13 @@
 class ItemMoreModel {
   String? svgIcon;
   String? titleItem;
-  bool? isTime;
+  String? tailingText;
   bool? isLast;
 
   ItemMoreModel(
     this.svgIcon,
     this.titleItem,
-    this.isTime,
+    this.tailingText,
     this.isLast,
   );
 }

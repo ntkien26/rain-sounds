@@ -161,6 +161,7 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                                   child: child!,
                                 );
                               });
+                          setState(() {});
                         },
                         child: Text(
                           timeOfDay != null

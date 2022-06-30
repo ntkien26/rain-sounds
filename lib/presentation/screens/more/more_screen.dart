@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
+import 'package:rain_sounds/common/injector/network_di.dart';
 import 'package:rain_sounds/data/local/model/more.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
@@ -16,14 +18,24 @@ class MoreScreen extends StatefulWidget {
 
 class _MoreScreenState extends State<MoreScreen> {
   List<ItemMoreModel> listItem = [
-    ItemMoreModel(IconPaths.icBedReminder, 'Bedtime Reminder', true, false),
-    ItemMoreModel(IconPaths.icStar, 'Rate Us 5*', false, false),
-    ItemMoreModel(IconPaths.icFeedBack, 'Feedback', false, false),
-    ItemMoreModel(IconPaths.icShareApp, 'Share App', false, false),
-    ItemMoreModel(IconPaths.icWarn, 'Privacy Policy', false, true),
+    ItemMoreModel(IconPaths.icBedReminder, 'Bedtime Reminder', '', false),
+    ItemMoreModel(IconPaths.icStar, 'Rate Us 5*', '', false),
+    ItemMoreModel(IconPaths.icFeedBack, 'Feedback', '', false),
+    ItemMoreModel(IconPaths.icShareApp, 'Share App', '', false),
+    ItemMoreModel(IconPaths.icWarn, 'Privacy Policy', '', true),
   ];
+
+  final AppCache appCache = getIt.get();
+
   @override
   Widget build(BuildContext context) {
+    final reminderTime = appCache.getReminder();
+    if (reminderTime != null) {
+      listItem[0].tailingText =
+      '${int.parse(reminderTime.split(":")[0])}:${int.parse(reminderTime.split(":")[1])}';
+    } else {
+      listItem[0].tailingText = '21:30';
+    }
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
@@ -55,15 +67,16 @@ class _MoreScreenState extends State<MoreScreen> {
                         (index) => MoreItemWidget(
                           iconSvg: listItem[index].svgIcon ?? '',
                           titleItem: listItem[index].titleItem ?? '',
-                          isTime: listItem[index].isTime,
+                          tailingText: listItem[index].tailingText,
                           isLast: listItem[index].isLast,
                           onTap: () {
                             if (index == 0) {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) =>
-                                          const BedTimeReminderScreen()));
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              const BedTimeReminderScreen()))
+                                  .then((value) => {setState(() {})});
                             }
                           },
                         ),
