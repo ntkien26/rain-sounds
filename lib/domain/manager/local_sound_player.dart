@@ -1,7 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
-import 'package:rain_sounds/presentation/utils/constants.dart';
 
 class LocalSoundPlayer {
   Map<int, AudioPlayer> playing = {};
@@ -15,11 +14,11 @@ class LocalSoundPlayer {
       audioPlayer.setReleaseMode(ReleaseMode.loop);
       audioPlayer.play(
           AssetSource('${Assets.baseSoundsPath}${sound.fileName}.aac'),
-          volume: sound.volume.toDouble() / Constants.maxSliderValue);
+          volume: sound.volume);
       playing[sound.id] = audioPlayer;
     }
     // Volume applies between 0 and 1
-    playing[sound.id]?.setVolume(sound.volume / Constants.maxSliderValue);
+    playing[sound.id]?.setVolume(sound.volume);
     playing[sound.id]?.resume();
   }
 

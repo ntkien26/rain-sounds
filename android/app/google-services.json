@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "538772117054",
+    "project_id": "sleep-sound-ios",
+    "storage_bucket": "sleep-sound-ios.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538772117054:android:4bca4364d20a1b3216236f",
+        "android_client_info": {
+          "package_name": "com.uet.rain_sounds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538772117054-tn8rdrsj1gacvpkgj0df5dmlgr5eah4o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUY1lAZE0OpQO9MtDfx8gSf8dkAuZEvBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538772117054-tn8rdrsj1gacvpkgj0df5dmlgr5eah4o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "538772117054-v181csrpvlcg328uri62mhfaj1hlkafo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "uet.rainsounds.sleepsounds"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

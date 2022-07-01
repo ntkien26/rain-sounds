@@ -1,4 +1,5 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:rain_sounds/common/configs/in_app_purchase_helper.dart';
 import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 
@@ -15,6 +16,7 @@ class AppConfig {
     await AppInjector.initializeDependencies();
     await NotificationService.init();
     await MobileAds.instance.initialize();
+    await getIt.get<IAPHelper>().initStoreInfo();
   }
 
 }

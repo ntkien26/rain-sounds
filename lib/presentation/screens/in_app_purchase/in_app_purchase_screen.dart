@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rain_sounds/common/configs/in_app_purchase_helper.dart';
+import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
@@ -13,6 +15,7 @@ class InAppPurchaseScreen extends StatefulWidget {
 }
 
 class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
+  final IAPHelper iapHelper = getIt.get();
 
   List<PurchaseModel> listOfPurchase = [
     PurchaseModel(
@@ -157,9 +160,24 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      btText(indexChecked),
-                      style: TextStyleConstant.normalTextStyle,
+                    child: InkWell(
+                      onTap: () {
+                        switch (indexChecked) {
+                          case 0:
+                            iapHelper.buy(monthly);
+                            break;
+                          case 1:
+                            iapHelper.buy(yearly);
+                            break;
+                          case 2:
+                            iapHelper.buy(lifetime);
+                            break;
+                        }
+                      },
+                      child: Text(
+                        btText(indexChecked),
+                        style: TextStyleConstant.normalTextStyle,
+                      ),
                     ),
                   ),
                 ),
@@ -324,9 +342,9 @@ class PurchaseModel {
 
   PurchaseModel(
       {required this.title,
-        required this.text,
-        required this.price,
-        required this.color1,
-        required this.color2,
-        required this.isIcon});
+      required this.text,
+      required this.price,
+      required this.color1,
+      required this.color2,
+      required this.isIcon});
 }

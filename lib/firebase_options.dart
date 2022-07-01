@@ -24,10 +24,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -51,6 +48,14 @@ class DefaultFirebaseOptions {
         );
     }
   }
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyDUY1lAZE0OpQO9MtDfx8gSf8dkAuZEvBQ',
+    appId: '1:538772117054:android:4bca4364d20a1b3216236f',
+    messagingSenderId: '538772117054',
+    projectId: 'sleep-sound-ios',
+    storageBucket: 'sleep-sound-ios.appspot.com',
+  );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDspoxmIqgrHGBQJFOtMt_-Txe2s05mWfg',

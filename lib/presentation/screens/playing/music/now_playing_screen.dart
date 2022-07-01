@@ -28,6 +28,12 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
   final AdHelper adHelper = getIt.get();
 
   @override
+  void dispose() {
+    _bloc.add(StopEvent());
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(

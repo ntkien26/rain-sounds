@@ -10,3 +10,5 @@ class PlayMusicEvent extends NowPlayingEvent {
 }
 
 class ToggleEvent extends NowPlayingEvent {}
+
+class StopEvent extends NowPlayingEvent {}
