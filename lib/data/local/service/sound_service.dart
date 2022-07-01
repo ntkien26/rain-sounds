@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/local_sound_player.dart';
-import 'package:rain_sounds/domain/manager/timer_controller.dart';
+import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 List<Mix> mixesFromJson(String str) =>
@@ -22,10 +22,10 @@ class SoundService extends BaseAudioHandler {
   int totalActiveSound = 0;
 
   final LocalSoundPlayer localSoundManager;
-  final TimerController timerController;
+  final PlaybackTimer playbackTimer;
 
   SoundService(
-      {required this.localSoundManager, required this.timerController});
+      {required this.localSoundManager, required this.playbackTimer});
 
   Future<String> _loadMixesAsset() async {
     return await rootBundle.loadString(Assets.mixesJson);
@@ -94,7 +94,7 @@ class SoundService extends BaseAudioHandler {
     if (selected.isNotEmpty) {
       print('SoundService is Playing');
       isPlaying = true;
-      timerController.start();
+      playbackTimer.start();
     }
 
     return selected;
@@ -108,7 +108,7 @@ class SoundService extends BaseAudioHandler {
       updateSound(element.id, false, element.volume);
     }
     isPlaying = false;
-    timerController.pause();
+    playbackTimer.pause();
     print('SoundService stopped');
     return playing;
   }
@@ -120,7 +120,7 @@ class SoundService extends BaseAudioHandler {
       localSoundManager.pause(element);
     }
     isPlaying = false;
-    timerController.pause();
+    playbackTimer.pause();
     print('SoundService paused');
     return playing;
   }
@@ -152,8 +152,8 @@ class SoundService extends BaseAudioHandler {
           isPlaying = currentSelected.isNotEmpty;
 
           if (currentSelected.isEmpty) {
-            timerController.pause();
-            timerController.reset();
+            playbackTimer.pause();
+            playbackTimer.reset();
           }
         } else {
           totalActiveSound -= 1;

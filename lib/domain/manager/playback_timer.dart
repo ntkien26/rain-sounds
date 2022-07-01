@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
-class TimerController extends ChangeNotifier {
+class PlaybackTimer extends ChangeNotifier {
   Timer? timer;
   final AppCache appCache;
 
@@ -13,7 +13,7 @@ class TimerController extends ChangeNotifier {
   Status status = Status.idle;
   final interval = const Duration(seconds: 1);
 
-  TimerController({required this.appCache});
+  PlaybackTimer({required this.appCache});
 
   pause() {
     if (status == Status.running) {

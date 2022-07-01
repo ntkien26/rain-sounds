@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
-import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
@@ -52,7 +52,16 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
         appCache.isEnableDayForReminder(listOfDays[5].fullName);
     listOfDays[6].onCheck =
         appCache.isEnableDayForReminder(listOfDays[6].fullName);
-    timeOfDay = const TimeOfDay(hour: 21, minute: 30);
+
+    final reminderTime = appCache.getReminder();
+
+    if (reminderTime != null) {
+      timeOfDay = TimeOfDay(
+          hour: int.parse(reminderTime.split(":")[0]),
+          minute: int.parse(reminderTime.split(":")[1]));
+    } else {
+      timeOfDay = const TimeOfDay(hour: 21, minute: 30);
+    }
   }
 
   @override
@@ -152,6 +161,7 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                                   child: child!,
                                 );
                               });
+                          setState(() {});
                         },
                         child: Text(
                           timeOfDay != null
@@ -222,6 +232,8 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                 alignment: Alignment.bottomCenter,
                 child: InkWell(
                   onTap: () async {
+                    await appCache.setReminder(
+                        '${timeOfDay?.hour.toString()}:${timeOfDay?.minute.toString()}');
                     await appCache.enableReminder(switchValue);
                     for (var element in listOfDays) {
                       await appCache.enableReminderFor(

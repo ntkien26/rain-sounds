@@ -13,7 +13,9 @@ class LocalSoundPlayer {
     if (!playing.containsKey(sound.id)) {
       AudioPlayer audioPlayer = AudioPlayer();
       audioPlayer.setReleaseMode(ReleaseMode.loop);
-      audioPlayer.play(AssetSource('${Assets.baseSoundsPath}${sound.fileName}.aac'), volume: sound.volume.toDouble());
+      audioPlayer.play(
+          AssetSource('${Assets.baseSoundsPath}${sound.fileName}.aac'),
+          volume: sound.volume.toDouble() / Constants.maxSliderValue);
       playing[sound.id] = audioPlayer;
     }
     // Volume applies between 0 and 1

@@ -27,17 +27,23 @@ class AdHelper {
   InterstitialAd? _interstitialAd;
   bool _isInterstitialAdReady = false;
 
+  late RewardedAd _rewardedAd;
+  bool _isRewardedAdReady = false;
+
   int countToDisplayAds = 0;
 
   void showInterstitialAd(
-      {required VoidCallback onAdShowedFullScreenContent,
-      required VoidCallback onAdDismissedFullScreenContent}) {
+      {required VoidCallback onAdDismissedFullScreenContent}) {
     if (!shouldShowInterstitialAds()) {
-      onAdDismissedFullScreenContent();
       countAds();
+      onAdDismissedFullScreenContent();
       return;
     }
 
+    _showInterstitialAd(onAdDismissedFullScreenContent);
+  }
+
+  void preloadInterstitialAd() {
     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
       request: const AdRequest(),
@@ -45,19 +51,7 @@ class AdHelper {
         onAdLoaded: (ad) {
           _interstitialAd = ad;
           print('Ad loaded');
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdShowedFullScreenContent: (ad) {
-              onAdShowedFullScreenContent();
-              _isInterstitialAdReady = false;
-              _interstitialAd = null;
-            },
-            onAdDismissedFullScreenContent: (ad) {
-              onAdDismissedFullScreenContent();
-              ad.dispose();
-            },
-          );
           _isInterstitialAdReady = true;
-          _showInterstitialAd();
         },
         onAdFailedToLoad: (err) {
           print('Failed to load an interstitial ad: ${err.message}');
@@ -67,11 +61,48 @@ class AdHelper {
     );
   }
 
-  void _showInterstitialAd() {
+  void _showInterstitialAd(VoidCallback onAdDismissedFullScreenContent) {
     if (_isInterstitialAdReady && shouldShowInterstitialAds()) {
       _interstitialAd?.show();
+      _interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (ad) {
+          _isInterstitialAdReady = false;
+        },
+        onAdDismissedFullScreenContent: (ad) {
+          onAdDismissedFullScreenContent();
+          ad.dispose();
+        },
+      );
       print('Ad showed');
       countAds();
+      preloadInterstitialAd();
+    } else {
+      InterstitialAd.load(
+        adUnitId: AdHelper.interstitialAdUnitId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            _interstitialAd = ad;
+            print('Ad loaded');
+            _isInterstitialAdReady = true;
+
+            ad.fullScreenContentCallback = FullScreenContentCallback(
+              onAdShowedFullScreenContent: (ad) {
+                _isInterstitialAdReady = false;
+              },
+              onAdDismissedFullScreenContent: (ad) {
+                ad.dispose();
+              },
+            );
+
+            _interstitialAd?.show();
+          },
+          onAdFailedToLoad: (err) {
+            print('Failed to load an interstitial ad: ${err.message}');
+            _isInterstitialAdReady = false;
+          },
+        ),
+      );
     }
   }
 
@@ -83,8 +114,52 @@ class AdHelper {
     }
   }
 
+  void showRewardedAd({required VoidCallback onUserRewarded, required Function(bool) isLoadingAd}) {
+    isLoadingAd(true);
+    RewardedAd.load(
+      adUnitId: AdHelper.rewardedAdUnitId,
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          isLoadingAd(false);
+          _isRewardedAdReady = true;
+          _rewardedAd = ad;
+          _showRewardedAd(onUserRewarded);
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              print('Reward ads dismissed');
+              _isRewardedAdReady = false;
+              _rewardedAd.dispose();
+            },
+          );
+        },
+        onAdFailedToLoad: (err) {
+          isLoadingAd(false);
+          print('Failed to load a rewarded ad: ${err.message}');
+          _isRewardedAdReady = false;
+        },
+      ),
+    );
+  }
+
+  void _showRewardedAd(VoidCallback onUserEarnedReward) {
+    if (_isRewardedAdReady) {
+      _rewardedAd.show(
+          onUserEarnedReward: (AdWithoutView adWithoutView, RewardItem item) {
+        print('You got reward: ${item.amount} - ${item.type}');
+        onUserEarnedReward();
+      });
+    } else {
+      print('Reward ads not ready');
+    }
+  }
+
   bool shouldShowInterstitialAds() {
     print('shouldShowInterstitialAds');
     return countToDisplayAds == 0 || countToDisplayAds == 5;
+  }
+
+  bool isInterstitialAdsReady() {
+    return _isInterstitialAdReady;
   }
 }

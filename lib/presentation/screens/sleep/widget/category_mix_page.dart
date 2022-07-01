@@ -1,7 +1,10 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
+import 'package:rain_sounds/data/local/service/sound_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase_screen.dart';
@@ -60,9 +63,10 @@ class CategoryMixPage extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontSize: 22),
                 ),
-                Text('Unlock all sound and remove ads',  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18),)
+                Text(
+                  'Unlock all sound and remove ads',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                )
               ],
             ),
           ),
@@ -80,17 +84,27 @@ class CategoryMixPage extends StatelessWidget {
   }
 }
 
-class MixItem extends StatelessWidget {
+class MixItem extends StatefulWidget {
   const MixItem({Key? key, required this.mix}) : super(key: key);
 
   final Mix mix;
+
+  @override
+  State<MixItem> createState() => _MixItemState();
+}
+
+class _MixItemState extends State<MixItem> {
+
+  final AdHelper adHelper = getIt.get();
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        if (mix.premium == true) {
+        if (widget.mix.premium == true) {
+          AdHelper adHelper = getIt.get();
+          SoundService soundService = getIt.get();
           showDialog(
               context: context,
               builder: (context) {
@@ -129,7 +143,7 @@ class MixItem extends StatelessWidget {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage(
-                                    '${Assets.baseImagesPath}/${mix.cover?.thumbnail}.webp'),
+                                    '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
                                 fit: BoxFit.cover),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(6)),
@@ -137,7 +151,7 @@ class MixItem extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Text(
-                              mix.name ?? '',
+                              widget.mix.name ?? '',
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
@@ -153,24 +167,30 @@ class MixItem extends StatelessWidget {
                         const SizedBox(
                           height: 24,
                         ),
-                        Container(
-                          height: size.height * 0.075,
-                          decoration: const BoxDecoration(
-                            color: Colors.brown,
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(IconPaths.icPlay),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              const Text(
-                                'WATCH',
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
+                        InkWell(
+                          onTap: () {
+                            unlockMix(adHelper, soundService, context);
+                          },
+                          child: Container(
+                            height: size.height * 0.075,
+                            decoration: const BoxDecoration(
+                              color: Colors.brown,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(IconPaths.icPlay),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                const Text(
+                                  'WATCH',
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -192,8 +212,8 @@ class MixItem extends StatelessWidget {
                             ),
                             child: InkWell(
                               onTap: () {
-                                getIt<NavigationService>()
-                                    .navigateToScreen(screen: const InAppPurchaseScreen());
+                                getIt<NavigationService>().navigateToScreen(
+                                    screen: const InAppPurchaseScreen());
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -220,8 +240,11 @@ class MixItem extends StatelessWidget {
                 );
               });
         } else {
-          getIt<NavigationService>()
-              .navigateToScreen(screen: NowMixPlayingScreen(mix: mix));
+          adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+            getIt<NavigationService>()
+                .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
+          });
+
         }
       },
       child: Container(
@@ -236,11 +259,11 @@ class MixItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage(
-                              '${Assets.baseImagesPath}/${mix.cover?.thumbnail}.webp'),
+                              '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
                           fit: BoxFit.cover),
                       borderRadius: const BorderRadius.all(Radius.circular(6))),
                 ),
-                if (mix.premium == true)
+                if (widget.mix.premium == true)
                   Align(
                     alignment: Alignment.topRight,
                     child: Padding(
@@ -260,12 +283,31 @@ class MixItem extends StatelessWidget {
               height: 8,
             ),
             Text(
-              mix.name ?? '',
+              widget.mix.name ?? '',
               style: const TextStyle(color: Colors.white, fontSize: 16),
             )
           ],
         ),
       ),
     );
+  }
+
+  Future<void> unlockMix(AdHelper adHelper, SoundService soundService, BuildContext context) async {
+     adHelper.showRewardedAd(onUserRewarded: () async {
+      setState(() {
+        widget.mix.premium = false;
+      });
+      await soundService.updateMix(
+          widget.mix.mixSoundId, false);
+      Navigator.pop(context);
+      getIt<NavigationService>().navigateToScreen(
+          screen: NowMixPlayingScreen(mix: widget.mix));
+    }, isLoadingAd: (loading) {
+      if (loading) {
+        EasyLoading.show(status: 'Loading ads...');
+      } else {
+        EasyLoading.dismiss();
+      }
+    });
   }
 }

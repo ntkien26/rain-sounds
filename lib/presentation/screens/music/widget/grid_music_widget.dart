@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase_screen.dart';
@@ -11,11 +12,12 @@ import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
 
 class GridMusicWidget extends StatelessWidget {
-  const GridMusicWidget({
+  GridMusicWidget({
     Key? key,
     this.listMusic,
   }) : super(key: key);
   final List<MusicModel>? listMusic;
+  final AdHelper adHelper = getIt.get();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +43,11 @@ class GridMusicWidget extends StatelessWidget {
                     getIt<NavigationService>()
                         .navigateToScreen(screen: const InAppPurchaseScreen());
                   } else {
-                    getIt<NavigationService>().navigateToScreen(
-                        screen: NowPlayingScreen(
-                            musicModel: musicItem ?? MusicModel()));
+                    adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+                      getIt<NavigationService>().navigateToScreen(
+                          screen: NowPlayingScreen(
+                              musicModel: musicItem ?? MusicModel()));
+                    });
                   }
                 },
                 child: Container(
