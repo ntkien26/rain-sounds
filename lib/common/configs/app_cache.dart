@@ -15,7 +15,17 @@ class AppCache {
   final String _enableReminderFri = 'enableReminderFri';
   final String _enableReminderSat = 'enableReminderSat';
 
+  final String _isPremiumMember = 'isPremiumMember';
+
   AppCache(this._prefs);
+
+  Future<void> enablePremiumMember(bool enable) async {
+    _prefs.setBool(_isPremiumMember, enable);
+  }
+
+  bool isPremiumMember() {
+    return _prefs.getBool(_isPremiumMember) ?? false;
+  }
 
   Future<void> setTimer(String time) async {
     _prefs.setString(_timer, time);

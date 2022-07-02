@@ -5,6 +5,7 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
+import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
 import 'now_playing_bloc.dart';
@@ -23,7 +24,7 @@ class NowPlayingScreen extends StatefulWidget {
 
 class _NowPlayingScreenState extends State<NowPlayingScreen> {
   final NowPlayingBloc _bloc = getIt.get();
-  final PlaybackTimer _timerController = getIt<PlaybackTimer>();
+  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
 
   final AdHelper adHelper = getIt.get();
 
@@ -43,7 +44,8 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         image: DecorationImage(
             fit: BoxFit.cover,
             image:
-                CachedNetworkImageProvider(widget.musicModel.background ?? '')),
+                CachedNetworkImageProvider(widget.musicModel.background ?? '')
+        ),
       ),
       child: BlocBuilder<NowPlayingBloc, NowPlayingState>(
           bloc: _bloc..add(PlayMusicEvent(widget.musicModel)),
@@ -55,6 +57,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 ),
                 Text(
                   widget.musicModel.title ?? '',
+                  textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 36, color: Colors.white),
                 ),
                 const SizedBox(
@@ -69,8 +72,16 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                   child: buildTimer(),
                 ),
                 const SizedBox(
-                  height: 12,
+                  height: 32,
                 ),
+                state.isPlaying != null
+                    ? PlayingButton(
+                        isPlaying: state.isPlaying ?? false,
+                        onTap: () {
+                          _bloc.add(ToggleEvent());
+                        },
+                      )
+                    : const CircularProgressIndicator.adaptive()
               ]),
             );
           }),
@@ -79,11 +90,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
 
   Widget buildTimer() {
     return AnimatedBuilder(
-        animation: _timerController,
+        animation: _playbackTimer,
         builder: (context, child) {
           return Center(
             child: Text(
-              formatHHMMSS(_timerController.remainingTime),
+              formatHHMMSS(_playbackTimer.remainingTime),
               style: const TextStyle(fontSize: 54, color: Colors.white),
             ),
           );

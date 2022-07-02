@@ -9,6 +9,23 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
 
   NowPlayingBloc(this.onlineMusicPlayer) : super(NowPlayingState.initial) {
     on(_onNowPlayingEvent);
+
+    onlineMusicPlayer.audioPlayer.onPlayerStateChanged.listen((event) {
+      if (event == PlayerState.stopped) {
+        emit(state.copyWith(
+          isPlaying: null,
+        ));
+      } else if (event == PlayerState.playing) {
+        emit(state.copyWith(
+          isPlaying: true,
+        ));
+      } else if (event == PlayerState.paused ||
+          event == PlayerState.completed) {
+        emit(state.copyWith(
+          isPlaying: false,
+        ));
+      }
+    });
   }
 
   Future<void> _onNowPlayingEvent(
@@ -16,20 +33,11 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
     if (event is PlayMusicEvent) {
       onlineMusicPlayer.setSource(event.musicModel);
       await onlineMusicPlayer.play();
-      emit(state.copyWith(
-        isPlaying: true,
-      ));
     } else if (event is ToggleEvent) {
       if (onlineMusicPlayer.audioPlayer.state == PlayerState.playing) {
         await onlineMusicPlayer.pause();
-        emit(state.copyWith(
-          isPlaying: false,
-        ));
       } else if (onlineMusicPlayer.audioPlayer.state == PlayerState.paused) {
         await onlineMusicPlayer.resume();
-        emit(state.copyWith(
-          isPlaying: true,
-        ));
       }
     } else if (event is StopEvent) {
       await onlineMusicPlayer.stop();

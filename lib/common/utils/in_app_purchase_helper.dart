@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 
 const String lifetime = 'lifetime';
 const String monthly = 'monthly';
@@ -20,6 +21,10 @@ class IAPHelper extends ChangeNotifier {
   bool _purchasePending = false;
   bool _loading = true;
   String? _queryProductError;
+
+  final AppCache appCache;
+
+  IAPHelper(this.appCache);
 
   Future<void> initStoreInfo() async {
     print('initStoreInfo');

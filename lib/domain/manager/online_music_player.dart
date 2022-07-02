@@ -1,11 +1,13 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
+import 'package:rain_sounds/domain/manager/playback_timer.dart';
 
 class OnlineMusicPlayer extends BaseAudioHandler {
   final AudioPlayer audioPlayer;
+  final PlaybackTimer playbackTimer;
 
-  OnlineMusicPlayer(this.audioPlayer);
+  OnlineMusicPlayer(this.audioPlayer, this.playbackTimer);
 
   late MusicModel musicModel;
 
@@ -15,9 +17,11 @@ class OnlineMusicPlayer extends BaseAudioHandler {
 
   @override
   Future<void> play() async {
+    playbackTimer.reset();
     playbackState.add(playbackState.value
         .copyWith(playing: true, controls: [MediaControl.pause]));
-    audioPlayer.play(UrlSource(musicModel.url ?? ''), volume: 100);
+    await audioPlayer.play(UrlSource(musicModel.url ?? ''), volume: 100);
+    playbackTimer.start();
   }
 
   @override
@@ -25,12 +29,14 @@ class OnlineMusicPlayer extends BaseAudioHandler {
     playbackState.add(playbackState.value
         .copyWith(playing: false, controls: [MediaControl.play]));
     audioPlayer.pause();
+    playbackTimer.pause();
   }
 
   Future<void> resume() async {
     playbackState.add(playbackState.value
         .copyWith(playing: true, controls: [MediaControl.pause]));
     audioPlayer.resume();
+    playbackTimer.start();
   }
 
   @override
@@ -39,5 +45,6 @@ class OnlineMusicPlayer extends BaseAudioHandler {
         .copyWith(playing: false, controls: [MediaControl.stop]));
     audioPlayer.stop();
     audioPlayer.release();
+    playbackTimer.off();
   }
 }

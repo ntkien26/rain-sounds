@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
@@ -51,11 +52,12 @@ class _SoundItemState extends State<SoundItem> {
 
   @override
   Widget build(BuildContext context) {
+    final AppCache appCache = getIt.get();
     active = widget.sound.active;
     volume = widget.sound.volume.toDouble();
 
     _onButtonClick() {
-      if (widget.sound.premium) {
+      if (widget.sound.premium && !appCache.isPremiumMember()) {
         getIt<NavigationService>()
             .navigateToScreen(screen: const InAppPurchaseScreen());
       } else {
@@ -94,7 +96,7 @@ class _SoundItemState extends State<SoundItem> {
                           '${Assets.baseIconPath}/${widget.sound.icon}'),
                 ),
               ),
-              if (widget.sound.premium == true)
+              if (widget.sound.premium == true && !appCache.isPremiumMember())
                 Positioned(
                   top: 0,
                   right: 0,

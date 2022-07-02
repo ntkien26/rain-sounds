@@ -17,7 +17,8 @@ class ServiceDI {
     injector
         .registerLazySingleton<MusicService>(() => MusicService(injector()));
     injector.registerLazySingleton<LocalSoundPlayer>(() => LocalSoundPlayer());
-    injector.registerLazySingleton<OnlineMusicPlayer>(() => OnlineMusicPlayer(AudioPlayer()));
+    injector.registerLazySingleton<OnlineMusicPlayer>(
+        () => OnlineMusicPlayer(AudioPlayer(), injector()));
     injector.registerLazySingleton<PlaybackTimer>(
         () => PlaybackTimer(appCache: injector()));
     injector.registerSingleton<SoundService>(await AudioService.init(

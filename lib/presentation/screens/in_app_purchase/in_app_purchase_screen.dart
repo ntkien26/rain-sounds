@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rain_sounds/common/configs/in_app_purchase_helper.dart';
+import 'package:rain_sounds/common/utils/in_app_purchase_helper.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';

@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/presentation/screens/sleep/widget/category_mix_page.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
+import 'package:rain_sounds/presentation/screens/sleep/widget/category_mix_page.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -33,6 +34,7 @@ class _SleepScreenState extends State<SleepScreen> {
 
   final PageController pageController = PageController();
   final ItemScrollController itemScrollController = ItemScrollController();
+  final AppCache appCache = getIt.get();
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +44,7 @@ class _SleepScreenState extends State<SleepScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(ImagePaths.bgMoreScreen),
-                fit: BoxFit.fill)
-        ),
+                image: AssetImage(ImagePaths.bgMoreScreen), fit: BoxFit.fill)),
         child: SafeArea(
           child: Column(
             children: [
@@ -116,6 +116,8 @@ class _SleepScreenState extends State<SleepScreen> {
                             itemBuilder: (BuildContext context, int index) {
                               return CategoryMixPage(
                                 mixes: listMixes[index],
+                                showPremiumBanner:
+                                    index == 0 && !appCache.isPremiumMember(),
                               );
                             }),
                       );
