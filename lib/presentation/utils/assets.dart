@@ -2,7 +2,7 @@ class Assets {
   static const baseImagesPath = 'assets/images';
   static const soundsJson = 'assets/sounds.json';
   static const mixesJson = 'assets/mixs.json';
-  static const baseSoundsPath = 'sounds/';
+  static const baseSoundsPath = 'assets/sounds/';
   static const baseIconPath = 'assets/icons';
 
 }

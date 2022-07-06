@@ -14,9 +14,7 @@ class MainScreen extends StatefulWidget {
   MainScreenState createState() => MainScreenState();
 }
 
-class MainScreenState extends State<MainScreen>
-    with WidgetsBindingObserver {
-
+class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
   late AppLifecycleState previousState;
@@ -63,10 +61,10 @@ class MainScreenState extends State<MainScreen>
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: const <Widget>[
-            SleepScreen(),
-            SoundsScreen(),
-            MusicScreen(),
-            MoreScreen()
+          SleepScreen(),
+          SoundsScreen(),
+          MusicScreen(),
+          MoreScreen()
         ],
       ),
     );
@@ -76,34 +74,43 @@ class MainScreenState extends State<MainScreen>
     setState(() {
       _selectedIndex = value;
     });
-    _pageController.jumpToPage(value);
+    _pageController.animateToPage(value,
+        curve: Curves.linear, duration: const Duration(milliseconds: 200));
   }
 
   final List<BottomNavigationBarItem> bottomBarItems =
-  <BottomNavigationBarItem>[
+      <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       label: "Sleep",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.icSleep)),
+          height: 20,
+          width: 20,
+          child: Image.asset(ImagePaths.icSleep)),
     ),
     BottomNavigationBarItem(
       label: "Sounds",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.icSounds)),
+          height: 20,
+          width: 20,
+          child: Image.asset(ImagePaths.icSounds)),
     ),
     BottomNavigationBarItem(
       label: "Music",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.icMusic)),
+          height: 20,
+          width: 20,
+          child: Image.asset(ImagePaths.icMusic)),
     ),
     BottomNavigationBarItem(
       label: "More",
       icon: Container(
           margin: const EdgeInsets.all(6),
-          height: 20, width: 20, child: Image.asset(ImagePaths.icSettings)),
+          height: 20,
+          width: 20,
+          child: Image.asset(ImagePaths.icSettings)),
     ),
   ];
 

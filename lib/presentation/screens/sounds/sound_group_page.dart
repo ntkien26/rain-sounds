@@ -23,6 +23,7 @@ class SoundGroupPage extends StatelessWidget {
     return GridView.count(
         crossAxisCount: 3,
         mainAxisSpacing: 4,
+        childAspectRatio: 0.9,
         children: sounds
             .map((e) => SoundItem(
                   sound: e,
@@ -140,6 +141,11 @@ class _SoundItemState extends State<SoundItem> {
     }
 
     return Expanded(
+        child: SliderTheme(
+      data: const SliderThemeData(
+        trackHeight: 6,
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12)
+      ),
       child: Slider(
         value: volume,
         min: Constants.minSliderValue,
@@ -150,6 +156,6 @@ class _SoundItemState extends State<SoundItem> {
               }
             : null,
       ),
-    );
+    ));
   }
 }

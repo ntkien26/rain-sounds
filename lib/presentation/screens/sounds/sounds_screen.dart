@@ -16,6 +16,7 @@ import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
 class SoundsScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class SoundsScreen extends StatefulWidget {
   State<SoundsScreen> createState() => _SoundsScreenState();
 }
 
-class _SoundsScreenState extends State<SoundsScreen> {
+class _SoundsScreenState extends State<SoundsScreen> with AutomaticKeepAliveClientMixin {
   int _selectedIndex = 0;
   final SoundsBloc _soundsBloc = getIt<SoundsBloc>();
   final PlaybackTimer _timerController = getIt<PlaybackTimer>();
@@ -39,6 +40,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -49,6 +51,10 @@ class _SoundsScreenState extends State<SoundsScreen> {
         child: BlocBuilder<SoundsBloc, SoundsState>(
             bloc: _soundsBloc,
             builder: (BuildContext context, SoundsState state) {
+              if (state.status == SoundsStatus.loading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
               print(
                   'State changed: ${state.status}} - isPlaying ${state.isPlaying}');
               int totalPage = (state.sounds!.length / 9).round();
@@ -239,6 +245,9 @@ class _SoundsScreenState extends State<SoundsScreen> {
           }),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class PlayingButton extends StatelessWidget {

@@ -44,8 +44,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         image: DecorationImage(
             fit: BoxFit.cover,
             image:
-                CachedNetworkImageProvider(widget.musicModel.background ?? '')
-        ),
+                CachedNetworkImageProvider(widget.musicModel.background ?? '')),
       ),
       child: BlocBuilder<NowPlayingBloc, NowPlayingState>(
           bloc: _bloc..add(PlayMusicEvent(widget.musicModel)),
@@ -74,14 +73,29 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 const SizedBox(
                   height: 32,
                 ),
-                state.isPlaying != null
-                    ? PlayingButton(
-                        isPlaying: state.isPlaying ?? false,
-                        onTap: () {
-                          _bloc.add(ToggleEvent());
+                StreamBuilder(
+                  stream: _bloc.onlineMusicPlayer.audioPlayer.isBuffering,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<bool> asyncSnapshot) {
+                    final bool? isBuffering = asyncSnapshot.data;
+                    if (isBuffering == true) {
+                      return const CircularProgressIndicator.adaptive();
+                    } else {
+                      return StreamBuilder(
+                        stream: _bloc.onlineMusicPlayer.audioPlayer.isPlaying,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<bool> asyncSnapshot) {
+                          final bool? isPlaying = asyncSnapshot.data;
+                          return PlayingButton(
+                              isPlaying: isPlaying == true,
+                              onTap: () {
+                                _bloc.add(ToggleEvent());
+                              });
                         },
-                      )
-                    : const CircularProgressIndicator.adaptive()
+                      );
+                    }
+                  },
+                )
               ]),
             );
           }),

@@ -1,25 +1,32 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 class LocalSoundPlayer {
-  Map<int, AudioPlayer> playing = {};
+  Map<int, AssetsAudioPlayer> playing = {};
 
   LocalSoundPlayer();
 
   play(Sound sound) async {
     print('Play: ${sound.fileName}');
     if (!playing.containsKey(sound.id)) {
-      AudioPlayer audioPlayer = AudioPlayer();
-      audioPlayer.setReleaseMode(ReleaseMode.loop);
-      audioPlayer.play(
-          AssetSource('${Assets.baseSoundsPath}${sound.fileName}.aac'),
-          volume: sound.volume);
+      AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.newPlayer();
+      await audioPlayer.open(
+        Audio('${Assets.baseSoundsPath}${sound.fileName}.aac'),
+        showNotification: true,
+        loopMode: LoopMode.single,
+        notificationSettings: const NotificationSettings(
+          seekBarEnabled: false,
+          nextEnabled: false,
+          prevEnabled: false
+        )
+      );
+      await audioPlayer.setVolume(sound.volume);
       playing[sound.id] = audioPlayer;
     }
     // Volume applies between 0 and 1
     playing[sound.id]?.setVolume(sound.volume);
-    playing[sound.id]?.resume();
+    playing[sound.id]?.play();
   }
 
   pause(Sound sound) async {
@@ -33,6 +40,7 @@ class LocalSoundPlayer {
     print('Stop: ${sound.fileName}');
     if (playing.containsKey(sound.id)) {
       await playing[sound.id]?.stop();
+      await playing[sound.id]?.dispose();
     }
   }
 }

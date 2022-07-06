@@ -16,7 +16,7 @@ class MoreScreen extends StatefulWidget {
   State<MoreScreen> createState() => _MoreScreenState();
 }
 
-class _MoreScreenState extends State<MoreScreen> {
+class _MoreScreenState extends State<MoreScreen> with AutomaticKeepAliveClientMixin{
   List<ItemMoreModel> listItem = [
     ItemMoreModel(IconPaths.icBedReminder, 'Bedtime Reminder', '', false),
     ItemMoreModel(IconPaths.icStar, 'Rate Us 5*', '', false),
@@ -32,7 +32,8 @@ class _MoreScreenState extends State<MoreScreen> {
     final reminderTime = appCache.getReminder();
     if (reminderTime != null) {
       listItem[0].tailingText =
-      '${int.parse(reminderTime.split(":")[0])}:${int.parse(reminderTime.split(":")[1])}';
+      '${int.parse(reminderTime.split(":")[0])}:${int.parse(
+          reminderTime.split(":")[1])}';
     } else {
       listItem[0].tailingText = '21:30';
     }
@@ -102,4 +103,7 @@ class _MoreScreenState extends State<MoreScreen> {
       )),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

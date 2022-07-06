@@ -1,10 +1,9 @@
-import 'package:audio_service/audio_service.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
 
-class OnlineMusicPlayer extends BaseAudioHandler {
-  final AudioPlayer audioPlayer;
+class OnlineMusicPlayer {
+  final AssetsAudioPlayer audioPlayer;
   final PlaybackTimer playbackTimer;
 
   OnlineMusicPlayer(this.audioPlayer, this.playbackTimer);
@@ -15,36 +14,40 @@ class OnlineMusicPlayer extends BaseAudioHandler {
     this.musicModel = musicModel;
   }
 
-  @override
   Future<void> play() async {
     playbackTimer.reset();
-    playbackState.add(playbackState.value
-        .copyWith(playing: true, controls: [MediaControl.pause]));
-    await audioPlayer.play(UrlSource(musicModel.url ?? ''), volume: 100);
-    playbackTimer.start();
+    try {
+      await audioPlayer.open(
+          Audio.network(musicModel.url ?? '',
+              metas: Metas(
+                  title: musicModel.title,
+                  image: MetasImage(
+                      path: musicModel.thumbnail ?? '',
+                      type: ImageType.network))),
+          showNotification: true,
+          notificationSettings: const NotificationSettings(
+              seekBarEnabled: false, nextEnabled: false, prevEnabled: false));
+      playbackTimer.start();
+    } catch (t) {
+      //mp3 unreachable
+    }
   }
 
-  @override
-  Future<void> pause() async {
-    playbackState.add(playbackState.value
-        .copyWith(playing: false, controls: [MediaControl.play]));
-    audioPlayer.pause();
-    playbackTimer.pause();
+  Future<void> playOrPause() async {
+    await audioPlayer.playOrPause();
+    if (audioPlayer.isPlaying.value) {
+      print('playbackTimer start');
+      playbackTimer.start();
+    } else {
+      print('playbackTimer Pause');
+      playbackTimer.pause();
+    }
   }
 
-  Future<void> resume() async {
-    playbackState.add(playbackState.value
-        .copyWith(playing: true, controls: [MediaControl.pause]));
-    audioPlayer.resume();
-    playbackTimer.start();
-  }
-
-  @override
   Future<void> stop() async {
-    playbackState.add(playbackState.value
-        .copyWith(playing: false, controls: [MediaControl.stop]));
-    audioPlayer.stop();
-    audioPlayer.release();
+    await audioPlayer.stop();
+    await audioPlayer.dispose();
     playbackTimer.off();
+    playbackTimer.reset();
   }
 }

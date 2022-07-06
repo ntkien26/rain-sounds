@@ -9,6 +9,7 @@ import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'presentation/utils/color_constant.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

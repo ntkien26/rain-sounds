@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus_detector/focus_detector.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
+import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
 import 'package:rain_sounds/presentation/screens/sleep/widget/category_mix_page.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class SleepScreen extends StatefulWidget {
@@ -17,17 +20,9 @@ class SleepScreen extends StatefulWidget {
   State<SleepScreen> createState() => _SleepScreenState();
 }
 
-class _SleepScreenState extends State<SleepScreen> {
+class _SleepScreenState extends State<SleepScreen>
+    with AutomaticKeepAliveClientMixin {
   final SleepBloc _bloc = getIt<SleepBloc>();
-
-  final List<Category> categories = [
-    Category(id: 0, title: 'All'),
-    Category(id: 2, title: 'Sleep'),
-    Category(id: 3, title: 'Rain'),
-    Category(id: 4, title: 'Relax'),
-    Category(id: 5, title: 'Meditation'),
-    Category(id: 6, title: 'Work'),
-  ];
 
   int _selectedIndex = 0;
 
@@ -37,103 +32,120 @@ class _SleepScreenState extends State<SleepScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(ImagePaths.bgMoreScreen), fit: BoxFit.fill)),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 16,
-              ),
-              const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Text(
-                      'Rain Sounds - Sleep Sounds',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  )),
-              const SizedBox(
-                height: 24,
-              ),
-              SizedBox(
-                height: 28,
-                child: ScrollablePositionedList.builder(
-                    itemScrollController: itemScrollController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: categories.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return buildTabItem(categories[index], index);
-                    }),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              BlocBuilder<SleepBloc, SleepState>(
-                bloc: _bloc,
-                builder: (BuildContext context, SleepState state) {
-                  switch (state.status) {
-                    case SleepStatus.empty:
-                      break;
-                    case SleepStatus.loading:
-                      return const CupertinoActivityIndicator();
-                    case SleepStatus.success:
-                      List<List<Mix>> listMixes = List.empty(growable: true);
-                      List<Mix> customMixes = state.mixes
-                              ?.where((element) => element.category == 1)
-                              .toList() ??
-                          List.empty();
-                      if (customMixes.isNotEmpty) {
-                        categories.insert(1, Category(id: 1, title: 'Custom'));
-                      }
-                      for (var element in categories) {
-                        switch (element.id) {
-                          case 0:
-                            listMixes.add(state.mixes ?? List.empty());
-                            break;
-                          case 1:
-                            listMixes.add(customMixes);
-                            break;
-                          default:
-                            final list = state.mixes
-                                ?.where((mix) => mix.category == element.id)
-                                .toList();
-                            listMixes.add(list ?? List.empty());
+    return FocusDetector(
+      onFocusGained: () {
+        _bloc.add(RefreshEvent());
+      },
+      child: Scaffold(
+        backgroundColor: bgColor,
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(ImagePaths.bgMoreScreen), fit: BoxFit.fill)),
+          child: SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 16,
+                ),
+                const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        'Rain Sounds - Sleep Sounds',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    )),
+                const SizedBox(
+                  height: 24,
+                ),
+                BlocBuilder<SleepBloc, SleepState>(
+                  bloc: _bloc,
+                  builder: (BuildContext context, SleepState state) {
+                    switch (state.status) {
+                      case SleepStatus.empty:
+                        return const Center(child: CircularProgressIndicator());
+                      case SleepStatus.loading:
+                        return const CupertinoActivityIndicator();
+                      case SleepStatus.success:
+                        List<List<Mix>> listMixes = List.empty(growable: true);
+                        List<Mix> customMixes = state.mixes
+                                ?.where((element) => element.category == 1)
+                                .toList() ??
+                            List.empty();
+
+                        for (var element in state.categories ?? []) {
+                          switch (element.id) {
+                            case 0:
+                              listMixes.add(state.mixes ?? List.empty());
+                              break;
+                            case 1:
+                              listMixes.add(customMixes);
+                              break;
+                            default:
+                              final list = state.mixes
+                                  ?.where((mix) => mix.category == element.id)
+                                  .toList();
+                              listMixes.add(list ?? List.empty());
+                          }
                         }
-                      }
-                      return Expanded(
-                        child: PageView.builder(
-                            controller: pageController,
-                            itemCount: categories.length,
-                            onPageChanged: (page) {
-                              setState(() {
-                                _selectedIndex = page;
-                              });
-                            },
-                            itemBuilder: (BuildContext context, int index) {
-                              return CategoryMixPage(
-                                mixes: listMixes[index],
-                                showPremiumBanner:
-                                    index == 0 && !appCache.isPremiumMember(),
-                              );
-                            }),
-                      );
-                    case SleepStatus.error:
-                      return Container();
-                  }
-                  return Container();
-                },
-              )
-            ],
+                        return Expanded(
+                          child: Column(
+                            children: [
+                              Flexible(
+                                flex: 1,
+                                child: SizedBox(
+                                  height: 28,
+                                  child: ScrollablePositionedList.builder(
+                                      itemScrollController: itemScrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: state.categories?.length ?? 0,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return buildTabItem(
+                                            state.categories![index], index);
+                                      }),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              ),
+                              Flexible(
+                                flex: 9,
+                                child: PageView.builder(
+                                    controller: pageController,
+                                    itemCount: state.categories?.length,
+                                    onPageChanged: (page) {
+                                      setState(() {
+                                        _selectedIndex = page;
+                                      });
+                                    },
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return CategoryMixPage(
+                                        mixes: listMixes[index],
+                                        showPremiumBanner: index == 0 &&
+                                            !appCache.isPremiumMember(),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
+                        );
+                      case SleepStatus.error:
+                        return Container();
+                    }
+                    return Container();
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -168,11 +180,7 @@ class _SleepScreenState extends State<SleepScreen> {
       ),
     );
   }
-}
 
-class Category {
-  final int id;
-  final String title;
-
-  Category({required this.id, required this.title});
+  @override
+  bool get wantKeepAlive => true;
 }

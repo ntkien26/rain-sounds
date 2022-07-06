@@ -6,7 +6,7 @@ enum SoundsStatus { loading, success, empty, error, update }
 @immutable
 class SoundsState {
   const SoundsState(
-      {this.status = SoundsStatus.empty,
+      {this.status = SoundsStatus.loading,
       this.sounds,
       this.totalSelected,
       this.isPlaying});
