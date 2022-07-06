@@ -14,7 +14,7 @@ List<Mix> mixesFromJson(String str) =>
 List<Sound> soundsFromJson(String str) =>
     List<Sound>.from(json.decode(str).map((sound) => Sound.fromJson(sound)));
 
-class SoundService extends BaseAudioHandler {
+class SoundService {
   // in-memory categories
   List<Mix> mixes = <Mix>[];
   List<Sound> sounds = <Sound>[];
@@ -116,7 +116,8 @@ class SoundService extends BaseAudioHandler {
       updateSound(element.id, false, element.volume);
     }
     isPlaying = false;
-    playbackTimer.pause();
+    playbackTimer.off();
+    playbackTimer.reset();
     print('SoundService stopped');
     return playing;
   }
@@ -152,7 +153,7 @@ class SoundService extends BaseAudioHandler {
       sounds[soundIndex] = sound;
 
       if (active) {
-        play();
+        playAllSelectedSounds();
       } else {
         localSoundManager.stop(sound);
         if (isPlaying) {
@@ -175,30 +176,10 @@ class SoundService extends BaseAudioHandler {
   }
 
   Future<void> playSounds(List<Sound> sounds) async {
-    await stop();
+    await stopAllPlayingSounds();
     for (var element in sounds) {
       updateSound(element.id, true, element.volume);
     }
   }
 
-  @override
-  Future<void> play() {
-    playbackState.add(playbackState.value
-        .copyWith(playing: true, controls: [MediaControl.pause]));
-    return playAllSelectedSounds();
-  }
-
-  @override
-  Future<void> pause() {
-    playbackState.add(playbackState.value
-        .copyWith(playing: false, controls: [MediaControl.play]));
-    return pauseAllPlayingSounds();
-  }
-
-  @override
-  Future<void> stop() {
-    playbackState.add(playbackState.value
-        .copyWith(playing: false, controls: [MediaControl.stop]));
-    return stopAllPlayingSounds();
-  }
 }

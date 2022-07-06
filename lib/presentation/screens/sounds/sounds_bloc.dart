@@ -15,7 +15,6 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
       : super(SoundsState.initial) {
     _fetchSound();
     on<SoundsEvent>(_onSoundEvent);
-    _listenToPlaybackState();
   }
 
   Future<void> _fetchSound() async {
@@ -36,9 +35,9 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
           isPlaying: soundService.isPlaying));
     } else if (event is ToggleSoundsEvent) {
       if (soundService.isPlaying) {
-        await soundService.pause();
+        await soundService.pauseAllPlayingSounds();
       } else {
-        await soundService.play();
+        await soundService.playAllSelectedSounds();
       }
       emit(state.copyWith(isPlaying: soundService.isPlaying));
     } else if (event is RefreshEvent) {
@@ -46,9 +45,4 @@ class SoundsBloc extends Bloc<SoundsEvent, SoundsState> {
     }
   }
 
-  void _listenToPlaybackState() {
-    soundService.playbackState.listen((playbackState) {
-      emit(state.copyWith(isPlaying: soundService.isPlaying));
-    });
-  }
 }

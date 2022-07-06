@@ -16,13 +16,23 @@ class SleepBloc extends Bloc<SleepEvent, SleepState> {
       {required this.soundService, required this.box, required this.mapper})
       : super(SleepState.initial) {
     _loadMixes();
-    on<RefreshEvent>(_onSleepEvent);
+    on<SleepEvent>(_onSleepEvent);
   }
 
-  Future<void> _onSleepEvent(
-      SleepEvent event, Emitter<SleepState> emit) async {
+  Future<void> _onSleepEvent(SleepEvent event, Emitter<SleepState> emit) async {
     if (event is RefreshEvent) {
       _loadMixes();
+    } else if (event is ToggleEvent) {
+      if (soundService.isPlaying) {
+        soundService.pauseAllPlayingSounds();
+        emit(state.copyWith(status: SleepStatus.loading));
+      } else {
+        soundService.playAllSelectedSounds();
+        emit(state.copyWith(status: SleepStatus.loading));
+      }
+    } else if (event is StopEvent) {
+      soundService.stopAllPlayingSounds();
+      emit(state.copyWith(status: SleepStatus.loading));
     }
   }
 

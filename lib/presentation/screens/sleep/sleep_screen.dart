@@ -13,6 +13,8 @@ import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import 'widget/bottom_media_controller.dart';
+
 class SleepScreen extends StatefulWidget {
   const SleepScreen({Key? key}) : super(key: key);
 
@@ -118,22 +120,30 @@ class _SleepScreenState extends State<SleepScreen>
                               ),
                               Flexible(
                                 flex: 9,
-                                child: PageView.builder(
-                                    controller: pageController,
-                                    itemCount: state.categories?.length,
-                                    onPageChanged: (page) {
-                                      setState(() {
-                                        _selectedIndex = page;
-                                      });
-                                    },
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return CategoryMixPage(
-                                        mixes: listMixes[index],
-                                        showPremiumBanner: index == 0 &&
-                                            !appCache.isPremiumMember(),
-                                      );
-                                    }),
+                                child: Stack(
+                                  children: [
+                                    PageView.builder(
+                                        controller: pageController,
+                                        itemCount: state.categories?.length,
+                                        onPageChanged: (page) {
+                                          setState(() {
+                                            _selectedIndex = page;
+                                          });
+                                        },
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return CategoryMixPage(
+                                            mixes: listMixes[index],
+                                            showPremiumBanner: index == 0 &&
+                                                !appCache.isPremiumMember(),
+                                          );
+                                        }
+                                        ),
+                                    BottomMediaController(bloc: _bloc, onBottomControllerClicked: () {
+
+                                    },)
+                                  ],
+                                ),
                               ),
                             ],
                           ),

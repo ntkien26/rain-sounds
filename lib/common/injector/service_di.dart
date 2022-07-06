@@ -1,5 +1,4 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:audio_service/audio_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rain_sounds/data/local/service/sound_service.dart';
 import 'package:rain_sounds/data/remote/service/music_service.dart';
@@ -21,9 +20,8 @@ class ServiceDI {
         () => OnlineMusicPlayer(AssetsAudioPlayer.newPlayer(), injector()));
     injector.registerLazySingleton<PlaybackTimer>(
         () => PlaybackTimer(appCache: injector()));
-    injector.registerSingleton<SoundService>(await AudioService.init(
-      builder: () => SoundService(
+    injector.registerSingleton<SoundService>(SoundService(
           localSoundManager: injector(), playbackTimer: injector()),
-    ));
+    );
   }
 }

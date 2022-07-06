@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:focus_detector/focus_detector.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
@@ -26,7 +27,7 @@ class SoundsScreen extends StatefulWidget {
   State<SoundsScreen> createState() => _SoundsScreenState();
 }
 
-class _SoundsScreenState extends State<SoundsScreen> with AutomaticKeepAliveClientMixin {
+class _SoundsScreenState extends State<SoundsScreen> {
   int _selectedIndex = 0;
   final SoundsBloc _soundsBloc = getIt<SoundsBloc>();
   final PlaybackTimer _timerController = getIt<PlaybackTimer>();
@@ -246,8 +247,6 @@ class _SoundsScreenState extends State<SoundsScreen> with AutomaticKeepAliveClie
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class PlayingButton extends StatelessWidget {

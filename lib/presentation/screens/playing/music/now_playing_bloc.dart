@@ -14,8 +14,7 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
   Future<void> _onNowPlayingEvent(
       NowPlayingEvent event, Emitter<NowPlayingState> emit) async {
     if (event is PlayMusicEvent) {
-      onlineMusicPlayer.setSource(event.musicModel);
-      await onlineMusicPlayer.play();
+      await onlineMusicPlayer.play(event.musicModel);
     } else if (event is ToggleEvent) {
       await onlineMusicPlayer.playOrPause();
     } else if (event is StopEvent) {

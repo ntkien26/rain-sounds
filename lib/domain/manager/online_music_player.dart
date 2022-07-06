@@ -8,13 +8,7 @@ class OnlineMusicPlayer {
 
   OnlineMusicPlayer(this.audioPlayer, this.playbackTimer);
 
-  late MusicModel musicModel;
-
-  void setSource(MusicModel musicModel) {
-    this.musicModel = musicModel;
-  }
-
-  Future<void> play() async {
+  Future<void> play(MusicModel musicModel) async {
     playbackTimer.reset();
     try {
       await audioPlayer.open(
