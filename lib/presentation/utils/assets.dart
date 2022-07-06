@@ -19,6 +19,14 @@ class ImagePaths {
   static const String icSettings = '${Assets.baseImagesPath}/ic_setting.png';
   static const String bgPremium = '${Assets.baseImagesPath}/pic_premium_bg.webp';
   static const String icMoon = '${Assets.baseImagesPath}/ic_moon.png';
+  static const String bgCover1 = '${Assets.baseImagesPath}/bg_cover_1';
+  static const String bgCover2 = '${Assets.baseImagesPath}/bg_cover_2';
+  static const String bgCover3 = '${Assets.baseImagesPath}/bg_cover_3';
+  static const String bgCover4 = '${Assets.baseImagesPath}/bg_cover_4';
+  static const String bgCover5 = '${Assets.baseImagesPath}/bg_cover_5';
+  static const String bgCover6 = '${Assets.baseImagesPath}/bg_cover_6';
+  static const String bgCover7 = '${Assets.baseImagesPath}/bg_cover_7';
+  static const String bgCover8 = '${Assets.baseImagesPath}/bg_cover_8';
 }
 
 class IconPaths {

@@ -22,7 +22,6 @@ class _SleepScreenState extends State<SleepScreen> {
 
   final List<Category> categories = [
     Category(id: 0, title: 'All'),
-    Category(id: 1, title: 'Custom'),
     Category(id: 2, title: 'Sleep'),
     Category(id: 3, title: 'Rain'),
     Category(id: 4, title: 'Relax'),
@@ -89,13 +88,20 @@ class _SleepScreenState extends State<SleepScreen> {
                       return const CupertinoActivityIndicator();
                     case SleepStatus.success:
                       List<List<Mix>> listMixes = List.empty(growable: true);
+                      List<Mix> customMixes = state.mixes
+                              ?.where((element) => element.category == 1)
+                              .toList() ??
+                          List.empty();
+                      if (customMixes.isNotEmpty) {
+                        categories.insert(1, Category(id: 1, title: 'Custom'));
+                      }
                       for (var element in categories) {
                         switch (element.id) {
                           case 0:
                             listMixes.add(state.mixes ?? List.empty());
                             break;
                           case 1:
-                            listMixes.add(state.mixes ?? List.empty());
+                            listMixes.add(customMixes);
                             break;
                           default:
                             final list = state.mixes

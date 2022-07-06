@@ -158,7 +158,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
   }
 
   void navigateSelectedSoundsScreen() {
-    Route route = MaterialPageRoute(builder: (context) => SelectedSoundsScreen(
+    Route route = MaterialPageRoute(builder: (context) =>  SelectedSoundsScreen(
       soundsBloc: _soundsBloc,
     ));
     Navigator.push(context, route).then(onGoBack);

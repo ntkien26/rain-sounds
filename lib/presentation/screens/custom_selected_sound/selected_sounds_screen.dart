@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/custom_selected_sound/save_custom_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
@@ -63,7 +64,13 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
                   flex: 1,
                   child: SaveCustomButton(
                     text: 'Save Custom',
-                    onTap: () {},
+                    onTap: () {
+                      getIt
+                          .get<NavigationService>()
+                          .navigateToScreen(screen: SaveCustomScreen(
+                        sounds: sounds,
+                      ));
+                    },
                   ),
                 ),
                 const SizedBox(

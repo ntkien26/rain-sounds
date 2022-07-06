@@ -18,13 +18,13 @@ class BlocDI {
     injector.registerFactory<MainBloc>(() => MainBloc());
     injector
         .registerFactory<MusicBloc>(() => MusicBloc(musicService: injector()));
-    injector.registerFactory<SleepBloc>(() => SleepBloc(injector()));
+    injector.registerFactory<SleepBloc>(() => SleepBloc(
+        soundService: injector(), box: injector(), mapper: injector()));
     injector.registerFactory<SoundsBloc>(() =>
         SoundsBloc(soundService: injector(), timerController: injector()));
     injector.registerFactory<NowMixPlayingBloc>(
         () => NowMixPlayingBloc(injector()));
-    injector.registerFactory<NowPlayingBloc>(
-            () => NowPlayingBloc(injector()));
+    injector.registerFactory<NowPlayingBloc>(() => NowPlayingBloc(injector()));
     injector.registerFactory<EditSelectedSoundBloc>(() => EditSelectedSoundBloc(
         soundService: injector(), timerController: injector()));
   }

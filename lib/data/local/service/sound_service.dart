@@ -68,6 +68,14 @@ class SoundService extends BaseAudioHandler {
         .toList();
   }
 
+  List<Sound> loadSoundsFromIds(List<int> ids) {
+    final List<Sound> list = List.empty(growable: true);
+    for (var id in ids) {
+      list.add(sounds.firstWhere((element) => element.id == id));
+    }
+    return list;
+  }
+
   Future<List<Sound>> _loadSounds() async {
     sounds.clear();
     String jsonString = await _loadSoundsAsset();
