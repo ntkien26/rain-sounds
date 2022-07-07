@@ -20,7 +20,7 @@ class SelectedSoundsScreen extends StatefulWidget {
 }
 
 class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
-  late List<Sound> sounds;
+  List<Sound> sounds = List.empty();
 
   @override
   void initState() {
@@ -39,39 +39,36 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
                 child: Column(
               children: [
                 sounds.isNotEmpty
-                    ? Flexible(
-                        flex: 9,
-                        child: ListView.builder(
-                            itemCount: sounds.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return SoundItem(
-                                sound: sounds[index],
-                                soundsBloc: widget.soundsBloc,
-                                onRemoveClicked: () {
-                                  widget.soundsBloc.add(UpdateSound(
-                                      soundId: sounds[index].id,
-                                      active: false,
-                                      volume: sounds[index].volume));
-                                  sounds.removeAt(index);
-                                  setState(() {});
-                                },
-                              );
-                            }),
-                      )
+                    ? SizedBox(
+                      child: ListView.builder(
+                          itemCount: sounds.length,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SoundItem(
+                              sound: sounds[index],
+                              soundsBloc: widget.soundsBloc,
+                              onRemoveClicked: () {
+                                widget.soundsBloc.add(UpdateSound(
+                                    soundId: sounds[index].id,
+                                    active: false,
+                                    volume: sounds[index].volume));
+                                sounds.removeAt(index);
+                                setState(() {});
+                              },
+                            );
+                          }),
+                    )
                     : Container(),
                 const Spacer(),
-                Flexible(
-                  flex: 1,
-                  child: SaveCustomButton(
-                    text: 'Save Custom',
-                    onTap: () {
-                      getIt
-                          .get<NavigationService>()
-                          .navigateToScreen(screen: SaveCustomScreen(
-                        sounds: sounds,
-                      ));
-                    },
-                  ),
+                SaveCustomButton(
+                  text: 'Save Custom',
+                  onTap: () {
+                    getIt
+                        .get<NavigationService>()
+                        .navigateToScreen(screen: SaveCustomScreen(
+                      sounds: sounds,
+                    ));
+                  },
                 ),
                 const SizedBox(
                   height: 16,
@@ -80,20 +77,17 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: Flexible(
-                    flex: 1,
-                    child: SizedBox(
-                      width: 40,
-                      height: 50,
-                      child: Column(
-                        children: [
-                          SvgPicture.asset(IconPaths.icCloseArrow),
-                          const Text(
-                            'Close',
-                            style: TextStyle(color: Colors.white70),
-                          )
-                        ],
-                      ),
+                  child: SizedBox(
+                    width: 40,
+                    height: 50,
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(IconPaths.icCloseArrow),
+                        const Text(
+                          'Close',
+                          style: TextStyle(color: Colors.white70),
+                        )
+                      ],
                     ),
                   ),
                 )

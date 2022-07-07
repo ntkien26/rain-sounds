@@ -10,16 +10,22 @@ import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase_screen.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_screen.dart';
+import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
+import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
 class CategoryMixPage extends StatelessWidget {
   const CategoryMixPage(
-      {Key? key, required this.mixes, required this.showPremiumBanner})
+      {Key? key,
+      required this.mixes,
+      required this.showPremiumBanner,
+      required this.sleepBloc})
       : super(key: key);
 
   final List<Mix> mixes;
   final bool showPremiumBanner;
+  final SleepBloc sleepBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +36,14 @@ class CategoryMixPage extends StatelessWidget {
             mainAxisCellCount: 2,
             child: MixItem(
               mix: mix,
+              onItemClicked: (mix) {
+                sleepBloc.add(SelectMixEvent(mix: mix));
+              },
             ),
           ),
         )
         .toList();
+    print('listGridTile: ${listGridTile.length}');
     if (showPremiumBanner) {
       listGridTile.insert(
         2,
@@ -91,9 +101,11 @@ class CategoryMixPage extends StatelessWidget {
 }
 
 class MixItem extends StatefulWidget {
-  const MixItem({Key? key, required this.mix}) : super(key: key);
+  const MixItem({Key? key, required this.mix, required this.onItemClicked})
+      : super(key: key);
 
   final Mix mix;
+  final Function(Mix) onItemClicked;
 
   @override
   State<MixItem> createState() => _MixItemState();
@@ -249,6 +261,7 @@ class _MixItemState extends State<MixItem> {
           adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
             getIt<NavigationService>()
                 .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
+            widget.onItemClicked(widget.mix);
           });
         }
       },
@@ -307,6 +320,7 @@ class _MixItemState extends State<MixItem> {
       Navigator.pop(context);
       getIt<NavigationService>()
           .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
+      widget.onItemClicked(widget.mix);
     }, isLoadingAd: (loading) {
       if (loading) {
         EasyLoading.show(status: 'Loading ads...');

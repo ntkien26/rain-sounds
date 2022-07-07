@@ -13,7 +13,8 @@ class LocalSoundPlayer {
       audioPlayer.play();
     } else {
       await audioPlayer.open(
-          Audio('${Assets.baseSoundsPath}${sound.fileName}.aac'),
+          Audio('${Assets.baseSoundsPath}${sound.fileName}.aac',
+              metas: Metas(title: "Sleep sounds")),
           showNotification: true,
           loopMode: LoopMode.single,
           notificationSettings: const NotificationSettings(

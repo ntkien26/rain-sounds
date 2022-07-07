@@ -23,16 +23,16 @@ class SleepBloc extends Bloc<SleepEvent, SleepState> {
     if (event is RefreshEvent) {
       _loadMixes();
     } else if (event is ToggleEvent) {
-      if (soundService.isPlaying) {
+      if (soundService.isPlaying.value) {
         soundService.pauseAllPlayingSounds();
-        emit(state.copyWith(status: SleepStatus.loading));
       } else {
         soundService.playAllSelectedSounds();
-        emit(state.copyWith(status: SleepStatus.loading));
       }
     } else if (event is StopEvent) {
       soundService.stopAllPlayingSounds();
-      emit(state.copyWith(status: SleepStatus.loading));
+      emit(state.copyWith(showBottomMedia: false));
+    } else if (event is SelectMixEvent) {
+      emit(state.copyWith(selectedMix: event.mix, showBottomMedia: true));
     }
   }
 

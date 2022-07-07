@@ -1,4 +1,3 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/domain/manager/online_music_player.dart';
 import 'package:rain_sounds/presentation/screens/playing/music/now_playing_event.dart';
@@ -9,6 +8,9 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
 
   NowPlayingBloc(this.onlineMusicPlayer) : super(NowPlayingState.initial) {
     on(_onNowPlayingEvent);
+    onlineMusicPlayer.audioPlayer.isPlaying.listen((isPlaying) {
+      emit(state.copyWith(isPlaying: isPlaying));
+    });
   }
 
   Future<void> _onNowPlayingEvent(

@@ -6,7 +6,15 @@ class OnlineMusicPlayer {
   final AssetsAudioPlayer audioPlayer;
   final PlaybackTimer playbackTimer;
 
-  OnlineMusicPlayer(this.audioPlayer, this.playbackTimer);
+  OnlineMusicPlayer(this.audioPlayer, this.playbackTimer) {
+    audioPlayer.isPlaying.listen((isPlaying) {
+      if (isPlaying) {
+        playbackTimer.start();
+      } else {
+        playbackTimer.pause();
+      }
+    });
+  }
 
   Future<void> play(MusicModel musicModel) async {
     playbackTimer.reset();
@@ -29,13 +37,6 @@ class OnlineMusicPlayer {
 
   Future<void> playOrPause() async {
     await audioPlayer.playOrPause();
-    if (audioPlayer.isPlaying.value) {
-      print('playbackTimer start');
-      playbackTimer.start();
-    } else {
-      print('playbackTimer Pause');
-      playbackTimer.pause();
-    }
   }
 
   Future<void> stop() async {

@@ -1,12 +1,14 @@
 import 'dart:convert';
 
-import 'package:audio_service/audio_service.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/local_sound_player.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rxdart/streams.dart';
+import 'package:rxdart/subjects.dart';
 
 List<Mix> mixesFromJson(String str) =>
     List<Mix>.from(json.decode(str).map((category) => Mix.fromJson(category)));
@@ -18,14 +20,22 @@ class SoundService {
   // in-memory categories
   List<Mix> mixes = <Mix>[];
   List<Sound> sounds = <Sound>[];
-  bool isPlaying = false;
-  int totalActiveSound = 0;
+  final BehaviorSubject<bool> _isPlaying = BehaviorSubject<bool>.seeded(false);
 
+  ValueStream<bool> get isPlaying => _isPlaying.stream;
+  int totalActiveSound = 0;
   final LocalSoundPlayer localSoundManager;
   final PlaybackTimer playbackTimer;
 
-  SoundService(
-      {required this.localSoundManager, required this.playbackTimer});
+  SoundService({required this.localSoundManager, required this.playbackTimer}) {
+    _isPlaying.listen((isPlaying) {
+      if (isPlaying) {
+        playbackTimer.start();
+      } else {
+        playbackTimer.pause();
+      }
+    });
+  }
 
   Future<String> _loadMixesAsset() async {
     return await rootBundle.loadString(Assets.mixesJson);
@@ -101,9 +111,17 @@ class SoundService {
 
     if (selected.isNotEmpty) {
       print('SoundService is Playing');
-      isPlaying = true;
+      _isPlaying.add(true);
       playbackTimer.start();
     }
+
+    AssetsAudioPlayer.allPlayers().values.forEach((element) {
+      element.isPlaying.listen((isPlaying) {
+        _isPlaying.add(AssetsAudioPlayer.allPlayers()
+            .values
+            .every((element) => element.isPlaying.value));
+      });
+    });
 
     return selected;
   }
@@ -115,7 +133,7 @@ class SoundService {
       localSoundManager.stop(element);
       updateSound(element.id, false, element.volume);
     }
-    isPlaying = false;
+    _isPlaying.add(false);
     playbackTimer.off();
     playbackTimer.reset();
     print('SoundService stopped');
@@ -128,7 +146,7 @@ class SoundService {
     for (var element in playing) {
       localSoundManager.pause(element);
     }
-    isPlaying = false;
+    _isPlaying.add(false);
     playbackTimer.pause();
     print('SoundService paused');
     return playing;
@@ -156,10 +174,9 @@ class SoundService {
         playAllSelectedSounds();
       } else {
         localSoundManager.stop(sound);
-        if (isPlaying) {
+        if (_isPlaying.value) {
           final currentSelected = await getSelectedSounds();
-          isPlaying = currentSelected.isNotEmpty;
-
+          _isPlaying.add(currentSelected.isNotEmpty);
           if (currentSelected.isEmpty) {
             playbackTimer.pause();
             playbackTimer.reset();
@@ -181,5 +198,4 @@ class SoundService {
       updateSound(element.id, true, element.volume);
     }
   }
-
 }

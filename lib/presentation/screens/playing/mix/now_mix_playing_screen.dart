@@ -15,9 +15,12 @@ import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
 class NowMixPlayingScreen extends StatefulWidget {
-  const NowMixPlayingScreen({Key? key, required this.mix}) : super(key: key);
+  const NowMixPlayingScreen(
+      {Key? key, required this.mix, this.autoStart = true})
+      : super(key: key);
 
   final Mix mix;
+  final bool autoStart;
 
   @override
   State<NowMixPlayingScreen> createState() => _NowMixPlayingScreenState();
@@ -42,7 +45,8 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                 "${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp")),
       ),
       child: BlocBuilder<NowMixPlayingBloc, NowMixPlayingState>(
-          bloc: _bloc..add(PlayMixEvent(widget.mix)),
+          bloc: _bloc
+            ..add(PlayMixEvent(mix: widget.mix, autoStart: widget.autoStart)),
           builder: (BuildContext context, NowMixPlayingState state) {
             return SafeArea(
               child: Column(
@@ -74,9 +78,8 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                     height: 80,
                     child: InkWell(
                       onTap: () {
-                        getIt
-                            .get<NavigationService>()
-                            .navigateToScreen(screen: const EditSelectedSoundScreen());
+                        getIt.get<NavigationService>().navigateToScreen(
+                            screen: const EditSelectedSoundScreen());
                       },
                       child: ListView.builder(
                         shrinkWrap: true,

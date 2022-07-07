@@ -9,25 +9,27 @@ class NowMixPlayingBloc extends Bloc<NowMixPlayingEvent, NowMixPlayingState> {
 
   NowMixPlayingBloc(this.soundService) : super(NowMixPlayingState.initial) {
     on(_onNowMixPlayingEvent);
+    soundService.isPlaying.listen((isPlaying) {
+      emit(state.copyWith(isPlaying: isPlaying));
+    });
   }
 
   Future<void> _onNowMixPlayingEvent(
       NowMixPlayingEvent event, Emitter<NowMixPlayingState> emit) async {
     if (event is PlayMixEvent) {
-      await soundService.playSounds(event.mix.sounds ?? List.empty());
+      if (event.autoStart) {
+        await soundService.playSounds(event.mix.sounds ?? List.empty());
+      }
       final selectedSound = await soundService.getSelectedSounds();
       event.mix.sounds?.clear();
       event.mix.sounds?.insertAll(0, selectedSound);
       emit(state.copyWith(isPlaying: true, mix: event.mix));
     } else if (event is ToggleMixEvent) {
-      if (soundService.isPlaying) {
+      if (soundService.isPlaying.value) {
         await soundService.pauseAllPlayingSounds();
-        emit(state.copyWith(isPlaying: soundService.isPlaying));
       } else {
         await soundService.playAllSelectedSounds();
-        emit(state.copyWith(isPlaying: soundService.isPlaying));
       }
     }
   }
-
 }

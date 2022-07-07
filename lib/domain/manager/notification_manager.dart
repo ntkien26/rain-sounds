@@ -1,7 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rain_sounds/data/local/service/sound_service.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notifications =
@@ -75,57 +74,6 @@ class NotificationService {
         repeats: true,
       ),
     );
-  }
-
-  Future<void> createMediaNotification(SoundService soundService) async {
-    AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: 1919,
-            channelKey: 'media_player',
-            category: NotificationCategory.Transport,
-            title: 'Sleep sound',
-            body: 'Sleep sound',
-            summary: 'Now playing',
-            notificationLayout: NotificationLayout.MediaPlayer,
-            color: Colors.purple.shade700,
-            autoDismissible: false,
-            showWhen: false),
-        actionButtons: [
-          NotificationActionButton(
-              key: 'MEDIA_PREV',
-              label: 'Previous',
-              autoDismissible: false,
-              showInCompactView: false,
-              enabled: false,
-              buttonType: ActionButtonType.KeepOnTop),
-          soundService.isPlaying
-              ? NotificationActionButton(
-                  key: 'MEDIA_PAUSE',
-                  icon: 'resource://drawable/res_ic_pause',
-                  label: 'Pause',
-                  autoDismissible: false,
-                  showInCompactView: true,
-                  buttonType: ActionButtonType.KeepOnTop)
-              : NotificationActionButton(
-                  label: 'Play',
-                  autoDismissible: false,
-                  showInCompactView: true,
-                  enabled: soundService.totalActiveSound > 0,
-                  buttonType: ActionButtonType.KeepOnTop,
-                  key: 'play'),
-          NotificationActionButton(
-              key: 'MEDIA_NEXT',
-              label: 'Previous',
-              showInCompactView: true,
-              enabled: false,
-              buttonType: ActionButtonType.KeepOnTop),
-          NotificationActionButton(
-              key: 'MEDIA_CLOSE',
-              label: 'Close',
-              autoDismissible: true,
-              showInCompactView: true,
-              buttonType: ActionButtonType.KeepOnTop)
-        ]);
   }
 
   Future<void> cancelScheduledNotifications() async {

@@ -24,7 +24,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       Duration duration = parseTime(
           appCache.getTimer() ?? const Duration(minutes: 30).toString());
 
-      if (soundService.isPlaying) {
+      if (soundService.isPlaying.value) {
         timer = Timer.periodic(duration, (timer) {
           remainingTime = duration.inSeconds - timer.tick;
           emit(state.copyWith(

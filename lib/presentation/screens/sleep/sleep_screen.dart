@@ -5,6 +5,8 @@ import 'package:focus_detector/focus_detector.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
+import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_screen.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
@@ -45,7 +47,8 @@ class _SleepScreenState extends State<SleepScreen>
           height: double.infinity,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(ImagePaths.bgMoreScreen), fit: BoxFit.fill)),
+                  image: AssetImage(ImagePaths.bgMoreScreen),
+                  fit: BoxFit.fill)),
           child: SafeArea(
             child: Column(
               children: [
@@ -98,31 +101,34 @@ class _SleepScreenState extends State<SleepScreen>
                           }
                         }
                         return Expanded(
-                          child: Column(
+                          child: Stack(
                             children: [
-                              Flexible(
-                                flex: 1,
-                                child: SizedBox(
-                                  height: 28,
-                                  child: ScrollablePositionedList.builder(
-                                      itemScrollController: itemScrollController,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: state.categories?.length ?? 0,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return buildTabItem(
-                                            state.categories![index], index);
-                                      }),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              Flexible(
-                                flex: 9,
-                                child: Stack(
-                                  children: [
-                                    PageView.builder(
+                              Column(
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: SizedBox(
+                                      height: 28,
+                                      child: ScrollablePositionedList.builder(
+                                          itemScrollController:
+                                              itemScrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              state.categories?.length ?? 0,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return buildTabItem(
+                                                state.categories![index],
+                                                index);
+                                          }),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                  Flexible(
+                                    flex: 9,
+                                    child: PageView.builder(
                                         controller: pageController,
                                         itemCount: state.categories?.length,
                                         onPageChanged: (page) {
@@ -136,15 +142,28 @@ class _SleepScreenState extends State<SleepScreen>
                                             mixes: listMixes[index],
                                             showPremiumBanner: index == 0 &&
                                                 !appCache.isPremiumMember(),
+                                            sleepBloc: _bloc,
                                           );
-                                        }
-                                        ),
-                                    BottomMediaController(bloc: _bloc, onBottomControllerClicked: () {
-
-                                    },)
-                                  ],
-                                ),
+                                        }),
+                                  ),
+                                ],
                               ),
+                              state.showBottomMedia == true
+                                  ? Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: BottomMediaController(
+                                        bloc: _bloc,
+                                        onBottomControllerClicked: () {
+                                          getIt<NavigationService>()
+                                              .navigateToScreen(
+                                                  screen: NowMixPlayingScreen(
+                                            mix: state.selectedMix!,
+                                            autoStart: false,
+                                          ));
+                                        },
+                                      ),
+                                    )
+                                  : const SizedBox()
                             ],
                           ),
                         );

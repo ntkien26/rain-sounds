@@ -1,5 +1,3 @@
-import 'package:rain_sounds/data/local/model/mix.dart';
-
 enum NowPlayingStatus { loading, success, error, none }
 
 class NowPlayingState {

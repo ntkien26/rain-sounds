@@ -10,24 +10,31 @@ import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
-class BottomMediaController extends StatelessWidget {
-  BottomMediaController({
+class BottomMediaController extends StatefulWidget {
+  const BottomMediaController({
     Key? key,
-    required this.bloc, required this.onBottomControllerClicked,
+    required this.bloc,
+    required this.onBottomControllerClicked,
   }) : super(key: key);
 
   final SleepBloc bloc;
-  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
   final VoidCallback onBottomControllerClicked;
+
+  @override
+  State<BottomMediaController> createState() => _BottomMediaControllerState();
+}
+
+class _BottomMediaControllerState extends State<BottomMediaController> {
+  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SleepBloc, SleepState>(
-      bloc: bloc,
+      bloc: widget.bloc,
       builder: (buildContext, state) {
         return InkWell(
           onTap: () {
-            onBottomControllerClicked();
+            widget.onBottomControllerClicked();
           },
           child: Container(
             color: kBottomBarColor,
@@ -67,23 +74,32 @@ class BottomMediaController extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                bloc.soundService.isPlaying == true
-                    ? InkWell(
-                    onTap: () {
-                      bloc.add(ToggleEvent());
-                    },
-                    child: SvgPicture.asset(IconPaths.icPause))
-                    : InkWell(
-                    onTap: () {
-                      bloc.add(ToggleEvent());
-                    },
-                    child: SvgPicture.asset(IconPaths.icPlay)),
+                StreamBuilder(
+                    stream: widget.bloc.soundService.isPlaying,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                      if (snapshot.hasData && snapshot.data == true) {
+                        return InkWell(
+                            onTap: () {
+                              widget.bloc.add(ToggleEvent());
+                              setState(() {});
+                            },
+                            child: SvgPicture.asset(IconPaths.icPause));
+                      } else {
+                        return InkWell(
+                            onTap: () {
+                              widget.bloc.add(ToggleEvent());
+                              setState(() {});
+                            },
+                            child: SvgPicture.asset(IconPaths.icPlay));
+                      }
+                    }),
                 const SizedBox(
                   width: 12,
                 ),
                 InkWell(
                     onTap: () {
-                      bloc.add(StopEvent());
+                      widget.bloc.add(StopEvent());
                     },
                     child: SvgPicture.asset(IconPaths.icClose)),
                 const SizedBox(
