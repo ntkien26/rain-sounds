@@ -7,6 +7,7 @@ import 'package:rain_sounds/data/local/hive_model/custom_mix_model.dart';
 import 'package:rain_sounds/data/local/hive_model/sound_model.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
+import 'package:rain_sounds/presentation/screens/custom_selected_sound/selected_sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/constants.dart';
@@ -76,7 +77,8 @@ class _SaveCustomScreenState extends State<SaveCustomScreen> {
                               style: TextStyle(fontSize: 12),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 52),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 52),
                               child: TextField(
                                   controller: textEditingController,
                                   textAlign: TextAlign.center,
@@ -117,7 +119,8 @@ class _SaveCustomScreenState extends State<SaveCustomScreen> {
                                           .copyWith(top: 20),
                                       width: w / 3.5,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                           image: DecorationImage(
                                             fit: BoxFit.cover,
                                             image: AssetImage(
@@ -173,11 +176,12 @@ class _SaveCustomScreenState extends State<SaveCustomScreen> {
                             await box.add(
                               CustomMixModel(
                                   name: textEditingController.text,
-                                  thumbnail: Constants.listBgCover[indexSelected],
+                                  thumbnail:
+                                      Constants.listBgCover[indexSelected],
                                   sounds: sounds),
                             );
                             Fluttertoast.showToast(msg: 'Save custom success');
-                            Navigator.pop(context);
+                            Navigator.of(context).popUntil((route) => route.isFirst);
                           },
                           child: SvgPicture.asset(
                             IconPaths.icChecked,

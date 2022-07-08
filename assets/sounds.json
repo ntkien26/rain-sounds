@@ -10,14 +10,14 @@
     "id": 102,
     "name": "Rain",
     "fileName": "mua",
-    "icon": "sound_ic_rain.png",
+    "icon": "sound_ic_rain.svg",
     "volume": 80
   },
   {
     "id": 103,
     "name": "Storm",
     "fileName": "mua_bao",
-    "icon": "sound_ic_storm.png",
+    "icon": "sound_ic_storm.svg",
     "volume": 80
   },
   {
@@ -31,7 +31,7 @@
     "id": 105,
     "name": "Wind Leaves",
     "fileName": "tieng_gio_trong_rung",
-    "icon": "sound_ic_wind_leaves.png",
+    "icon": "sound_ic_wind_leaves.svg",
     "volume": 80
   },
   {
@@ -53,7 +53,7 @@
     "id": 108,
     "name": "Wind",
     "fileName": "tieng_gio",
-    "icon": "sound_ic_wind.png",
+    "icon": "sound_ic_wind.svg",
     "volume": 100
   },
   {
@@ -124,7 +124,7 @@
     "id": 118,
     "name": "Fire",
     "fileName": "tieng_lua",
-    "icon": "sound_ic_fire.png",
+    "icon": "sound_ic_fire.svg",
     "volume": 80
   },
   {
@@ -159,7 +159,7 @@
     "id": 124,
     "name": "White Noise",
     "fileName": "tieng_white_noise",
-    "icon": "sound_ic_white_noise.png",
+    "icon": "sound_ic_white_noise.svg",
     "volume": 80
   },
   {
@@ -189,7 +189,7 @@
     "id": 131,
     "name": "Cafe",
     "fileName": "tieng_pha_cafe",
-    "icon": "sound_ic_cafe.png",
+    "icon": "sound_ic_cafe.svg",
     "volume": 80
   },
   {
@@ -363,7 +363,7 @@
     "id": 126,
     "name": "Frog",
     "fileName": "tieng_ech",
-    "icon": "sound_ic_frog.png",
+    "icon": "sound_ic_frog.svg",
     "volume": 80
   },
   {
@@ -391,7 +391,7 @@
     "id": 156,
     "name": "Car Purring",
     "fileName": "tieng_meo_ngu",
-    "icon": "sound_ic_cat_purring.png",
+    "icon": "sound_ic_cat_purring.svg",
     "volume": 80
   },
   {

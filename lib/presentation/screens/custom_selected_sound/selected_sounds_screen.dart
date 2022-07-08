@@ -13,6 +13,8 @@ class SelectedSoundsScreen extends StatefulWidget {
   const SelectedSoundsScreen({Key? key, required this.soundsBloc})
       : super(key: key);
 
+  static const routeName = "selected-sounds";
+
   final SoundsBloc soundsBloc;
 
   @override

@@ -57,7 +57,8 @@ class _SoundsScreenState extends State<SoundsScreen> {
               }
 
               print(
-                  'State changed: ${state.status}} - isPlaying ${state.isPlaying}');
+                  'State changed: ${state.status}} - isPlaying ${state
+                      .isPlaying}');
               int totalPage = (state.sounds!.length / 9).round();
               if ((state.sounds!.length / 9).round() <
                   state.sounds!.length / 9) {
@@ -73,7 +74,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                   lists.add(page);
                 } else {
                   var page = state.sounds
-                          ?.sublist(startIndex, state.sounds!.length) ??
+                      ?.sublist(startIndex, state.sounds!.length) ??
                       List.empty();
                   lists.add(page);
                 }
@@ -165,10 +166,12 @@ class _SoundsScreenState extends State<SoundsScreen> {
   }
 
   void navigateSelectedSoundsScreen() {
-    Route route = MaterialPageRoute(builder: (context) =>  SelectedSoundsScreen(
-      soundsBloc: _soundsBloc,
-    ));
-    Navigator.push(context, route).then(onGoBack);
+    Route route = MaterialPageRoute(builder: (context) =>
+        SelectedSoundsScreen(
+          soundsBloc: _soundsBloc,
+        ), settings: const RouteSettings(name: SelectedSoundsScreen.routeName)
+    );
+        Navigator.push(context, route).then(onGoBack);
   }
 
   Widget buildSelectedButton(int totalSelected) {
