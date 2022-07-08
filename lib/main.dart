@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         navigatorKey: getIt<NavigationService>().navigatorKey,
         onGenerateRoute: AppRoute.getRoute,
+        theme: ThemeData(fontFamily: 'Roboto'),
         initialRoute: SplashScreen.routePath,
         builder: EasyLoading.init(),
         // home: const MainScreen(),

@@ -155,19 +155,39 @@ class _SelectedSoundItemState extends State<SelectedSoundItem> {
         const SizedBox(
           height: 8,
         ),
-        Container(
-          height: 65,
-          width: 65,
-          margin: const EdgeInsets.all(4),
-          decoration: const BoxDecoration(
-              color: Colors.blueAccent,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: SizedBox(
-            child: extension == 'svg'
-                ? SvgPicture.asset(
-                    '${Assets.baseIconPath}/${widget.sound.icon}')
-                : Image.asset('${Assets.baseIconPath}/${widget.sound.icon}'),
-          ),
+        Stack(
+          children: [
+            Container(
+              height: 65,
+              width: 65,
+              margin: const EdgeInsets.all(4),
+              decoration: const BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: SizedBox(
+                child: extension == 'svg'
+                    ? SvgPicture.asset(
+                        '${Assets.baseIconPath}/${widget.sound.icon}')
+                    : Image.asset(
+                        '${Assets.baseIconPath}/${widget.sound.icon}'),
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: InkWell(
+                onTap: () {
+                  widget.editSelectedSoundBloc.add(UpdateSound(
+                      soundId: widget.sound.id, active: false, volume: volume));
+                },
+                child: SvgPicture.asset(
+                  IconPaths.icClose,
+                  height: 20,
+                  width: 20,
+                ),
+              ),
+            )
+          ],
         ),
         const SizedBox(
           height: 12,

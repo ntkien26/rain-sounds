@@ -20,6 +20,7 @@ class LocalSoundPlayer {
           notificationSettings: const NotificationSettings(
               seekBarEnabled: false, nextEnabled: false, prevEnabled: false));
     }
+    audioPlayer.setVolume(sound.volume);
   }
 
   pause(Sound sound) async {

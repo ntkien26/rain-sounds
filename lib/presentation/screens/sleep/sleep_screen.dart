@@ -105,29 +105,25 @@ class _SleepScreenState extends State<SleepScreen>
                             children: [
                               Column(
                                 children: [
-                                  Flexible(
-                                    flex: 1,
-                                    child: SizedBox(
-                                      height: 28,
-                                      child: ScrollablePositionedList.builder(
-                                          itemScrollController:
-                                              itemScrollController,
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount:
-                                              state.categories?.length ?? 0,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return buildTabItem(
-                                                state.categories![index],
-                                                index);
-                                          }),
-                                    ),
+                                  SizedBox(
+                                    height: 28,
+                                    child: ScrollablePositionedList.builder(
+                                        itemScrollController:
+                                            itemScrollController,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            state.categories?.length ?? 0,
+                                        itemBuilder: (BuildContext context,
+                                            int index) {
+                                          return buildTabItem(
+                                              state.categories![index],
+                                              index);
+                                        }),
                                   ),
                                   const SizedBox(
                                     height: 24,
                                   ),
-                                  Flexible(
-                                    flex: 9,
+                                  Expanded(
                                     child: PageView.builder(
                                         controller: pageController,
                                         itemCount: state.categories?.length,

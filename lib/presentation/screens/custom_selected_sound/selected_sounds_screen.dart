@@ -31,6 +31,11 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         body: Container(
             width: double.infinity,
             height: double.infinity,

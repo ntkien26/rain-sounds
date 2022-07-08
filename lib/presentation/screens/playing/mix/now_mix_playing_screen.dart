@@ -10,9 +10,12 @@ import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_bloc.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_event.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_state.dart';
+import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 class NowMixPlayingScreen extends StatefulWidget {
   const NowMixPlayingScreen(
@@ -32,14 +35,38 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
 
   final AdHelper adHelper = getIt.get();
 
+  static const _backgroundColor = Colors.black;
+
+  static const _colors = [
+    Color(0xff69a4f1),
+    Color(0xff4c5cb0),
+  ];
+
+  static const _durations = [
+    5000,
+    4000,
+  ];
+
+  static const _heightPercentages = [
+    0.65,
+    0.66,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         body: Container(
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3), BlendMode.darken),
             fit: BoxFit.cover,
             image: AssetImage(
                 "${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp")),
@@ -63,13 +90,32 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  Container(
-                    width: 250,
-                    height: 250,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        shape: BoxShape.circle),
-                    child: buildTimer(),
+                  InkWell(
+                    onTap: () {
+                      getIt<NavigationService>().navigateToScreen(screen: SetTimerScreen());
+                    },
+                    child: SizedBox(
+                      width: 250,
+                      height: 250,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(150),
+                        child: Stack(
+                          children: [
+                            WaveWidget(
+                              config: CustomConfig(
+                                colors: _colors,
+                                durations: _durations,
+                                heightPercentages: _heightPercentages,
+                              ),
+                              backgroundColor: _backgroundColor.withOpacity(0.7),
+                              size: const Size(double.infinity, double.infinity),
+                              waveAmplitude: 0,
+                            ),
+                            buildTimer()
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 12,

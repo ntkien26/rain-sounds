@@ -49,6 +49,8 @@ class PlaybackTimer extends ChangeNotifier {
     remainingTime = duration.inSeconds;
     startTime = duration.inSeconds;
     status = Status.idle;
+    timer?.cancel();
+    timer = null;
     notifyListeners();
   }
 

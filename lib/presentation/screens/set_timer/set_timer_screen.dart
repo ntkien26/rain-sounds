@@ -2,18 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
-import 'package:rain_sounds/domain/manager/playback_timer.dart';
+import 'package:rain_sounds/data/local/service/sound_service.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 class SetTimerScreen extends StatelessWidget {
   SetTimerScreen({Key? key}) : super(key: key);
   final AppCache appCache = getIt.get();
-  final PlaybackTimer timerController = getIt.get();
+  final SoundService soundService = getIt.get();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -32,32 +37,28 @@ class SetTimerScreen extends StatelessWidget {
               TimeButton(
                 text: '15 mín',
                 onTap: () {
-                  appCache.setTimer(const Duration(minutes: 15).toString());
-                  timerController.reset();
+                  resetTimer(const Duration(minutes: 15));
                   getIt<NavigationService>().pop();
                 },
               ),
               TimeButton(
                 text: '30 mín',
                 onTap: () {
-                  appCache.setTimer(const Duration(minutes: 30).toString());
-                  timerController.reset();
+                  resetTimer(const Duration(minutes: 30));
                   getIt<NavigationService>().pop();
                 },
               ),
               TimeButton(
                 text: '1 hour',
                 onTap: () {
-                  appCache.setTimer(const Duration(hours: 1).toString());
-                  timerController.reset();
+                  resetTimer(const Duration(hours: 1));
                   getIt<NavigationService>().pop();
                 },
               ),
               TimeButton(
                 text: '2 hour',
                 onTap: () {
-                  appCache.setTimer(const Duration(hours: 2).toString());
-                  timerController.reset();
+                  resetTimer(const Duration(hours: 2));
                   getIt<NavigationService>().pop();
                 },
               ),
@@ -69,7 +70,7 @@ class SetTimerScreen extends StatelessWidget {
                 text: 'Off',
                 onTap: () {
                   appCache.setTimer('off');
-                  timerController.off();
+                  soundService.playbackTimer.off();
                   getIt<NavigationService>().pop();
                 },
               ),
@@ -85,6 +86,16 @@ class SetTimerScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void resetTimer(Duration duration) {
+    appCache.setTimer(duration.toString());
+    if (soundService.isPlaying.value) {
+      soundService.playbackTimer.reset();
+      soundService.playbackTimer.start();
+    } else {
+      soundService.playbackTimer.reset();
+    }
   }
 
   Widget buildCancelButton() {
