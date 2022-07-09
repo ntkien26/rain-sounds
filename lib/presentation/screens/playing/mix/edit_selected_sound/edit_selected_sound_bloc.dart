@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rain_sounds/data/local/service/sound_service.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
+import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_event.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_state.dart';
 

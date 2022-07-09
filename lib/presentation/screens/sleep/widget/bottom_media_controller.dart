@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
+import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_screen.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
@@ -11,12 +12,12 @@ import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
-import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
 class BottomMediaController extends StatefulWidget {
   const BottomMediaController({
     Key? key,
-    required this.bloc, required this.mix,
+    required this.bloc,
+    required this.mix,
   }) : super(key: key);
 
   final SleepBloc bloc;
@@ -27,7 +28,6 @@ class BottomMediaController extends StatefulWidget {
 }
 
 class _BottomMediaControllerState extends State<BottomMediaController> {
-  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +38,9 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
           onTap: () {
             getIt<NavigationService>().navigateToScreen(
                 screen: NowMixPlayingScreen(
-                  mix: widget.mix,
-                  autoStart: false,
-                ));
+              mix: widget.mix,
+              autoStart: false,
+            ));
           },
           child: Container(
             color: kBottomBarColor,
@@ -68,15 +68,7 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
                     const SizedBox(
                       height: 4,
                     ),
-                    AnimatedBuilder(
-                      animation: _playbackTimer,
-                      builder: (context, child) {
-                        return Text(
-                          formatHHMMSS(_playbackTimer.remainingTime),
-                          style: const TextStyle(color: Colors.white),
-                        );
-                      },
-                    )
+                    CountDownTimer()
                   ],
                 ),
                 const Spacer(),

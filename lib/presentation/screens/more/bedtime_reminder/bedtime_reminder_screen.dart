@@ -5,6 +5,7 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/set_timer/set_custom_timer.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
@@ -73,7 +74,7 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: false,
-        title:  Text(
+        title: Text(
           'Bedtime Reminder',
           style: TextStyleConstant.titleTextStyle
               .copyWith(fontWeight: FontWeight.w500),
@@ -129,49 +130,46 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                         const SizedBox(
                           height: 40,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Reminder Time',
-                              style: TextStyleConstant.songTitleTextStyle,
-                            ),
-                            const Icon(
-                              Icons.arrow_drop_down_outlined,
-                              color: kFirstPrimaryColor,
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
                         InkWell(
                           onTap: () async {
-                            timeOfDay = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.fromDateTime(
-                                  now.add(
-                                    const Duration(minutes: 1),
-                                  ),
-                                ),
-                                builder: (BuildContext context, Widget? child) {
-                                  return Theme(
-                                    data: ThemeData(
-                                      colorScheme: const ColorScheme.light(
-                                        primary: Colors.teal,
-                                      ),
-                                    ),
-                                    child: child!,
-                                  );
-                                });
-                            setState(() {});
+                            final TimeOfDay timeOfDay = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SetCustomTimer(
+                                          customMode: CustomMode.bedtime,
+                                        )));
+                            setState(() {
+                              this.timeOfDay = timeOfDay;
+                            });
                           },
-                          child: Text(
-                            timeOfDay != null
-                                ? '${timeOfDay?.hour.toString()}:${timeOfDay?.minute.toString()}'
-                                : '21:30',
-                            style: TextStyleConstant.textTextStyle
-                                .copyWith(fontSize: 13, color: k8f8b9a),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Reminder Time',
+                                    style: TextStyleConstant.songTitleTextStyle,
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_drop_down_outlined,
+                                    color: kFirstPrimaryColor,
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                timeOfDay != null
+                                    ? '${timeOfDay?.hour.toString()}:${timeOfDay?.minute.toString()}'
+                                    : '21:30',
+                                style: TextStyleConstant.textTextStyle
+                                    .copyWith(fontSize: 13, color: k8f8b9a),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(
@@ -268,9 +266,10 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
       final daysChecked = listOfDays.where((element) => element.onCheck);
       await notificationService.cancelScheduledNotifications();
       for (var element in daysChecked) {
-        await notificationService.createReminderNotification(NotificationWeekAndTime(
-            dayOfTheWeek: element.weekDay,
-            timeOfDay: timeOfDay ?? const TimeOfDay(hour: 21, minute: 30)));
+        await notificationService.createReminderNotification(
+            NotificationWeekAndTime(
+                dayOfTheWeek: element.weekDay,
+                timeOfDay: timeOfDay ?? const TimeOfDay(hour: 21, minute: 30)));
       }
     }
   }

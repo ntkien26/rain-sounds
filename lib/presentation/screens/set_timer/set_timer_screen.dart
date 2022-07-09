@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
-import 'package:rain_sounds/data/local/service/sound_service.dart';
+import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/set_timer/set_custom_timer.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 class SetTimerScreen extends StatelessWidget {
@@ -64,7 +65,10 @@ class SetTimerScreen extends StatelessWidget {
               ),
               TimeButton(
                 text: 'Custom',
-                onTap: () {},
+                onTap: () {
+                  getIt<NavigationService>()
+                      .navigateToScreen(screen: const SetCustomTimer());
+                },
               ),
               TimeButton(
                 text: 'Off',

@@ -13,7 +13,7 @@ Duration parseTime(String input) {
   {
     final p = parts[2].split('.');
 
-    if (p.length != 2) throw FormatException('Invalid time format');
+    if (p.length != 2) throw const FormatException('Invalid time format');
 
     final p2 = int.parse(p[1]);
     microseconds = p2 % 1000;

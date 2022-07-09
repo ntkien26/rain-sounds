@@ -4,11 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
-import 'package:rain_sounds/domain/manager/playback_timer.dart';
+import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
-import 'package:rain_sounds/presentation/utils/duration_util.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -28,7 +27,6 @@ class NowPlayingScreen extends StatefulWidget {
 
 class _NowPlayingScreenState extends State<NowPlayingScreen> {
   final NowPlayingBloc _bloc = getIt.get();
-  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
 
   final AdHelper adHelper = getIt.get();
 
@@ -114,7 +112,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                     double.infinity, double.infinity),
                                 waveAmplitude: 0,
                               ),
-                              buildTimer()
+                              CountDownTimer(fontSize: 54,)
                             ],
                           ),
                         ),
@@ -151,18 +149,5 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 );
               }),
         ));
-  }
-
-  Widget buildTimer() {
-    return AnimatedBuilder(
-        animation: _playbackTimer,
-        builder: (context, child) {
-          return Center(
-            child: Text(
-              formatHHMMSS(_playbackTimer.remainingTime),
-              style: const TextStyle(fontSize: 54, color: Colors.white),
-            ),
-          );
-        });
   }
 }

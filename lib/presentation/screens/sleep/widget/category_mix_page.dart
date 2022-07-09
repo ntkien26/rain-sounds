@@ -5,7 +5,7 @@ import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/data/local/service/sound_service.dart';
+import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase_screen.dart';

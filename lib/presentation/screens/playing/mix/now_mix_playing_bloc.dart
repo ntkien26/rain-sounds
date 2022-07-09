@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rain_sounds/data/local/service/sound_service.dart';
+import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_state.dart';
 
 import 'now_mix_playing_event.dart';

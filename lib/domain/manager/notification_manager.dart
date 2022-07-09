@@ -59,12 +59,6 @@ class NotificationService {
         category: NotificationCategory.Alarm,
         notificationLayout: NotificationLayout.Default,
       ),
-      actionButtons: [
-        NotificationActionButton(
-          key: 'MARK_DONE',
-          label: 'Mark Done',
-        ),
-      ],
       schedule: NotificationCalendar(
         weekday: notificationSchedule.dayOfTheWeek,
         hour: notificationSchedule.timeOfDay.hour,

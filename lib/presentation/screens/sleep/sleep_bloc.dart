@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:rain_sounds/data/local/hive_model/custom_mix_model.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/data/local/service/sound_service.dart';
 import 'package:rain_sounds/domain/mapper/mix_mapper.dart';
+import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
 

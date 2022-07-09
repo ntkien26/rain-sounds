@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:focus_detector/focus_detector.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
+import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/custom_selected_sound/selected_sounds_screen.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
@@ -18,7 +18,6 @@ import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
-import 'package:rain_sounds/presentation/utils/duration_util.dart';
 
 class SoundsScreen extends StatefulWidget {
   const SoundsScreen({Key? key}) : super(key: key);
@@ -30,7 +29,7 @@ class SoundsScreen extends StatefulWidget {
 class _SoundsScreenState extends State<SoundsScreen> {
   int _selectedIndex = 0;
   final SoundsBloc _soundsBloc = getIt<SoundsBloc>();
-  final PlaybackTimer _timerController = getIt<PlaybackTimer>();
+  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
 
   @override
   void dispose() {
@@ -57,8 +56,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
               }
 
               print(
-                  'State changed: ${state.status}} - isPlaying ${state
-                      .isPlaying}');
+                  'State changed: ${state.status}} - isPlaying ${state.isPlaying}');
               int totalPage = (state.sounds!.length / 9).round();
               if ((state.sounds!.length / 9).round() <
                   state.sounds!.length / 9) {
@@ -73,9 +71,9 @@ class _SoundsScreenState extends State<SoundsScreen> {
                       List.empty();
                   lists.add(page);
                 } else {
-                  var page = state.sounds
-                      ?.sublist(startIndex, state.sounds!.length) ??
-                      List.empty();
+                  var page =
+                      state.sounds?.sublist(startIndex, state.sounds!.length) ??
+                          List.empty();
                   lists.add(page);
                 }
               }
@@ -166,12 +164,12 @@ class _SoundsScreenState extends State<SoundsScreen> {
   }
 
   void navigateSelectedSoundsScreen() {
-    Route route = MaterialPageRoute(builder: (context) =>
-        SelectedSoundsScreen(
-          soundsBloc: _soundsBloc,
-        ), settings: const RouteSettings(name: SelectedSoundsScreen.routeName)
-    );
-        Navigator.push(context, route).then(onGoBack);
+    Route route = MaterialPageRoute(
+        builder: (context) => SelectedSoundsScreen(
+              soundsBloc: _soundsBloc,
+            ),
+        settings: const RouteSettings(name: SelectedSoundsScreen.routeName));
+    Navigator.push(context, route).then(onGoBack);
   }
 
   Widget buildSelectedButton(int totalSelected) {
@@ -222,34 +220,26 @@ class _SoundsScreenState extends State<SoundsScreen> {
 
   Widget buildSetTimeButton() {
     return InkWell(
-      onTap: () {
-        getIt<NavigationService>().navigateToScreen(screen: SetTimerScreen());
-      },
-      child: AnimatedBuilder(
-          animation: _timerController,
-          builder: (context, child) {
-            return Column(
-              children: [
-                SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: SvgPicture.asset(
-                      IconPaths.icSetTime,
-                      color: Colors.white,
-                    )),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  formatHHMMSS(_timerController.remainingTime),
-                  style: const TextStyle(color: Colors.white),
-                )
-              ],
-            );
-          }),
-    );
+        onTap: () async {
+          await getIt<NavigationService>().navigateToScreen(screen: SetTimerScreen());
+          setState(() {});
+        },
+        child: Column(
+          children: [
+            SizedBox(
+                height: 24,
+                width: 24,
+                child: SvgPicture.asset(
+                  IconPaths.icSetTime,
+                  color: Colors.white,
+                )),
+            const SizedBox(
+              height: 4,
+            ),
+            CountDownTimer()
+          ],
+        ));
   }
-
 }
 
 class PlayingButton extends StatelessWidget {
