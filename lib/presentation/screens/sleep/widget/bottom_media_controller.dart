@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
+import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_screen.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
@@ -13,12 +16,11 @@ import 'package:rain_sounds/presentation/utils/duration_util.dart';
 class BottomMediaController extends StatefulWidget {
   const BottomMediaController({
     Key? key,
-    required this.bloc,
-    required this.onBottomControllerClicked,
+    required this.bloc, required this.mix,
   }) : super(key: key);
 
   final SleepBloc bloc;
-  final VoidCallback onBottomControllerClicked;
+  final Mix mix;
 
   @override
   State<BottomMediaController> createState() => _BottomMediaControllerState();
@@ -34,7 +36,11 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
       builder: (buildContext, state) {
         return InkWell(
           onTap: () {
-            widget.onBottomControllerClicked();
+            getIt<NavigationService>().navigateToScreen(
+                screen: NowMixPlayingScreen(
+                  mix: widget.mix,
+                  autoStart: false,
+                ));
           },
           child: Container(
             color: kBottomBarColor,
@@ -57,7 +63,7 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(state.selectedMix?.name ?? '',
+                    Text(widget.mix.name ?? '',
                         style: const TextStyle(color: Colors.white)),
                     const SizedBox(
                       height: 4,

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
@@ -20,12 +19,18 @@ class SoundService {
   // in-memory categories
   List<Mix> mixes = <Mix>[];
   List<Sound> sounds = <Sound>[];
+  int totalActiveSound = 0;
+
+  final LocalSoundPlayer localSoundManager;
+  final PlaybackTimer playbackTimer;
+
   final BehaviorSubject<bool> _isPlaying = BehaviorSubject<bool>.seeded(false);
 
   ValueStream<bool> get isPlaying => _isPlaying.stream;
-  int totalActiveSound = 0;
-  final LocalSoundPlayer localSoundManager;
-  final PlaybackTimer playbackTimer;
+
+  final BehaviorSubject<Mix?> _playingMix = BehaviorSubject<Mix?>.seeded(null);
+
+  ValueStream<Mix?> get playingMix => _playingMix.stream;
 
   SoundService({required this.localSoundManager, required this.playbackTimer}) {
     _isPlaying.listen((isPlaying) {
@@ -102,6 +107,16 @@ class SoundService {
     return list;
   }
 
+  Future<void> playMix(Mix mix) async {
+    await playSounds(mix.sounds ?? List.empty());
+    _playingMix.add(mix);
+  }
+
+  Future<void> stopMix() async {
+    await stopAllPlayingSounds();
+    _playingMix.add(null);
+  }
+
   Future<List<Sound>> playAllSelectedSounds() async {
     List<Sound> selected = await getSelectedSounds();
 
@@ -115,13 +130,13 @@ class SoundService {
       playbackTimer.start();
     }
 
-    AssetsAudioPlayer.allPlayers().values.forEach((element) {
-      element.isPlaying.listen((isPlaying) {
-        _isPlaying.add(AssetsAudioPlayer.allPlayers()
-            .values
-            .every((element) => element.isPlaying.value));
-      });
-    });
+    // AssetsAudioPlayer.allPlayers().values.forEach((element) {
+    //   element.isPlaying.listen((isPlaying) {
+    //     _isPlaying.add(AssetsAudioPlayer.allPlayers()
+    //         .values
+    //         .every((element) => element.isPlaying.value));
+    //   });
+    // });
 
     return selected;
   }
@@ -177,12 +192,16 @@ class SoundService {
         if (_isPlaying.value) {
           final currentSelected = await getSelectedSounds();
           _isPlaying.add(currentSelected.isNotEmpty);
-          if (currentSelected.isEmpty) {
+          if (totalActiveSound == 0) {
             playbackTimer.pause();
             playbackTimer.reset();
+            _playingMix.add(null);
           }
         } else {
           totalActiveSound -= 1;
+          if (totalActiveSound == 0) {
+            _playingMix.add(null);
+          }
         }
       }
 

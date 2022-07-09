@@ -29,7 +29,7 @@ class SleepBloc extends Bloc<SleepEvent, SleepState> {
         soundService.playAllSelectedSounds();
       }
     } else if (event is StopEvent) {
-      soundService.stopAllPlayingSounds();
+      soundService.stopMix();
       emit(state.copyWith(showBottomMedia: false));
     } else if (event is SelectMixEvent) {
       emit(state.copyWith(selectedMix: event.mix, showBottomMedia: true));

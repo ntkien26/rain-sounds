@@ -81,8 +81,8 @@ class _SleepScreenState extends State<SleepScreen>
                       case SleepStatus.success:
                         List<List<Mix>> listMixes = List.empty(growable: true);
                         List<Mix> customMixes = state.mixes
-                                ?.where((element) => element.category == 1)
-                                .toList() ??
+                            ?.where((element) => element.category == 1)
+                            .toList() ??
                             List.empty();
 
                         for (var element in state.categories ?? []) {
@@ -109,10 +109,10 @@ class _SleepScreenState extends State<SleepScreen>
                                     height: 28,
                                     child: ScrollablePositionedList.builder(
                                         itemScrollController:
-                                            itemScrollController,
+                                        itemScrollController,
                                         scrollDirection: Axis.horizontal,
                                         itemCount:
-                                            state.categories?.length ?? 0,
+                                        state.categories?.length ?? 0,
                                         itemBuilder: (BuildContext context,
                                             int index) {
                                           return buildTabItem(
@@ -144,29 +144,30 @@ class _SleepScreenState extends State<SleepScreen>
                                   ),
                                 ],
                               ),
-                              state.showBottomMedia == true
-                                  ? Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: BottomMediaController(
-                                        bloc: _bloc,
-                                        onBottomControllerClicked: () {
-                                          getIt<NavigationService>()
-                                              .navigateToScreen(
-                                                  screen: NowMixPlayingScreen(
-                                            mix: state.selectedMix!,
-                                            autoStart: false,
-                                          ));
-                                        },
-                                      ),
-                                    )
-                                  : const SizedBox()
+                              StreamBuilder(
+                                  stream: _bloc.soundService.playingMix,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      print('Show bottom: ${(snapshot.data as Mix).name}');
+                                      return Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: BottomMediaController(
+                                          bloc: _bloc,
+                                          mix: snapshot.data as Mix,
+                                        ),
+                                      );
+                                    } else {
+                                      print('Show bottom: empty');
+                                      return const SizedBox();
+                                    }
+                                  }
+                              )
                             ],
                           ),
                         );
                       case SleepStatus.error:
                         return Container();
                     }
-                    return Container();
                   },
                 )
               ],

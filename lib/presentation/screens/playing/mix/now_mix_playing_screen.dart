@@ -199,10 +199,16 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                   const SizedBox(
                     height: 24,
                   ),
-                  PlayingButton(
-                    isPlaying: state.isPlaying ?? false,
-                    onTap: () {
-                      _bloc.add(ToggleMixEvent());
+                  StreamBuilder(
+                    stream: _bloc.soundService.isPlaying,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<bool> asyncSnapshot) {
+                      final bool? isPlaying = asyncSnapshot.data;
+                      return PlayingButton(
+                          isPlaying: isPlaying == true,
+                          onTap: () {
+                            _bloc.add(ToggleMixEvent());
+                          });
                     },
                   )
                 ],

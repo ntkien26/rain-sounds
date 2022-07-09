@@ -264,14 +264,14 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
     if (!appCache.isEnableReminder()) {
       await notificationService.cancelScheduledNotifications();
       return;
-    }
-
-    final daysChecked = listOfDays.where((element) => element.onCheck);
-    await notificationService.cancelScheduledNotifications();
-    for (var element in daysChecked) {
-      notificationService.createReminderNotification(NotificationWeekAndTime(
-          dayOfTheWeek: element.weekDay,
-          timeOfDay: timeOfDay ?? const TimeOfDay(hour: 21, minute: 30)));
+    } else {
+      final daysChecked = listOfDays.where((element) => element.onCheck);
+      await notificationService.cancelScheduledNotifications();
+      for (var element in daysChecked) {
+        await notificationService.createReminderNotification(NotificationWeekAndTime(
+            dayOfTheWeek: element.weekDay,
+            timeOfDay: timeOfDay ?? const TimeOfDay(hour: 21, minute: 30)));
+      }
     }
   }
 }
