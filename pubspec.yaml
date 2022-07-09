@@ -66,6 +66,7 @@ dependencies:
   rxdart: ^0.27.4
   wave: ^0.2.2
   flutter_time_picker_spinner: ^2.0.0
+  google_fonts: ^3.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,11 +81,5 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/sounds/
-
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/roboto_regular_file.ttf
-        - asset: assets/fonts/roboto_medium_file.ttf
 
 
