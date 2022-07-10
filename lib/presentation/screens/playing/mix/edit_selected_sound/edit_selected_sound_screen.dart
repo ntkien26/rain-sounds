@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_bloc.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_state.dart';
@@ -13,7 +14,9 @@ import 'package:rain_sounds/presentation/utils/constants.dart';
 import 'edit_selected_sound_event.dart';
 
 class EditSelectedSoundScreen extends StatefulWidget {
-  const EditSelectedSoundScreen({Key? key}) : super(key: key);
+  const EditSelectedSoundScreen({Key? key, required this.mix}) : super(key: key);
+
+  final Mix mix;
 
   @override
   State<EditSelectedSoundScreen> createState() =>
@@ -75,10 +78,10 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 12,
+                        height: 8,
                       ),
                       SizedBox(
-                        height: 180,
+                        height: 170,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: state.selectedSounds?.length ?? 0,
@@ -89,7 +92,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                             }),
                       ),
                       Flexible(
-                        flex: 7,
+                        flex: 5,
                         child: PageView.builder(
                             itemCount: totalPage,
                             onPageChanged: (page) {
@@ -105,15 +108,53 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                             }),
                       ),
                       Flexible(
-                        flex: 2,
-                        child: Center(
-                          child: DotsIndicator(
-                            dotsCount: totalPage,
-                            position: _selectedIndex.toDouble(),
-                            decorator: const DotsDecorator(
-                              color: Colors.white30, // Inactive color
-                              activeColor: Colors.white,
-                            ),
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    IconPaths.icClose,
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                  const SizedBox(height: 8,),
+                                  const Text('Cancel', style: TextStyle(color: Colors.white38),)
+                                ],
+                              ),
+                              DotsIndicator(
+                                dotsCount: totalPage,
+                                position: _selectedIndex.toDouble(),
+                                decorator: const DotsDecorator(
+                                  color: Colors.white30, // Inactive color
+                                  activeColor: Colors.white,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  _bloc.add(ResetEvent(mixSoundsId: widget.mix.mixSoundId));
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      IconPaths.icReset,
+                                      width: 20,
+                                      height: 20,
+                                    ),
+                                    const SizedBox(height: 8,),
+                                    const Text('Reset', style: TextStyle(color: Colors.white38),)
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

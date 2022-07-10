@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_state.dart';
 
@@ -18,7 +19,8 @@ class NowMixPlayingBloc extends Bloc<NowMixPlayingEvent, NowMixPlayingState> {
       NowMixPlayingEvent event, Emitter<NowMixPlayingState> emit) async {
     if (event is PlayMixEvent) {
       if (event.autoStart) {
-        await soundService.playMix(event.mix);
+        Mix mix = await soundService.getMix(event.mix.mixSoundId);
+        await soundService.playMix(mix);
       }
       final selectedSound = await soundService.getSelectedSounds();
       event.mix.sounds?.clear();

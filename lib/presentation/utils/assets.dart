@@ -52,4 +52,6 @@ class IconPaths {
   static const String icChecked = '${Assets.baseIconPath}/ic_checked.svg';
   static const String icCheckedGreen = '${Assets.baseIconPath}/ic_checked_green.svg';
   static const String icSelectBlue = '${Assets.baseIconPath}/ic_select_blue.svg';
+  static const String icReset = '${Assets.baseIconPath}/ic_retry.svg';
+  static const String icCloseCircle = '${Assets.baseIconPath}/ic_circle_bg_close.svg';
 }

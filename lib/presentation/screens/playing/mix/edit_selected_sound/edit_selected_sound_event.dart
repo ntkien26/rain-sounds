@@ -20,3 +20,13 @@ class RefreshEvent extends EditSelectedSoundEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ResetEvent extends EditSelectedSoundEvent {
+
+  final int mixSoundsId;
+
+  const ResetEvent({required this.mixSoundsId});
+
+  @override
+  List<Object?> get props => [];
+}

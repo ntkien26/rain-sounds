@@ -77,11 +77,8 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
               builder: (BuildContext context, NowPlayingState state) {
                 return SafeArea(
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
-                    const SizedBox(
-                      height: 24,
-                    ),
                     Text(
-                      widget.musicModel.title ?? '',
+                      widget.musicModel.group ?? '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 36, color: Colors.white),
                     ),
@@ -144,7 +141,13 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                           );
                         }
                       },
-                    )
+                    ),
+                    const SizedBox(height: 24,),
+                    Text(
+                      widget.musicModel.title ?? '',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                    ),
                   ]),
                 );
               }),

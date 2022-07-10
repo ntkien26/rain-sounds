@@ -25,6 +25,17 @@ class EditSelectedSoundBloc
     ));
   }
 
+  Future<void> reset(int mixSoundId) async {
+    final mix = await soundService.getMix(mixSoundId);
+    await soundService.playMix(mix);
+    final selected = await soundService.getSelectedSounds();
+    emit(state.copyWith(
+      status: EditSelectedSoundStatus.success,
+      selectedSounds: selected,
+      sounds: soundService.sounds,
+    ));
+  }
+
   Future<void> _onEditSelectedSoundEvent(EditSelectedSoundEvent event,
       Emitter<EditSelectedSoundState> emit) async {
     if (event is UpdateSound) {
@@ -36,6 +47,8 @@ class EditSelectedSoundBloc
       ));
     } else if (event is RefreshEvent) {
       _fetchSound();
+    } else if (event is ResetEvent) {
+      reset(event.mixSoundsId);
     }
   }
 }

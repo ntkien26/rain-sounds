@@ -25,9 +25,11 @@ class SoundService {
   final PlaybackTimer playbackTimer;
 
   final BehaviorSubject<bool> _isPlaying = BehaviorSubject<bool>.seeded(false);
+
   ValueStream<bool> get isPlaying => _isPlaying.stream;
 
   final BehaviorSubject<Mix?> _playingMix = BehaviorSubject<Mix?>.seeded(null);
+
   ValueStream<Mix?> get playingMix => _playingMix.stream;
 
   SoundService({required this.localSoundManager, required this.playbackTimer}) {
@@ -87,6 +89,11 @@ class SoundService {
     return sounds
         .where((sound) => sound.id.toString().substring(0, 1) == categoryId)
         .toList();
+  }
+
+  Future<Mix> getMix(int mixSoundId) async {
+    String jsonString = await _loadMixesAsset();
+    return mixesFromJson(jsonString).firstWhere((mix) => mix.mixSoundId == mixSoundId);
   }
 
   List<Sound> loadSoundsFromIds(List<int> ids) {

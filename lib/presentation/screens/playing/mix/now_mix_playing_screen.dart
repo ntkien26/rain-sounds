@@ -32,8 +32,6 @@ class NowMixPlayingScreen extends StatefulWidget {
 
 class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
   final NowMixPlayingBloc _bloc = getIt.get();
-  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
-
   final AdHelper adHelper = getIt.get();
 
   static const _backgroundColor = Colors.black;
@@ -81,9 +79,6 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      const SizedBox(
-                        height: 24,
-                      ),
                       Text(
                         widget.mix.name ?? '',
                         textAlign: TextAlign.center,
@@ -129,9 +124,10 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                       SizedBox(
                         height: 80,
                         child: InkWell(
-                          onTap: () {
-                            getIt.get<NavigationService>().navigateToScreen(
-                                screen: const EditSelectedSoundScreen());
+                          onTap: () async {
+                            await getIt.get<NavigationService>().navigateToScreen(
+                                screen: EditSelectedSoundScreen(mix: state.mix!,));
+                            setState(() {});
                           },
                           child: ListView.builder(
                             shrinkWrap: true,
