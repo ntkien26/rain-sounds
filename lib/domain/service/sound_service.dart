@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/domain/manager/local_sound_player.dart';
@@ -93,7 +95,8 @@ class SoundService {
 
   Future<Mix> getMix(int mixSoundId) async {
     String jsonString = await _loadMixesAsset();
-    return mixesFromJson(jsonString).firstWhere((mix) => mix.mixSoundId == mixSoundId);
+    return mixesFromJson(jsonString)
+        .firstWhere((mix) => mix.mixSoundId == mixSoundId);
   }
 
   List<Sound> loadSoundsFromIds(List<int> ids) {
@@ -143,13 +146,13 @@ class SoundService {
       playbackTimer.start();
     }
 
-    // AssetsAudioPlayer.allPlayers().values.forEach((element) {
-    //   element.isPlaying.listen((isPlaying) {
-    //     _isPlaying.add(AssetsAudioPlayer.allPlayers()
-    //         .values
-    //         .every((element) => element.isPlaying.value));
-    //   });
-    // });
+    AssetsAudioPlayer.allPlayers().values.forEach((element) {
+      element.isPlaying.listen((isPlaying) {
+        _isPlaying.add(AssetsAudioPlayer.allPlayers()
+            .values
+            .any((element) => element.isPlaying.value));
+      });
+    });
 
     return selected;
   }
@@ -193,6 +196,11 @@ class SoundService {
 
   Future<bool> updateSound(int soundId, bool active, double volume) async {
     if (sounds.isEmpty) return false;
+    if (totalActiveSound > 4) {
+      Fluttertoast.showToast(msg: 'You can select at most 5 sounds');
+      return false;
+    }
+
     int soundIndex = sounds.indexWhere((sound) => sound.id == soundId);
     if (soundIndex > -1) {
       Sound sound = sounds[soundIndex].copyWith(active: active, volume: volume);

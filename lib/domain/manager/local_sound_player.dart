@@ -5,6 +5,8 @@ import 'package:rain_sounds/presentation/utils/assets.dart';
 class LocalSoundPlayer {
   LocalSoundPlayer();
 
+  // final AssetsAudioPlayer playerNotification = AssetsAudioPlayer.withId("1111");
+
   play(Sound sound) async {
     print('Play: ${sound.fileName}');
     AssetsAudioPlayer audioPlayer =
@@ -37,4 +39,33 @@ class LocalSoundPlayer {
     audioPlayer.stop();
     audioPlayer.dispose();
   }
+
+  // playToFakeNotification() async {
+  //   if (playerNotification.current.hasValue) {
+  //     playerNotification.play();
+  //   } else {
+  //     await playerNotification.open(
+  //         Audio('${Assets.baseSoundsPath}${"mua"}.aac',
+  //             metas: Metas(title: "Sleep sounds")),
+  //         showNotification: true,
+  //         loopMode: LoopMode.single,
+  //         volume: 0,
+  //         notificationSettings: const NotificationSettings(
+  //           seekBarEnabled: false,
+  //           nextEnabled: false,
+  //           prevEnabled: false,
+  //         ));
+  //   }
+  // }
+  //
+  // pauseNotification() async {
+  //   playerNotification.pause();
+  // }
+  //
+  // stopNotification() async {
+  //   await playerNotification.stop();
+  //   await playerNotification.dispose();
+  //   await playerNotification.updateCurrentAudioNotification(
+  //       showNotifications: false);
+  // }
 }
