@@ -90,6 +90,7 @@ class CategoryMixPage extends StatelessWidget {
       );
     }
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 100),
       child: StaggeredGrid.count(
         crossAxisCount: 4,
         mainAxisSpacing: 8,
