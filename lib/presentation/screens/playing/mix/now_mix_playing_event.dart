@@ -11,3 +11,10 @@ class PlayMixEvent extends NowMixPlayingEvent {
 }
 
 class ToggleMixEvent extends NowMixPlayingEvent {}
+
+class RefreshEvent extends NowMixPlayingEvent {
+
+  final Mix mix;
+
+  RefreshEvent({required this.mix});
+}

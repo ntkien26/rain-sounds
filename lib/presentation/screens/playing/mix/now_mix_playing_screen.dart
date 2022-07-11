@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_screen.dart';
@@ -14,7 +13,6 @@ import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_sta
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
-import 'package:rain_sounds/presentation/utils/duration_util.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -127,7 +125,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                           onTap: () async {
                             await getIt.get<NavigationService>().navigateToScreen(
                                 screen: EditSelectedSoundScreen(mix: state.mix!,));
-                            setState(() {});
+                            _bloc.add(RefreshEvent(mix: state.mix!));
                           },
                           child: ListView.builder(
                             shrinkWrap: true,
