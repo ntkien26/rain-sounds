@@ -37,35 +37,5 @@ class LocalSoundPlayer {
     AssetsAudioPlayer audioPlayer =
         AssetsAudioPlayer.withId(sound.id.toString());
     audioPlayer.stop();
-    audioPlayer.dispose();
   }
-
-  // playToFakeNotification() async {
-  //   if (playerNotification.current.hasValue) {
-  //     playerNotification.play();
-  //   } else {
-  //     await playerNotification.open(
-  //         Audio('${Assets.baseSoundsPath}${"mua"}.aac',
-  //             metas: Metas(title: "Sleep sounds")),
-  //         showNotification: true,
-  //         loopMode: LoopMode.single,
-  //         volume: 0,
-  //         notificationSettings: const NotificationSettings(
-  //           seekBarEnabled: false,
-  //           nextEnabled: false,
-  //           prevEnabled: false,
-  //         ));
-  //   }
-  // }
-  //
-  // pauseNotification() async {
-  //   playerNotification.pause();
-  // }
-  //
-  // stopNotification() async {
-  //   await playerNotification.stop();
-  //   await playerNotification.dispose();
-  //   await playerNotification.updateCurrentAudioNotification(
-  //       showNotifications: false);
-  // }
 }

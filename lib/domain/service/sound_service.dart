@@ -196,7 +196,7 @@ class SoundService {
 
   Future<bool> updateSound(int soundId, bool active, double volume) async {
     if (sounds.isEmpty) return false;
-    if (totalActiveSound > 4) {
+    if (totalActiveSound > 4 && active) {
       Fluttertoast.showToast(msg: 'You can select at most 5 sounds');
       return false;
     }
