@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
+import 'package:rain_sounds/presentation/base/banner_ad.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
@@ -109,7 +110,9 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                     double.infinity, double.infinity),
                                 waveAmplitude: 0,
                               ),
-                              CountDownTimer(fontSize: 54,)
+                              CountDownTimer(
+                                fontSize: 54,
+                              )
                             ],
                           ),
                         ),
@@ -142,12 +145,16 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                         }
                       },
                     ),
-                    const SizedBox(height: 24,),
+                    const SizedBox(
+                      height: 24,
+                    ),
                     Text(
                       widget.musicModel.title ?? '',
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 24, color: Colors.white),
                     ),
+                    const Spacer(),
+                    const AppBannerAd()
                   ]),
                 );
               }),

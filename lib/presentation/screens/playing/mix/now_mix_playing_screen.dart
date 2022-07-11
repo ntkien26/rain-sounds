@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
+import 'package:rain_sounds/presentation/base/banner_ad.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_screen.dart';
@@ -110,7 +112,9 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                                       double.infinity, double.infinity),
                                   waveAmplitude: 0,
                                 ),
-                                CountDownTimer(fontSize: 54,)
+                                CountDownTimer(
+                                  fontSize: 54,
+                                )
                               ],
                             ),
                           ),
@@ -123,8 +127,12 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                         height: 80,
                         child: InkWell(
                           onTap: () async {
-                            await getIt.get<NavigationService>().navigateToScreen(
-                                screen: EditSelectedSoundScreen(mix: state.mix!,));
+                            await getIt
+                                .get<NavigationService>()
+                                .navigateToScreen(
+                                    screen: EditSelectedSoundScreen(
+                                  mix: state.mix!,
+                                ));
                             _bloc.add(RefreshEvent(mix: state.mix!));
                           },
                           child: ListView.builder(
@@ -212,12 +220,13 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                                 _bloc.add(ToggleMixEvent());
                               });
                         },
-                      )
+                      ),
+                      const Spacer(),
+                      const AppBannerAd()
                     ],
                   ),
                 );
               }),
         ));
   }
-
 }
