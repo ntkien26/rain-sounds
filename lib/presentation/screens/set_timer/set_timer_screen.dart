@@ -36,14 +36,14 @@ class SetTimerScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white70),
               ),
               TimeButton(
-                text: '15 mín',
+                text: '15 min',
                 onTap: () {
                   resetTimer(const Duration(minutes: 15));
                   getIt<NavigationService>().pop();
                 },
               ),
               TimeButton(
-                text: '30 mín',
+                text: '30 min',
                 onTap: () {
                   resetTimer(const Duration(minutes: 30));
                   getIt<NavigationService>().pop();

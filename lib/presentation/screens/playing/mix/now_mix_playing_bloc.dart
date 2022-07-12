@@ -19,8 +19,12 @@ class NowMixPlayingBloc extends Bloc<NowMixPlayingEvent, NowMixPlayingState> {
       NowMixPlayingEvent event, Emitter<NowMixPlayingState> emit) async {
     if (event is PlayMixEvent) {
       if (event.autoStart) {
-        Mix mix = await soundService.getMix(event.mix.mixSoundId);
-        await soundService.playMix(mix);
+        try {
+          Mix mix = await soundService.getMix(event.mix.mixSoundId);
+          await soundService.playMix(mix);
+        } catch (e) {
+          await soundService.playMix(event.mix);
+        }
       }
       final selectedSound = await soundService.getSelectedSounds();
       event.mix.sounds?.clear();
@@ -36,7 +40,8 @@ class NowMixPlayingBloc extends Bloc<NowMixPlayingEvent, NowMixPlayingState> {
       final selectedSound = await soundService.getSelectedSounds();
       event.mix.sounds?.clear();
       event.mix.sounds?.insertAll(0, selectedSound);
-      emit(state.copyWith(isPlaying: soundService.isPlaying.value, mix: event.mix));
+      emit(state.copyWith(
+          isPlaying: soundService.isPlaying.value, mix: event.mix));
     }
   }
 }

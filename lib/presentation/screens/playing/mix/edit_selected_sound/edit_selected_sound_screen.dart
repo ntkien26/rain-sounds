@@ -14,7 +14,8 @@ import 'package:rain_sounds/presentation/utils/constants.dart';
 import 'edit_selected_sound_event.dart';
 
 class EditSelectedSoundScreen extends StatefulWidget {
-  const EditSelectedSoundScreen({Key? key, required this.mix}) : super(key: key);
+  const EditSelectedSoundScreen({Key? key, required this.mix})
+      : super(key: key);
 
   final Mix mix;
 
@@ -125,8 +126,13 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                                     width: 20,
                                     height: 20,
                                   ),
-                                  const SizedBox(height: 8,),
-                                  const Text('Cancel', style: TextStyle(color: Colors.white38),)
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  const Text(
+                                    'Cancel',
+                                    style: TextStyle(color: Colors.white38),
+                                  )
                                 ],
                               ),
                               DotsIndicator(
@@ -139,7 +145,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  _bloc.add(ResetEvent(mixSoundsId: widget.mix.mixSoundId));
+                                  _bloc.add(ResetEvent(mix: widget.mix));
                                 },
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -149,8 +155,13 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                                       width: 20,
                                       height: 20,
                                     ),
-                                    const SizedBox(height: 8,),
-                                    const Text('Reset', style: TextStyle(color: Colors.white38),)
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    const Text(
+                                      'Reset',
+                                      style: TextStyle(color: Colors.white38),
+                                    )
                                   ],
                                 ),
                               ),

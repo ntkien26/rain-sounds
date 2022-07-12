@@ -14,6 +14,14 @@ class OnlineMusicPlayer {
         playbackTimer.pause();
       }
     });
+
+    playbackTimer.remainingTime.listen((remaining) {
+      if (remaining == 0) {
+        audioPlayer.pause();
+        playbackTimer.off();
+        playbackTimer.reset();
+      }
+    });
   }
 
   Future<void> play(MusicModel musicModel) async {

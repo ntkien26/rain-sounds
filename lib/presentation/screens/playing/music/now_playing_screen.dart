@@ -87,9 +87,10 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       height: 24,
                     ),
                     InkWell(
-                      onTap: () {
-                        getIt<NavigationService>()
+                      onTap: () async {
+                        await getIt<NavigationService>()
                             .navigateToScreen(screen: SetTimerScreen());
+                        setState(() {});
                       },
                       child: SizedBox(
                         width: 250,

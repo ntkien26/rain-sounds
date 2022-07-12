@@ -26,6 +26,6 @@ class BlocDI {
         () => NowMixPlayingBloc(injector()));
     injector.registerFactory<NowPlayingBloc>(() => NowPlayingBloc(injector()));
     injector.registerFactory<EditSelectedSoundBloc>(() => EditSelectedSoundBloc(
-        soundService: injector(), timerController: injector()));
+        soundService: injector(), timerController: injector(), mixMapper: injector(), box: injector()));
   }
 }

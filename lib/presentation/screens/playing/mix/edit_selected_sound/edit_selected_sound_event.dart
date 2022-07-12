@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:rain_sounds/data/local/model/mix.dart';
 
 abstract class EditSelectedSoundEvent extends Equatable {
   const EditSelectedSoundEvent();
@@ -23,9 +24,9 @@ class RefreshEvent extends EditSelectedSoundEvent {
 
 class ResetEvent extends EditSelectedSoundEvent {
 
-  final int mixSoundsId;
+  final Mix mix;
 
-  const ResetEvent({required this.mixSoundsId});
+  const ResetEvent({required this.mix});
 
   @override
   List<Object?> get props => [];
