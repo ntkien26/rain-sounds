@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
@@ -8,6 +9,7 @@ import 'package:rain_sounds/presentation/screens/splash/splash_bloc.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_event.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -26,6 +28,7 @@ class SplashScreenState extends State<SplashScreen>
   late Animation<double> _animation;
 
   final AdHelper adHelper = getIt.get();
+  final AppCache appCache = getIt.get();
 
   @override
   void initState() {
@@ -76,6 +79,7 @@ class SplashScreenState extends State<SplashScreen>
         }
       },
       child: Scaffold(
+        backgroundColor: bgColor,
         body: Container(
           width: double.infinity,
           height: double.infinity,

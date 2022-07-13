@@ -5,8 +5,6 @@ import 'package:focus_detector/focus_detector.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/presentation/base/navigation_service.dart';
-import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_screen.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';

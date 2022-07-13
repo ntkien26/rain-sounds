@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rain_sounds/common/configs/app_config.dart';
 import 'package:rain_sounds/common/configs/app_route.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/domain/iap/iap_service.dart';
 import 'package:rain_sounds/presentation/app/app_bloc.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_screen.dart';
@@ -21,9 +22,14 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -39,5 +45,11 @@ class MyApp extends StatelessWidget {
         // home: const MainScreen(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    getIt.get<IAPService>().dispose();
+    super.dispose();
   }
 }

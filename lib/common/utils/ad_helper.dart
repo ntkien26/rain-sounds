@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
+import 'package:rain_sounds/common/injector/app_injector.dart';
 
 class AdHelper {
   static String get bannerAdUnitId {
@@ -52,8 +54,15 @@ class AdHelper {
 
   int countToDisplayAds = 0;
 
+  final AppCache appCache = getIt.get();
+
   void showInterstitialAd(
       {required VoidCallback onAdDismissedFullScreenContent}) {
+    if (appCache.isPremiumMember()) {
+      onAdDismissedFullScreenContent();
+      return;
+    }
+
     if (!shouldShowInterstitialAds()) {
       countAds();
       onAdDismissedFullScreenContent();

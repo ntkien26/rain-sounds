@@ -69,7 +69,7 @@ class PremiumWidget extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(36)),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: null,
                           style: ElevatedButton.styleFrom(
                               primary: Colors.transparent,
                               shadowColor: Colors.transparent),

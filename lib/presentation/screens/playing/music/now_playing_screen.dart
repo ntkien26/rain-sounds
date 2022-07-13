@@ -132,7 +132,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                         } else {
                           return StreamBuilder(
                             stream:
-                                _bloc.onlineMusicPlayer.audioPlayer.isPlaying,
+                            _bloc.onlineMusicPlayer.audioPlayer.isPlaying,
                             builder: (BuildContext context,
                                 AsyncSnapshot<bool> asyncSnapshot) {
                               final bool? isPlaying = asyncSnapshot.data;

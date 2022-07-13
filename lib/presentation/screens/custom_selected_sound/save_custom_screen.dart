@@ -32,6 +32,7 @@ class _SaveCustomScreenState extends State<SaveCustomScreen> {
     final w = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
@@ -22,6 +23,7 @@ class GridMusicWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final AppCache appCache = getIt.get();
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -39,7 +41,7 @@ class GridMusicWidget extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  if (musicItem?.premium == true) {
+                  if (musicItem?.premium == true && !appCache.isPremiumMember()) {
                     getIt<NavigationService>()
                         .navigateToScreen(screen: const InAppPurchaseScreen());
                   } else {
@@ -77,7 +79,7 @@ class GridMusicWidget extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(6)),
                             )
                           : const SizedBox(),
-                      musicItem?.premium == true
+                      musicItem?.premium == true && !appCache.isPremiumMember()
                           ? SvgPicture.asset(
                               IconPaths.icPremium,
                               height: 24,

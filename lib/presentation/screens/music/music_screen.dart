@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/screens/music/music_bloc.dart';
 import 'package:rain_sounds/presentation/screens/music/music_state.dart';
@@ -15,8 +16,36 @@ class MusicScreen extends StatefulWidget {
   State<MusicScreen> createState() => _MusicScreenState();
 }
 
-class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClientMixin {
+class _MusicScreenState extends State<MusicScreen>
+    with AutomaticKeepAliveClientMixin {
   final MusicBloc _bloc = getIt<MusicBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    FlutterInappPurchase.purchaseUpdated.listen(_handlePurchaseUpdate);
+  }
+
+  /// Called when new updates arrives at ``purchaseUpdated`` stream
+  void _handlePurchaseUpdate(PurchasedItem? productItem) async {
+    if (productItem != null) {
+      switch (productItem.transactionStateIOS) {
+        case TransactionState.deferred:
+          break;
+        case TransactionState.failed:
+          break;
+        case TransactionState.purchased:
+          setState(() {});
+          break;
+        case TransactionState.purchasing:
+          break;
+        case TransactionState.restored:
+          break;
+        default:
+          break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +85,8 @@ class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClient
                                     i++)
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text('${state.groupMusicList?[i].group}',
                                           style:
@@ -66,9 +96,11 @@ class _MusicScreenState extends State<MusicScreen> with AutomaticKeepAliveClient
                                       ),
                                       Text(
                                           '${state.groupMusicList?[i].description}',
-                                          style: TextStyleConstant.textTextStyle),
+                                          style:
+                                              TextStyleConstant.textTextStyle),
                                       GridMusicWidget(
-                                        listMusic: state.groupMusicList?[i].items,
+                                        listMusic:
+                                            state.groupMusicList?[i].items,
                                       ),
                                     ],
                                   ),

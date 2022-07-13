@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rain_sounds/common/utils/in_app_purchase_helper.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/domain/iap/iap_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
@@ -15,13 +16,13 @@ class InAppPurchaseScreen extends StatefulWidget {
 }
 
 class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
-  final IAPHelper iapHelper = getIt.get();
+  final IAPService iapService = getIt.get();
 
   List<PurchaseModel> listOfPurchase = [
     PurchaseModel(
       title: 'Monthly',
       text: '3 days trial free',
-      price: '91.000 ₫',
+      price: '',
       isIcon: false,
       color1: k5f5490,
       color2: k4b3fad,
@@ -29,7 +30,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
     PurchaseModel(
       title: 'Yearly',
       text: 'Best seller',
-      price: '295.000 ₫',
+      price: '',
       isIcon: true,
       color1: k7d7b88,
       color2: k893c82,
@@ -37,13 +38,110 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
     PurchaseModel(
       title: 'Lifetime',
       text: 'Sale off 20%',
-      price: '567.000 ₫',
+      price: '',
       isIcon: false,
       color1: k795ec8,
       color2: k299ac6,
     ),
   ];
   int indexChecked = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    iapService.products.then((iapItems) => {
+      iapItems?.forEach((element) {
+        switch (element.productId) {
+          case IAPService.monthly:
+            listOfPurchase[0].price = element.localizedPrice ?? '';
+            break;
+          case IAPService.yearly:
+            listOfPurchase[1].price = element.localizedPrice ?? '';
+            break;
+          case IAPService.lifetime:
+            listOfPurchase[2].price = element.localizedPrice ?? '';
+        }
+      }),
+      setState(() {})
+    });
+    FlutterInappPurchase.purchaseUpdated.listen(_handlePurchaseUpdate);
+  }
+
+  /// Called when new updates arrives at ``purchaseUpdated`` stream
+  void _handlePurchaseUpdate(PurchasedItem? productItem) async {
+    if (productItem != null) {
+      switch (productItem.transactionStateIOS) {
+        case TransactionState.deferred:
+          break;
+        case TransactionState.failed:
+          break;
+        case TransactionState.purchased:
+          EasyLoading.dismiss();
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return AlertDialog(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                    backgroundColor: k1f172f,
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Congratulation! Purchased successfully. Now you can open all sounds and music without advertisements',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(height: 24,),
+                        InkWell(
+                          onTap: () {
+                            Navigator.popUntil(context, (route) => route.isFirst);
+                          },
+                          child: Container(
+                            height: 32,
+                            width: 148,
+                            decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                  colors: [
+                                    kGradientOrangeBtColor,
+                                    kGradientPurpleBtColor,
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(36)),
+                            child: ElevatedButton(
+                              onPressed: null,
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.transparent,
+                                  shadowColor: Colors.transparent),
+                              child: Text(
+                                'OK',
+                                style: TextStyleConstant.textTextStyle.copyWith(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ));
+              });
+          break;
+        case TransactionState.purchasing:
+          EasyLoading.show(status: 'Purchasing...');
+          break;
+        case TransactionState.restored:
+          break;
+        default:
+          break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +248,19 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
               SizedBox(
                 width: w,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    switch (indexChecked) {
+                      case 0:
+                        iapService.requestSubscription(IAPService.monthly);
+                        break;
+                      case 1:
+                        iapService.requestSubscription(IAPService.yearly);
+                        break;
+                      case 2:
+                        iapService.requestPurchase(IAPService.lifetime);
+                        break;
+                    }
+                  },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -160,24 +270,9 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: InkWell(
-                      onTap: () {
-                        switch (indexChecked) {
-                          case 0:
-                            iapHelper.buy(monthly);
-                            break;
-                          case 1:
-                            iapHelper.buy(yearly);
-                            break;
-                          case 2:
-                            iapHelper.buy(lifetime);
-                            break;
-                        }
-                      },
-                      child: Text(
-                        btText(indexChecked),
-                        style: TextStyleConstant.normalTextStyle,
-                      ),
+                    child: Text(
+                      btText(indexChecked),
+                      style: TextStyleConstant.normalTextStyle,
                     ),
                   ),
                 ),
@@ -214,14 +309,14 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
 
   Widget _priceContainer(
       {required double height,
-        required double width,
-        required String title,
-        required String text,
-        required String price,
-        required bool isIcon,
-        required Color color1,
-        required Color color2,
-        required int index}) {
+      required double width,
+      required String title,
+      required String text,
+      required String price,
+      required bool isIcon,
+      required Color color1,
+      required Color color2,
+      required int index}) {
     return Stack(
       children: [
         Container(
@@ -297,37 +392,37 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
       ],
     );
   }
-}
 
-String feeText(index) {
-  const String constString = 'Try 3 days free and then ';
-  if (index == 1) {
-    return constString + '295.000 ₫/year';
-  } else if (index == 0) {
-    return constString + '91.000 ₫/month';
-  } else {
-    return 'Enjoy a Lifetime Subscription at 567.000 ₫';
+  String feeText(index) {
+    const String constString = 'Try 3 days free and then ';
+    if (index == 1) {
+      return constString + '${listOfPurchase[1].price} ₫/year';
+    } else if (index == 0) {
+      return constString + '${listOfPurchase[0].price} ₫/month';
+    } else {
+      return 'Enjoy a Lifetime Subscription at ${listOfPurchase[2].price} ₫';
+    }
   }
-}
 
-String btText(index) {
-  const String constString = 'Subscribe for ';
-  if (index == 1) {
-    return constString + '295.000 ₫/year';
-  } else if (index == 0) {
-    return constString + '91.000 ₫/month';
-  } else {
-    return 'Buy now';
+  String btText(index) {
+    const String constString = 'Subscribe for ';
+    if (index == 1) {
+      return constString + '${listOfPurchase[1].price} ₫/year';
+    } else if (index == 0) {
+      return constString + '${listOfPurchase[0].price} ₫/month';
+    } else {
+      return 'Buy now';
+    }
   }
-}
 
-String feeTextSub(index) {
-  if (index == 1) {
-    return 'Subscription automatically renews after the end of the current period. You will be charged 295.000 ₫. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app or in Google Play.';
-  } else if (index == 0) {
-    return 'Subscription automatically renews after the end of the current period. You will be charged 91.000 ₫. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app or in Google Play.';
-  } else {
-    return '';
+  String feeTextSub(index) {
+    if (index == 1) {
+      return 'Subscription automatically renews after the end of the current period. You will be charged ${listOfPurchase[1].price} ₫. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app.';
+    } else if (index == 0) {
+      return 'Subscription automatically renews after the end of the current period. You will be charged ${listOfPurchase[0].price} ₫. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app.';
+    } else {
+      return '';
+    }
   }
 }
 
