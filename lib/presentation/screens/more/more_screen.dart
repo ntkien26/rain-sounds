@@ -9,6 +9,7 @@ import 'package:rain_sounds/presentation/screens/more/widget/more_item_widget.da
 import 'package:rain_sounds/presentation/screens/more/widget/premium_item_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -100,7 +101,7 @@ class _MoreScreenState extends State<MoreScreen>
                           titleItem: listItem[index].titleItem ?? '',
                           tailingText: listItem[index].tailingText,
                           isLast: listItem[index].isLast,
-                          onTap: () {
+                          onTap: () async {
                             if (index == 0) {
                               Navigator.push(
                                       context,
@@ -108,6 +109,27 @@ class _MoreScreenState extends State<MoreScreen>
                                           builder: (_) =>
                                               const BedTimeReminderScreen()))
                                   .then((value) => {setState(() {})});
+                            } else if (index == 2) {
+                              String? encodeQueryParameters(Map<String, String> params) {
+                                return params.entries
+                                    .map((MapEntry<String, String> e) =>
+                                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                    .join('&');
+                              }
+                              final Uri emailLaunchUri = Uri(
+                                scheme: 'mailto',
+                                path: 'hopnv.1611@gmail.com',
+                                query: encodeQueryParameters(<String, String>{
+                                  'subject': 'Feedback to Sound Sleeps',
+                                }),
+                              );
+                              print('Launch url');
+                              try {
+                                final isLaunched = await launchUrl(emailLaunchUri);
+                                print('Launch $isLaunched');
+                              } catch (ex) {
+                                print('Launch url error: ${ex}');
+                              }
                             }
                           },
                         ),
