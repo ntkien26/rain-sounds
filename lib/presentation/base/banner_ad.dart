@@ -20,7 +20,7 @@ class _AppBannerAdState extends State<AppBannerAd> {
     BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
       request: const AdRequest(),
-      size: const AdSize(width: 468, height: 90),
+      size: AdSize.leaderboard,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           setState(() {

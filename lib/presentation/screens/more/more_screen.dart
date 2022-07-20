@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/network_di.dart';
 import 'package:rain_sounds/data/local/model/more.dart';
+import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
 import 'package:rain_sounds/presentation/screens/more/widget/more_item_widget.dart';
@@ -29,33 +29,16 @@ class _MoreScreenState extends State<MoreScreen>
   ];
 
   final AppCache appCache = getIt.get();
+  final PurchaseService purchaseService = getIt.get();
 
   @override
   void initState() {
     super.initState();
-    FlutterInappPurchase.purchaseUpdated.listen(_handlePurchaseUpdate);
+    purchaseService.purchaseUpdated.listen((updated) {
+      if (updated) setState(() {});
+    });
   }
 
-  /// Called when new updates arrives at ``purchaseUpdated`` stream
-  void _handlePurchaseUpdate(PurchasedItem? productItem) async {
-    if (productItem != null) {
-      switch (productItem.transactionStateIOS) {
-        case TransactionState.deferred:
-          break;
-        case TransactionState.failed:
-          break;
-        case TransactionState.purchased:
-          setState(() {});
-          break;
-        case TransactionState.purchasing:
-          break;
-        case TransactionState.restored:
-          break;
-        default:
-          break;
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

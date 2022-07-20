@@ -135,8 +135,9 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                             final TimeOfDay timeOfDay = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const SetCustomTimer(
+                                    builder: (context) => SetCustomTimer(
                                           customMode: CustomMode.bedtime,
+                                          timeOfDay: this.timeOfDay,
                                         )));
                             setState(() {
                               this.timeOfDay = timeOfDay;

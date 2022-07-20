@@ -24,6 +24,10 @@ class AppCache {
     _prefs.setBool(_isPremiumMember, enable);
   }
 
+  bool isLifetimePremium() {
+    return _prefs.getBool(_isPremiumMember) ?? false;
+  }
+
   Future<void> activeSubscription(bool active) async {
     _prefs.setBool(_isSubscriptionActive, active);
   }
@@ -108,31 +112,31 @@ class AppCache {
     switch (day) {
       case "Sun":
         {
-          return _prefs.getBool(_enableReminderSun) ?? false;
+          return _prefs.getBool(_enableReminderSun) ?? true;
         }
       case "Mon":
         {
-          return _prefs.getBool(_enableReminderMon) ?? false;
+          return _prefs.getBool(_enableReminderMon) ?? true;
         }
       case "Tues":
         {
-          return _prefs.getBool(_enableReminderTues) ?? false;
+          return _prefs.getBool(_enableReminderTues) ?? true;
         }
       case "Wed":
         {
-          return _prefs.getBool(_enableReminderWed) ?? false;
+          return _prefs.getBool(_enableReminderWed) ?? true;
         }
       case "Thus":
         {
-          return _prefs.getBool(_enableReminderThus) ?? false;
+          return _prefs.getBool(_enableReminderThus) ?? true;
         }
       case "Fri":
         {
-          return _prefs.getBool(_enableReminderFri) ?? false;
+          return _prefs.getBool(_enableReminderFri) ?? true;
         }
       case "Sat":
         {
-          return _prefs.getBool(_enableReminderSat) ?? false;
+          return _prefs.getBool(_enableReminderSat) ?? true;
         }
       default:
         {
