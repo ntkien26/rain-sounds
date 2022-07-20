@@ -1,8 +1,7 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
-import 'package:rain_sounds/domain/iap/iap_service.dart';
+import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
@@ -16,7 +15,7 @@ class InAppPurchaseScreen extends StatefulWidget {
 }
 
 class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
-  final IAPService iapService = getIt.get();
+  final PurchaseService purchaseService = getIt.get();
 
   List<PurchaseModel> listOfPurchase = [
     PurchaseModel(
@@ -49,98 +48,78 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   @override
   void initState() {
     super.initState();
-    iapService.products.then((iapItems) => {
-      iapItems?.forEach((element) {
-        switch (element.productId) {
-          case IAPService.monthly:
-            listOfPurchase[0].price = element.localizedPrice ?? '';
+    purchaseService.products.listen((iapItems) => {
+      iapItems.forEach((element) {
+        switch (element.identifier) {
+          case 'monthly':
+            listOfPurchase[0].price = element.priceString;
             break;
-          case IAPService.yearly:
-            listOfPurchase[1].price = element.localizedPrice ?? '';
+          case 'yearly':
+            listOfPurchase[1].price = element.priceString;
             break;
-          case IAPService.lifetime:
-            listOfPurchase[2].price = element.localizedPrice ?? '';
+          case 'lifetime':
+            listOfPurchase[2].price = element.priceString;
         }
       }),
       setState(() {})
     });
-    FlutterInappPurchase.purchaseUpdated.listen(_handlePurchaseUpdate);
   }
 
-  /// Called when new updates arrives at ``purchaseUpdated`` stream
-  void _handlePurchaseUpdate(PurchasedItem? productItem) async {
-    if (productItem != null) {
-      switch (productItem.transactionStateIOS) {
-        case TransactionState.deferred:
-          break;
-        case TransactionState.failed:
-          break;
-        case TransactionState.purchased:
-          EasyLoading.dismiss();
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) {
-                return AlertDialog(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                    backgroundColor: k1f172f,
-                    content: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Congratulation! Purchased successfully. Now you can open all sounds and music without advertisements',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        const SizedBox(height: 24,),
-                        InkWell(
-                          onTap: () {
-                            Navigator.popUntil(context, (route) => route.isFirst);
-                          },
-                          child: Container(
-                            height: 32,
-                            width: 148,
-                            decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  begin: Alignment.bottomLeft,
-                                  end: Alignment.topRight,
-                                  colors: [
-                                    kGradientOrangeBtColor,
-                                    kGradientPurpleBtColor,
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(36)),
-                            child: ElevatedButton(
-                              onPressed: null,
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.transparent,
-                                  shadowColor: Colors.transparent),
-                              child: Text(
-                                'OK',
-                                style: TextStyleConstant.textTextStyle.copyWith(
-                                    fontSize: 14, fontWeight: FontWeight.w400),
-                              ),
-                            ),
+  void _handlePurchaseSuccessfully() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              backgroundColor: k1f172f,
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Congratulation! Purchased successfully. Now you can open all sounds and music without advertisements',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(height: 24,),
+                  InkWell(
+                    onTap: () {
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    },
+                    child: Container(
+                      height: 32,
+                      width: 148,
+                      decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                            colors: [
+                              kGradientOrangeBtColor,
+                              kGradientPurpleBtColor,
+                            ],
                           ),
-                        )
-                      ],
-                    ));
-              });
-          break;
-        case TransactionState.purchasing:
-          EasyLoading.show(status: 'Purchasing...');
-          break;
-        case TransactionState.restored:
-          break;
-        default:
-          break;
-      }
-    }
+                          borderRadius: BorderRadius.circular(36)),
+                      child: ElevatedButton(
+                        onPressed: null,
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.transparent,
+                            shadowColor: Colors.transparent),
+                        child: Text(
+                          'OK',
+                          style: TextStyleConstant.textTextStyle.copyWith(
+                              fontSize: 14, fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ));
+        });
   }
 
   @override
@@ -248,16 +227,22 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
               SizedBox(
                 width: w,
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     switch (indexChecked) {
                       case 0:
-                        iapService.requestSubscription(IAPService.monthly);
+                        if (await purchaseService.buy('monthly')) {
+                          _handlePurchaseSuccessfully();
+                        }
                         break;
                       case 1:
-                        iapService.requestSubscription(IAPService.yearly);
+                        if (await purchaseService.buy('yearly')) {
+                          _handlePurchaseSuccessfully();
+                        }
                         break;
                       case 2:
-                        iapService.requestPurchase(IAPService.lifetime);
+                        if (await purchaseService.buy('lifetime')) {
+                          _handlePurchaseSuccessfully();
+                        }
                         break;
                     }
                   },

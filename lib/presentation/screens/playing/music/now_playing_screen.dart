@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
@@ -30,6 +31,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
   final NowPlayingBloc _bloc = getIt.get();
 
   final AdHelper adHelper = getIt.get();
+  final AppCache appCache = getIt.get();
 
   static const _backgroundColor = Colors.black;
 
@@ -155,7 +157,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       style: const TextStyle(fontSize: 24, color: Colors.white),
                     ),
                     const Spacer(),
-                    const AppBannerAd()
+                    !appCache.isPremiumMember() ? const AppBannerAd() : const SizedBox()
                   ]),
                 );
               }),

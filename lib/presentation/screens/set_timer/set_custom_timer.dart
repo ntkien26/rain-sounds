@@ -7,10 +7,11 @@ import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 class SetCustomTimer extends StatefulWidget {
-  const SetCustomTimer({Key? key, this.customMode = CustomMode.media})
+  const SetCustomTimer({Key? key, this.customMode = CustomMode.media, this.timeOfDay})
       : super(key: key);
 
   final CustomMode customMode;
+  final TimeOfDay? timeOfDay;
 
   @override
   State<SetCustomTimer> createState() => _SetCustomTimerState();
@@ -26,6 +27,8 @@ class _SetCustomTimerState extends State<SetCustomTimer> {
     super.initState();
     if (widget.customMode == CustomMode.media) {
       dateTime = DateTime(0, 0, 0, 0, 15);
+    } else if (widget.timeOfDay != null){
+      dateTime = DateTime(0, 0, 0, widget.timeOfDay!.hour, widget.timeOfDay!.minute);
     } else {
       dateTime = DateTime.now();
     }

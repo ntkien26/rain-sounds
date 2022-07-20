@@ -7,7 +7,7 @@ import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/common/utils/in_app_purchase_helper.dart';
 import 'package:rain_sounds/data/local/hive_model/custom_mix_model.dart';
 import 'package:rain_sounds/data/local/hive_model/sound_model.dart';
-import 'package:rain_sounds/domain/iap/iap_service.dart';
+import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,8 +25,8 @@ class AppDI {
     getIt.registerLazySingleton<NotificationService>(() {
       return NotificationService();
     });
-    getIt.registerLazySingleton<IAPService>(() {
-      return IAPService();
+    getIt.registerLazySingleton<PurchaseService>(() {
+      return PurchaseService();
     });
     getIt.registerSingletonAsync<Box<CustomMixModel>>(
         () => openHiveBox('custom_mix'));

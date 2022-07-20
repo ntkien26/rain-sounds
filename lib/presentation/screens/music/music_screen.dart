@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/presentation/screens/music/music_bloc.dart';
 import 'package:rain_sounds/presentation/screens/music/music_state.dart';
 import 'package:rain_sounds/presentation/screens/music/widget/grid_music_widget.dart';
@@ -19,32 +19,14 @@ class MusicScreen extends StatefulWidget {
 class _MusicScreenState extends State<MusicScreen>
     with AutomaticKeepAliveClientMixin {
   final MusicBloc _bloc = getIt<MusicBloc>();
+  final PurchaseService purchaseService = getIt.get();
 
   @override
   void initState() {
     super.initState();
-    FlutterInappPurchase.purchaseUpdated.listen(_handlePurchaseUpdate);
-  }
-
-  /// Called when new updates arrives at ``purchaseUpdated`` stream
-  void _handlePurchaseUpdate(PurchasedItem? productItem) async {
-    if (productItem != null) {
-      switch (productItem.transactionStateIOS) {
-        case TransactionState.deferred:
-          break;
-        case TransactionState.failed:
-          break;
-        case TransactionState.purchased:
-          setState(() {});
-          break;
-        case TransactionState.purchasing:
-          break;
-        case TransactionState.restored:
-          break;
-        default:
-          break;
-      }
-    }
+    purchaseService.purchaseUpdated.listen((updated) {
+      if (updated) setState(() {});
+    });
   }
 
   @override

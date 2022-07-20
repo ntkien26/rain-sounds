@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
@@ -33,6 +33,7 @@ class NowMixPlayingScreen extends StatefulWidget {
 class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
   final NowMixPlayingBloc _bloc = getIt.get();
   final AdHelper adHelper = getIt.get();
+  final AppCache appCache = getIt.get();
 
   static const _backgroundColor = Colors.black;
 
@@ -222,7 +223,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                         },
                       ),
                       const Spacer(),
-                      const AppBannerAd()
+                      !appCache.isPremiumMember() ? const AppBannerAd() : const SizedBox()
                     ],
                   ),
                 );
