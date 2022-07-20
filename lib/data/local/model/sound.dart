@@ -9,6 +9,7 @@ class Sound {
   String? fileName;
   String? icon;
   double volume = 80;
+  String? extension;
   bool active = false;
   bool premium = false;
 
@@ -18,6 +19,7 @@ class Sound {
       this.fileName,
       this.icon,
       this.volume = 80,
+      this.extension,
       this.active = false,
       this.premium = false});
 
@@ -27,6 +29,7 @@ class Sound {
       String? fileName,
       String? icon,
       double? volume = 80,
+      String? extension,
       bool? active = false,
       bool? premium = false}) {
     return Sound(
@@ -35,6 +38,7 @@ class Sound {
         fileName: fileName ?? this.fileName,
         icon: icon ?? this.icon,
         volume: volume ?? this.volume,
+        extension: extension ?? this.extension,
         active: active ?? this.active,
         premium: premium ?? this.premium);
   }
