@@ -59,6 +59,12 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          title: Text(
+            widget.mix.name ?? '',
+            textAlign: TextAlign.center,
+            style:
+            const TextStyle(fontSize: 32, color: Colors.white),
+          ),
         ),
         body: Container(
           width: double.infinity,
@@ -80,14 +86,8 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        widget.mix.name ?? '',
-                        textAlign: TextAlign.center,
-                        style:
-                            const TextStyle(fontSize: 36, color: Colors.white),
-                      ),
                       const SizedBox(
-                        height: 24,
+                        height: 32,
                       ),
                       InkWell(
                         onTap: () {

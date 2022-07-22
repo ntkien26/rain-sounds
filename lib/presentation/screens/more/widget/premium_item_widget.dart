@@ -86,14 +86,9 @@ class PremiumWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 16,
-          ),
           const Divider(
+            height: 1,
             color: kDividerColor,
-          ),
-          const SizedBox(
-            height: 16,
           ),
         ],
       ),

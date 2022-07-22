@@ -89,7 +89,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           child: Text(
-                            'Rain Sounds - Sleep Sounds',
+                            'Rain Sounds for Sleep',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -259,12 +259,9 @@ class PlayingButton extends StatelessWidget {
       child: Container(
         width: 180,
         height: 40,
-        decoration: BoxDecoration(
-            color: Colors.white10,
-            border: Border.all(
-              color: Colors.white,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        decoration: const BoxDecoration(
+            color: Color(0x33ffffff),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         child: isPlaying
             ? SvgPicture.asset(IconPaths.icPause)
             : SvgPicture.asset(IconPaths.icPlay),

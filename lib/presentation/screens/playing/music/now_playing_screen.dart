@@ -63,6 +63,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          title: Text(
+            widget.musicModel.group ?? '',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 32, color: Colors.white),
+          ),
         ),
         body: Container(
           width: double.infinity,
@@ -80,13 +85,8 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
               builder: (BuildContext context, NowPlayingState state) {
                 return SafeArea(
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
-                    Text(
-                      widget.musicModel.group ?? '',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 36, color: Colors.white),
-                    ),
                     const SizedBox(
-                      height: 24,
+                      height: 32,
                     ),
                     InkWell(
                       onTap: () async {
@@ -151,10 +151,13 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                     const SizedBox(
                       height: 24,
                     ),
-                    Text(
-                      widget.musicModel.title ?? '',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        widget.musicModel.title ?? '',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 24, color: Colors.white),
+                      ),
                     ),
                     const Spacer(),
                     !appCache.isPremiumMember() ? const AppBannerAd() : const SizedBox()

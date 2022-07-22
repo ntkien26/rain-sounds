@@ -1,8 +1,11 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
+import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
+import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
@@ -16,6 +19,8 @@ class InAppPurchaseScreen extends StatefulWidget {
 
 class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   final PurchaseService purchaseService = getIt.get();
+  final AppCache appCache = getIt.get();
+  final AdHelper adHelper = getIt.get();
 
   List<PurchaseModel> listOfPurchase = [
     PurchaseModel(
@@ -89,7 +94,11 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                   const SizedBox(height: 24,),
                   InkWell(
                     onTap: () {
-                      Navigator.popUntil(context, (route) => route.isFirst);
+                      if (appCache.isFirstLaunch()) {
+                        getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                      } else {
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                      }
                     },
                     child: Container(
                       height: 32,
@@ -140,7 +149,13 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      if (appCache.isFirstLaunch() && adHelper.isInterstitialAdsReady()) {
+                        adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+                          getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                        });
+                      } else {
+                        Navigator.pop(context);
+                      }
                     },
                     child: SvgPicture.asset(
                       IconPaths.icClose,

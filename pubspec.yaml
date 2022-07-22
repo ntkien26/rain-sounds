@@ -68,6 +68,8 @@ dependencies:
   google_fonts: ^3.0.1
   purchases_flutter: ^3.10.0
   url_launcher: ^6.1.5
+  package_info_plus: ^1.4.3
+  share_plus: ^4.0.10
 dev_dependencies:
   flutter_test:
     sdk: flutter

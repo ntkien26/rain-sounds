@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/network_di.dart';
 import 'package:rain_sounds/data/local/model/more.dart';
@@ -9,6 +10,7 @@ import 'package:rain_sounds/presentation/screens/more/widget/more_item_widget.da
 import 'package:rain_sounds/presentation/screens/more/widget/premium_item_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MoreScreen extends StatefulWidget {
@@ -31,6 +33,8 @@ class _MoreScreenState extends State<MoreScreen>
   final AppCache appCache = getIt.get();
   final PurchaseService purchaseService = getIt.get();
 
+  static const _appID = 1631507315;
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +42,6 @@ class _MoreScreenState extends State<MoreScreen>
       if (updated) setState(() {});
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +79,7 @@ class _MoreScreenState extends State<MoreScreen>
                     appCache.isPremiumMember()
                         ? const SizedBox()
                         : const PremiumWidget(),
+                    const SizedBox(height: 32,),
                     Column(
                       children: List.generate(
                         5,
@@ -85,34 +89,27 @@ class _MoreScreenState extends State<MoreScreen>
                           tailingText: listItem[index].tailingText,
                           isLast: listItem[index].isLast,
                           onTap: () async {
-                            if (index == 0) {
-                              Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              const BedTimeReminderScreen()))
-                                  .then((value) => {setState(() {})});
-                            } else if (index == 2) {
-                              String? encodeQueryParameters(Map<String, String> params) {
-                                return params.entries
-                                    .map((MapEntry<String, String> e) =>
-                                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-                                    .join('&');
-                              }
-                              final Uri emailLaunchUri = Uri(
-                                scheme: 'mailto',
-                                path: 'hopnv.1611@gmail.com',
-                                query: encodeQueryParameters(<String, String>{
-                                  'subject': 'Feedback to Sound Sleeps',
-                                }),
-                              );
-                              print('Launch url');
-                              try {
-                                final isLaunched = await launchUrl(emailLaunchUri);
-                                print('Launch $isLaunched');
-                              } catch (ex) {
-                                print('Launch url error: ${ex}');
-                              }
+                            switch (index) {
+                              case 0:
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const BedTimeReminderScreen()))
+                                    .then((value) => {setState(() {})});
+                                break;
+                              case 1:
+                                _launchAppStore();
+                                break;
+                              case 2:
+                                _launchMail();
+                                break;
+                              case 3:
+                                Share.share('https://apps.apple.com/vn/app/id$_appID');
+                                break;
+                              case 4:
+                                _launchPrivacy();
+                                break;
                             }
                           },
                         ),
@@ -121,11 +118,22 @@ class _MoreScreenState extends State<MoreScreen>
                     const SizedBox(
                       height: 8,
                     ),
-                    Text(
-                      'Version 2.3.2',
-                      style: TextStyleConstant.songTitleTextStyle
-                          .copyWith(fontWeight: FontWeight.w600),
-                    ),
+                    FutureBuilder(
+                        future: PackageInfo.fromPlatform(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            PackageInfo packageInfo =  snapshot.data as PackageInfo;
+                            String version = packageInfo.version;
+                            String buildNumber = packageInfo.buildNumber;
+                            return Text(
+                              'Version $version build $buildNumber',
+                              style: TextStyleConstant.songTitleTextStyle
+                                  .copyWith(fontWeight: FontWeight.w600),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        }),
                     const SizedBox(
                       height: 16,
                     ),
@@ -141,4 +149,44 @@ class _MoreScreenState extends State<MoreScreen>
 
   @override
   bool get wantKeepAlive => true;
+
+  void _launchMail() {
+    String? encodeQueryParameters(Map<String, String> params) {
+      return params.entries
+          .map((MapEntry<String, String> e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+          .join('&');
+    }
+
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: 'hopnv.1611@gmail.com',
+      query: encodeQueryParameters(<String, String>{
+        'subject': 'Feedback to Sound Sleeps',
+      }),
+    );
+    try {
+      launchUrl(emailLaunchUri);
+    } catch (ex) {
+      print('Launch url error: $ex');
+    }
+  }
+
+  void _launchPrivacy() {
+    try {
+      launchUrl(Uri.parse(
+          'https://smarttouch2017.wordpress.com/2022/07/21/rain-sounds-for-sleep/'));
+    } catch (ex) {
+      print('Launch url error: $ex');
+    }
+  }
+
+  void _launchAppStore() {
+    try {
+      launchUrl(Uri.parse(
+          'https://apps.apple.com/vn/app/id$_appID'));
+    } catch (ex) {
+      print('Launch url error: $ex');
+    }
+  }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_screen.dart';
@@ -43,7 +42,7 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
             ));
           },
           child: Container(
-            color: kBottomBarColor,
+            color: kBottomBarColor.withOpacity(0.9),
             width: double.infinity,
             height: 80,
             child: Row(
@@ -93,7 +92,7 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
                       }
                     }),
                 const SizedBox(
-                  width: 12,
+                  width: 24,
                 ),
                 InkWell(
                     onTap: () {
@@ -101,7 +100,7 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
                     },
                     child: SvgPicture.asset(IconPaths.icClose)),
                 const SizedBox(
-                  width: 12,
+                  width: 24,
                 )
               ],
             ),

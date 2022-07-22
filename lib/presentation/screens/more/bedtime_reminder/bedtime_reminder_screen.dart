@@ -5,6 +5,7 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_custom_timer.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
@@ -242,7 +243,15 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                             element.fullName, element.onCheck);
                       }
                       await setUpReminder();
-                      getIt<NavigationService>().pop();
+                      if (appCache.isFirstLaunch()) {
+                        appCache.setIsFirstLaunch(false);
+                        getIt<NavigationService>().navigateToAndRemoveUntil(
+                          MainScreen.routePath,
+                          (Route<void> route) => false,
+                        );
+                      } else {
+                        getIt<NavigationService>().pop();
+                      }
                     },
                     child: SvgPicture.asset(
                       IconPaths.icChecked,

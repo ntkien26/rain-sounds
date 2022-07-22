@@ -18,7 +18,17 @@ class AppCache {
   final String _isPremiumMember = 'isPremiumMember';
   final String _isSubscriptionActive = '_subscribeActive';
 
+  final String _isFirstLaunch = '_isFirstLaunch';
+
   AppCache(this._prefs);
+
+  Future<void> setIsFirstLaunch(bool isFirstLaunch) async {
+    _prefs.setBool(_isFirstLaunch, isFirstLaunch);
+  }
+
+  bool isFirstLaunch() {
+    return _prefs.getBool(_isFirstLaunch) ?? true;
+  }
 
   Future<void> enablePremiumMember(bool enable) async {
     _prefs.setBool(_isPremiumMember, enable);
@@ -65,7 +75,7 @@ class AppCache {
   }
 
   bool isEnableReminder() {
-    return _prefs.getBool(_enableReminder) ?? false;
+    return _prefs.getBool(_enableReminder) ?? true;
   }
 
   Future<void> enableReminderFor(String day, bool enable) async {
