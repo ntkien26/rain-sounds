@@ -245,27 +245,11 @@
     "premium": true
   },
   {
-    "id": 142,
-    "name": "Music Box",
-    "fileName": "tieng_nhac",
-    "icon": "sound_ic_music_box.svg",
-    "volume": 80,
-    "extension": "wav"
-  },
-  {
     "id": 143,
     "name": "Piano",
     "fileName": "tieng_dan_1",
     "icon": "sound_ic_piano.svg",
     "volume": 80
-  },
-  {
-    "id": 144,
-    "name": "Piano 2",
-    "fileName": "tieng_dan_trung_quoc",
-    "icon": "sound_ic_piano.svg",
-    "volume": 80,
-    "premium": true
   },
   {
     "id": 201,
@@ -321,13 +305,6 @@
     "volume": 80
   },
   {
-    "id": 133,
-    "name": "Dream",
-    "fileName": "dream",
-    "icon": "sound_ic_dream.svg",
-    "volume": 80
-  },
-  {
     "id": 134,
     "name": "Dryer",
     "fileName": "may_giat",
@@ -374,7 +351,7 @@
   {
     "id": 125,
     "name": "Bird",
-    "fileName": "tieng_chim",
+    "fileName": "tieng_chim_hot",
     "icon": "sound_ic_bird.svg",
     "volume": 80
   },
@@ -388,7 +365,7 @@
   {
     "id": 127,
     "name": "Owl",
-    "fileName": "tieng_cu_dem",
+    "fileName": "tieng_chim_cu",
     "icon": "sound_ic_owl.svg",
     "volume": 80
   },
@@ -413,14 +390,6 @@
     "fileName": "tieng_meo_ngu",
     "icon": "sound_ic_cat_purring.svg",
     "volume": 80
-  },
-  {
-    "id": 158,
-    "name": "Deep Sea",
-    "fileName": "tieng_day_bien",
-    "icon": "sound_ic_deep_sea.svg",
-    "volume": 80,
-    "extension": "wav"
   },
   {
     "id": 153,

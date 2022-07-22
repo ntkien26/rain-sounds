@@ -86,7 +86,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 return SafeArea(
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
                     const SizedBox(
-                      height: 32,
+                      height: 48,
                     ),
                     InkWell(
                       onTap: () async {

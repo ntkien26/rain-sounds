@@ -57,7 +57,7 @@ class CategoryMixPage extends StatelessWidget {
             },
             child: Container(
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              margin: const EdgeInsets.symmetric(vertical: 4),
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomLeft,
@@ -95,6 +95,7 @@ class CategoryMixPage extends StatelessWidget {
       child: StaggeredGrid.count(
         crossAxisCount: 4,
         mainAxisSpacing: 8,
+        crossAxisSpacing: 28,
         axisDirection: AxisDirection.down,
         children: listGridTile,
       ),
@@ -267,47 +268,44 @@ class _MixItemState extends State<MixItem> {
           });
         }
       },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: size.height * 0.185,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                              '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
-                          fit: BoxFit.cover),
-                      borderRadius: const BorderRadius.all(Radius.circular(6))),
-                ),
-                if (widget.mix.premium == true && !appCache.isPremiumMember())
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        IconPaths.icPremium,
-                        height: 24,
-                        width: 24,
-                      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: size.height * 0.185,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                            '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
+                        fit: BoxFit.cover),
+                    borderRadius: const BorderRadius.all(Radius.circular(6))),
+              ),
+              if (widget.mix.premium == true && !appCache.isPremiumMember())
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SvgPicture.asset(
+                      IconPaths.icPremium,
+                      height: 24,
+                      width: 24,
                     ),
-                  )
-                else
-                  const SizedBox()
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              widget.mix.name ?? '',
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-            ),
-          ],
-        ),
+                  ),
+                )
+              else
+                const SizedBox()
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            widget.mix.name ?? '',
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ],
       ),
     );
   }

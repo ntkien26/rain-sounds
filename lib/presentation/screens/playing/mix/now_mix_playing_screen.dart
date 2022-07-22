@@ -87,7 +87,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       const SizedBox(
-                        height: 32,
+                        height: 48,
                       ),
                       InkWell(
                         onTap: () {

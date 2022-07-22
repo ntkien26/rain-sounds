@@ -56,7 +56,7 @@ class _SleepScreenState extends State<SleepScreen>
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         'Rain Sounds for Sleep',
                         style: TextStyle(
@@ -104,7 +104,7 @@ class _SleepScreenState extends State<SleepScreen>
                               Column(
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                                    margin: const EdgeInsets.symmetric(horizontal: 8),
                                     height: 28,
                                     child: ScrollablePositionedList.builder(
                                         itemScrollController:
@@ -133,11 +133,14 @@ class _SleepScreenState extends State<SleepScreen>
                                         },
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          return CategoryMixPage(
-                                            mixes: listMixes[index],
-                                            showPremiumBanner: index == 0 &&
-                                                !appCache.isPremiumMember(),
-                                            sleepBloc: _bloc,
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                                            child: CategoryMixPage(
+                                              mixes: listMixes[index],
+                                              showPremiumBanner: index == 0 &&
+                                                  !appCache.isPremiumMember(),
+                                              sleepBloc: _bloc,
+                                            ),
                                           );
                                         }),
                                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
@@ -54,6 +55,8 @@ class StepOnePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SvgPicture.asset(IconPaths.icCheckedGreen),
+                  const SizedBox(width: 8,),
                   Text('Reduce Stress',
                       style: GoogleFonts.nunito(
                           textStyle: const TextStyle(
@@ -63,11 +66,13 @@ class StepOnePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 8,
+                height: 12,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SvgPicture.asset(IconPaths.icCheckedGreen),
+                  const SizedBox(width: 8,),
                   Text('Sleep Better',
                       style: GoogleFonts.nunito(
                           textStyle: const TextStyle(
@@ -77,11 +82,13 @@ class StepOnePage extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 8,
+                height: 12,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SvgPicture.asset(IconPaths.icCheckedGreen),
+                  const SizedBox(width: 8,),
                   Text('Increase Happiness',
                       style: GoogleFonts.nunito(
                           textStyle: const TextStyle(

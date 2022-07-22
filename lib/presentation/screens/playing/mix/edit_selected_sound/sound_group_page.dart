@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rain_sounds/common/configs/app_cache.dart';
+import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
+import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase_screen.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_bloc.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
@@ -21,9 +25,9 @@ class SoundGroupPage extends StatelessWidget {
         mainAxisSpacing: 4,
         children: sounds
             .map((e) => SoundItem(
-          sound: e,
-          editSelectedSoundBloc: editSelectedSoundBloc,
-        ))
+                  sound: e,
+                  editSelectedSoundBloc: editSelectedSoundBloc,
+                ))
             .toList());
   }
 }
@@ -43,13 +47,19 @@ class SoundItem extends StatefulWidget {
 }
 
 class _SoundItemState extends State<SoundItem> {
-
   @override
   Widget build(BuildContext context) {
+    final AppCache appCache = getIt.get();
     _onButtonClick() {
-      widget.editSelectedSoundBloc.add(UpdateSound(
-          soundId: widget.sound.id, active: true, volume: 80));
+      if (widget.sound.premium && !appCache.isPremiumMember()) {
+        getIt<NavigationService>()
+            .navigateToScreen(screen: const InAppPurchaseScreen());
+      } else {
+        widget.editSelectedSoundBloc
+            .add(UpdateSound(soundId: widget.sound.id, active: true, volume: 80));
+      }
     }
+
     final extension = widget.sound.icon?.split('.').last;
     return InkWell(
       splashColor: Colors.black,
@@ -59,19 +69,36 @@ class _SoundItemState extends State<SoundItem> {
           const SizedBox(
             height: 8,
           ),
-          Container(
-            height: 65,
-            width: 65,
-            margin: const EdgeInsets.all(4),
-            decoration: const BoxDecoration(
-                color: Colors.white10,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            child: SizedBox(
-              child: extension == 'svg'
-                  ? SvgPicture.asset(
-                  '${Assets.baseIconPath}/${widget.sound.icon}')
-                  : Image.asset('${Assets.baseIconPath}/${widget.sound.icon}'),
-            ),
+          Stack(
+            children: [
+              Container(
+                height: 65,
+                width: 65,
+                margin: const EdgeInsets.all(4),
+                decoration: const BoxDecoration(
+                    color: Colors.white10,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: SizedBox(
+                  child: extension == 'svg'
+                      ? SvgPicture.asset(
+                          '${Assets.baseIconPath}/${widget.sound.icon}')
+                      : Image.asset(
+                          '${Assets.baseIconPath}/${widget.sound.icon}'),
+                ),
+              ),
+              if (widget.sound.premium == true && !appCache.isPremiumMember())
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: SvgPicture.asset(
+                    IconPaths.icPremium,
+                    height: 20,
+                    width: 20,
+                  ),
+                )
+              else
+                const SizedBox()
+            ],
           ),
           const SizedBox(
             height: 12,
@@ -88,5 +115,4 @@ class _SoundItemState extends State<SoundItem> {
       ),
     );
   }
-
 }
