@@ -4,14 +4,16 @@
     "name": "Rain on Leaves",
     "fileName": "mua_tren_la_cay",
     "icon": "ic_rain_on_leaves.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 102,
     "name": "Rain",
     "fileName": "mua",
     "icon": "sound_ic_rain.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 103,
@@ -32,14 +34,16 @@
     "name": "Wind Leaves",
     "fileName": "tieng_gio_trong_rung",
     "icon": "sound_ic_wind_leaves.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 106,
     "name": "Rain on Window",
     "fileName": "mua_ben_cua_so",
     "icon": "ic_rain_on_window.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 107,
@@ -47,21 +51,24 @@
     "fileName": "mua_tren_mai_nha",
     "icon": "sound_ic_rain_on_roof.svg",
     "volume": 80,
-    "premium": true
+    "premium": true,
+    "extension": "wav"
   },
   {
     "id": 108,
     "name": "Wind",
     "fileName": "tieng_gio",
     "icon": "sound_ic_wind.svg",
-    "volume": 100
+    "volume": 100,
+    "extension": "wav"
   },
   {
     "id": 109,
     "name": "Light Rain",
     "fileName": "mua_nho",
     "icon": "sound_ic_light_rain.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 110,
@@ -97,14 +104,16 @@
     "name": "Heavy Rain",
     "fileName": "mua_nang_hat",
     "icon": "sound_ic_heavy_rain.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 115,
     "name": "River",
     "fileName": "tieng_nuoc_chay",
     "icon": "ic_river.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 116,
@@ -125,28 +134,32 @@
     "name": "Fire",
     "fileName": "tieng_lua",
     "icon": "sound_ic_fire.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 119,
     "name": "Train",
     "fileName": "tau_hoa",
     "icon": "sound_ic_train.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 120,
     "name": "Flight",
     "fileName": "tieng_may_bay",
     "icon": "sound_ic_flight.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 121,
     "name": "Driving",
     "fileName": "tieng_trong_xe_oto",
     "icon": "sound_ic_driving.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 123,
@@ -160,7 +173,8 @@
     "name": "White Noise",
     "fileName": "tieng_white_noise",
     "icon": "sound_ic_white_noise.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 160,
@@ -231,26 +245,11 @@
     "premium": true
   },
   {
-    "id": 142,
-    "name": "Music Box",
-    "fileName": "tieng_nhac",
-    "icon": "sound_ic_music_box.svg",
-    "volume": 80
-  },
-  {
     "id": 143,
     "name": "Piano",
     "fileName": "tieng_dan_1",
     "icon": "sound_ic_piano.svg",
     "volume": 80
-  },
-  {
-    "id": 144,
-    "name": "Piano 2",
-    "fileName": "tieng_dan_trung_quoc",
-    "icon": "sound_ic_piano.svg",
-    "volume": 80,
-    "premium": true
   },
   {
     "id": 201,
@@ -265,7 +264,8 @@
     "name": "Yoga Music",
     "fileName": "spa",
     "icon": "sound_ic_yoga_music.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 135,
@@ -279,7 +279,8 @@
     "name": "Tide",
     "fileName": "tieng_song_bien",
     "icon": "sound_ic_tide.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 148,
@@ -304,13 +305,6 @@
     "volume": 80
   },
   {
-    "id": 133,
-    "name": "Dream",
-    "fileName": "dream",
-    "icon": "sound_ic_dream.svg",
-    "volume": 80
-  },
-  {
     "id": 134,
     "name": "Dryer",
     "fileName": "may_giat",
@@ -322,7 +316,8 @@
     "name": "Crowd",
     "fileName": "tieng_dam_dong",
     "icon": "sound_ic_crowd.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 150,
@@ -336,7 +331,8 @@
     "name": "Rain in City",
     "fileName": "tieng_mua_trong_thanh_pho_2",
     "icon": "sound_ic_rain_in_city.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 152,
@@ -355,7 +351,7 @@
   {
     "id": 125,
     "name": "Bird",
-    "fileName": "tieng_chim",
+    "fileName": "tieng_chim_hot",
     "icon": "sound_ic_bird.svg",
     "volume": 80
   },
@@ -369,7 +365,7 @@
   {
     "id": 127,
     "name": "Owl",
-    "fileName": "tieng_cu_dem",
+    "fileName": "tieng_chim_cu",
     "icon": "sound_ic_owl.svg",
     "volume": 80
   },
@@ -378,7 +374,8 @@
     "name": "Cricket",
     "fileName": "tieng_de_men",
     "icon": "sound_ic_cricket.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 129,
@@ -395,24 +392,19 @@
     "volume": 80
   },
   {
-    "id": 158,
-    "name": "Deep Sea",
-    "fileName": "tieng_day_bien",
-    "icon": "sound_ic_deep_sea.svg",
-    "volume": 80
-  },
-  {
     "id": 153,
     "name": "Pink Noise",
     "fileName": "tieng_nhac_hong",
     "icon": "sound_ic_pink_noise.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   },
   {
     "id": 154,
     "name": "Brown Noise",
     "fileName": "tieng_nhac_nau",
     "icon": "sound_ic_brown_noise.svg",
-    "volume": 80
+    "volume": 80,
+    "extension": "wav"
   }
 ]

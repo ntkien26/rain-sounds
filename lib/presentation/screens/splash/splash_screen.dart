@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/intro/intro_screen.dart';
 import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_bloc.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_event.dart';
@@ -62,20 +64,27 @@ class SplashScreenState extends State<SplashScreen>
             break;
           case SplashStatus.initializing:
             setState(() {
-              _height = 120;
-              _width = 120;
+              _height = 180;
+              _width = 180;
             });
             _controller.forward();
             break;
           case SplashStatus.done:
-            if (adHelper.isInterstitialAdsReady()) {
-              adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
-                navigateToMainScreen();
-              });
+            if (appCache.isFirstLaunch()) {
+              getIt<NavigationService>().navigateToAndRemoveUntil(
+                IntroScreen.routePath,
+                (Route<void> route) => false,
+              );
             } else {
-              navigateToMainScreen();
+              if (adHelper.isInterstitialAdsReady()) {
+                adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+                  navigateToMainScreen();
+                });
+              } else {
+                navigateToMainScreen();
+              }
+              break;
             }
-            break;
         }
       },
       child: Scaffold(
@@ -94,7 +103,7 @@ class SplashScreenState extends State<SplashScreen>
                   height: 32,
                 ),
                 SizedBox(
-                  height: 120,
+                  height: 180,
                   child: AnimatedContainer(
                       height: _height,
                       width: _width,
@@ -106,13 +115,10 @@ class SplashScreenState extends State<SplashScreen>
                   children: [
                     SizeTransition(
                       sizeFactor: _animation,
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          'Rain sounds - Sleep sounds',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500),
+                          'Rain Sounds for Sleep',
+                          style: GoogleFonts.roboto(textStyle: const TextStyle(fontStyle: FontStyle.italic, fontSize: 20, color: Colors.white)),
                         ),
                       ),
                     ),
@@ -129,13 +135,10 @@ class SplashScreenState extends State<SplashScreen>
                     ),
                     SizeTransition(
                       sizeFactor: _animation,
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'Help you sleep better',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+                          style: GoogleFonts.roboto(textStyle: const TextStyle(fontSize: 16, color: Colors.white)),
                         ),
                       ),
                     )

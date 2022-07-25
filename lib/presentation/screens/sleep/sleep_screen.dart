@@ -56,9 +56,9 @@ class _SleepScreenState extends State<SleepScreen>
                 const Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
-                        'Rain Sounds - Sleep Sounds',
+                        'Rain Sounds for Sleep',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -103,7 +103,8 @@ class _SleepScreenState extends State<SleepScreen>
                             children: [
                               Column(
                                 children: [
-                                  SizedBox(
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(horizontal: 8),
                                     height: 28,
                                     child: ScrollablePositionedList.builder(
                                         itemScrollController:
@@ -132,11 +133,14 @@ class _SleepScreenState extends State<SleepScreen>
                                         },
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          return CategoryMixPage(
-                                            mixes: listMixes[index],
-                                            showPremiumBanner: index == 0 &&
-                                                !appCache.isPremiumMember(),
-                                            sleepBloc: _bloc,
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                                            child: CategoryMixPage(
+                                              mixes: listMixes[index],
+                                              showPremiumBanner: index == 0 &&
+                                                  !appCache.isPremiumMember(),
+                                              sleepBloc: _bloc,
+                                            ),
                                           );
                                         }),
                                   ),
@@ -185,8 +189,7 @@ class _SleepScreenState extends State<SleepScreen>
         pageController.animateToPage(_selectedIndex,
             duration: const Duration(microseconds: 300),
             curve: Curves.bounceIn);
-        itemScrollController.scrollTo(
-            index: index, duration: const Duration(microseconds: 300));
+        itemScrollController.jumpTo(index: index);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),

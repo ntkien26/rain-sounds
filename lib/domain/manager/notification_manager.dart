@@ -54,8 +54,8 @@ class NotificationService {
       content: NotificationContent(
         id: createUniqueId(),
         channelKey: 'scheduled_channel',
-        title: '${Emojis.wheater_droplet} Sleep sound',
-        body: 'Bedtime reminder.',
+        title: 'Rain Sounds for Sleep',
+        body: 'It\'s time go to bed',
         category: NotificationCategory.Alarm,
         notificationLayout: NotificationLayout.Default,
       ),

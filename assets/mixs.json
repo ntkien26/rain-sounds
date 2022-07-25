@@ -118,25 +118,6 @@
     ]
   },
   {
-    "mixSoundId": 250,
-    "category": 4,
-    "name": "Zither",
-    "cover": {
-      "thumbnail": "zither_crop",
-      "background": "zither"
-    },
-    "sounds": [
-      {
-        "id": 144,
-        "volume": 80
-      },
-      {
-        "id": 125,
-        "volume": 30
-      }
-    ]
-  },
-  {
     "mixSoundId": 229,
     "category": 2,
     "name": "Clock",
@@ -605,5 +586,4 @@
       }
     ]
   }
-  
 ]

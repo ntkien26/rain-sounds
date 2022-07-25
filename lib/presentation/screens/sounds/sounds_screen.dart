@@ -89,17 +89,18 @@ class _SoundsScreenState extends State<SoundsScreen> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           child: Text(
-                            'Rain Sounds - Sleep Sounds',
+                            'Rain Sounds for Sleep',
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w500),
                           ),
                         )),
                     const SizedBox(
                       height: 16,
                     ),
-                    Expanded(
+                    SizedBox(
+                      height: 430,
                       child: PageView.builder(
                           itemCount: totalPage,
                           onPageChanged: (page) {
@@ -114,6 +115,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                             );
                           }),
                     ),
+                    const SizedBox(height: 32,),
                     DotsIndicator(
                       dotsCount: totalPage,
                       position: _selectedIndex.toDouble(),
@@ -122,30 +124,27 @@ class _SoundsScreenState extends State<SoundsScreen> {
                         activeColor: Colors.white,
                       ),
                     ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: 32,),
+                        buildSetTimeButton(),
+                        const SizedBox(width: 12,),
+                        const Spacer(),
+                        PlayingButton(
+                          isPlaying: state.isPlaying ?? false,
+                          onTap: () {
+                            _soundsBloc.add(ToggleSoundsEvent());
+                          },
+                        ),
+                        const Spacer(),
+                        buildSelectedButton(state.totalSelected ?? 0),
+                        const SizedBox(width: 24,),
+                      ],
+                    ),
                     const SizedBox(
                       height: 24,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            buildSetTimeButton(),
-                            PlayingButton(
-                              isPlaying: state.isPlaying ?? false,
-                              onTap: () {
-                                _soundsBloc.add(ToggleSoundsEvent());
-                              },
-                            ),
-                            buildSelectedButton(state.totalSelected ?? 0)
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
                     )
                   ],
                 ),
@@ -257,17 +256,15 @@ class PlayingButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 180,
+        width: 168,
         height: 40,
-        decoration: BoxDecoration(
-            color: Colors.white10,
-            border: Border.all(
-              color: Colors.white,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20))),
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+            color: Color(0x33ffffff),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         child: isPlaying
-            ? SvgPicture.asset(IconPaths.icPause)
-            : SvgPicture.asset(IconPaths.icPlay),
+            ? SvgPicture.asset(IconPaths.icPause, height: 30,)
+            : SvgPicture.asset(IconPaths.icPlay, height: 30,),
       ),
     );
   }
