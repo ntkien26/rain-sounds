@@ -66,7 +66,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           title: Text(
             widget.musicModel.group ?? '',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 32, color: Colors.white),
+            style: const TextStyle(fontSize: 24, color: Colors.white),
           ),
         ),
         body: Container(
@@ -149,14 +149,14 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       },
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 32,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
                         widget.musicModel.title ?? '',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 24, color: Colors.white),
+                        style: const TextStyle(fontSize: 20, color: Colors.white, fontStyle: FontStyle.italic),
                       ),
                     ),
                     const Spacer(),

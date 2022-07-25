@@ -63,7 +63,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
             widget.mix.name ?? '',
             textAlign: TextAlign.center,
             style:
-            const TextStyle(fontSize: 32, color: Colors.white),
+            const TextStyle(fontSize: 24, color: Colors.white),
           ),
         ),
         body: Container(

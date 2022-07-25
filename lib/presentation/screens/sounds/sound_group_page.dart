@@ -88,7 +88,7 @@ class _SoundItemState extends State<SoundItem> {
                 margin: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                     color: active ? Colors.blueAccent : Colors.white10,
-                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                    borderRadius: const BorderRadius.all(Radius.circular(12))),
                 child: SizedBox(
                   child: extension == 'svg'
                       ? SvgPicture.asset(

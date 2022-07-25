@@ -49,7 +49,7 @@ class CategoryMixPage extends StatelessWidget {
         2,
         StaggeredGridTile.count(
           crossAxisCellCount: 4,
-          mainAxisCellCount: 0.9,
+          mainAxisCellCount: 0.8,
           child: InkWell(
             onTap: () {
               getIt<NavigationService>()
@@ -76,12 +76,12 @@ class CategoryMixPage extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                   SizedBox(height: 4,),
                   Text(
                     'Unlock all sound and remove ads',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   )
                 ],
               ),

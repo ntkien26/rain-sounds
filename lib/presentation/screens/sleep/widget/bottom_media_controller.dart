@@ -44,11 +44,11 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
           child: Container(
             color: kBottomBarColor.withOpacity(0.9),
             width: double.infinity,
-            height: 80,
+            height: 68,
             child: Row(
               children: [
                 Container(
-                  width: 80,
+                  width: 68,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           fit: BoxFit.cover,
