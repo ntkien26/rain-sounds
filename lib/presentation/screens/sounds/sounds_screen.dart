@@ -115,6 +115,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                             );
                           }),
                     ),
+                    const SizedBox(height: 32,),
                     DotsIndicator(
                       dotsCount: totalPage,
                       position: _selectedIndex.toDouble(),
@@ -143,7 +144,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                       ],
                     ),
                     const SizedBox(
-                      height: 16,
+                      height: 24,
                     )
                   ],
                 ),
