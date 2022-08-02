@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
@@ -10,7 +11,9 @@ class AdHelper {
     if (Platform.isAndroid) {
       return "ca-app-pub-3940256099942544/6300978111";
     } else if (Platform.isIOS) {
-      return "ca-app-pub-3940256099942544/2934735716";
+      return kDebugMode
+          ? "ca-app-pub-3940256099942544/2934735716"
+          : "ca-app-pub-8874925934744732/9301483138";
     } else {
       throw UnsupportedError("Unsupported platform");
     }
@@ -20,7 +23,9 @@ class AdHelper {
     if (Platform.isAndroid) {
       return "ca-app-pub-3940256099942544/1033173712";
     } else if (Platform.isIOS) {
-      return "ca-app-pub-3940256099942544/4411468910";
+      return kDebugMode
+          ? "ca-app-pub-3940256099942544/4411468910"
+          : "ca-app-pub-8874925934744732/1338113072";
     } else {
       throw UnsupportedError("Unsupported platform");
     }
@@ -30,7 +35,9 @@ class AdHelper {
     if (Platform.isAndroid) {
       return "ca-app-pub-3940256099942544/5224354917";
     } else if (Platform.isIOS) {
-      return "ca-app-pub-3940256099942544/1712485313";
+      return kDebugMode
+          ? "ca-app-pub-3940256099942544/1712485313"
+          : "ca-app-pub-8874925934744732/4679711848";
     } else {
       throw UnsupportedError("Unsupported platform");
     }
@@ -143,7 +150,9 @@ class AdHelper {
     }
   }
 
-  void showRewardedAd({required VoidCallback onUserRewarded, required Function(bool) isLoadingAd}) {
+  void showRewardedAd(
+      {required VoidCallback onUserRewarded,
+      required Function(bool) isLoadingAd}) {
     isLoadingAd(true);
     RewardedAd.load(
       adUnitId: AdHelper.rewardedAdUnitId,
