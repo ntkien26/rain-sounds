@@ -10,7 +10,7 @@ abstract class MusicAPI {
 
   factory MusicAPI(Dio dio) = _MusicAPI;
 
-  @GET("/{file}")
+  @GET("ios/{file}")
   Future<HttpResponse<List<GroupMusicModel>>> getListGroupMusic(@Path("file") String file);
 
 }

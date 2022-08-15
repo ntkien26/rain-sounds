@@ -77,9 +77,14 @@ class SplashScreenState extends State<SplashScreen>
               );
             } else {
               if (adHelper.isInterstitialAdsReady()) {
-                adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
-                  navigateToMainScreen();
-                });
+                adHelper.showInterstitialAd(
+                  onAdDismissedFullScreenContent: () {
+                    navigateToMainScreen();
+                  },
+                  onAdFailedToLoad: () {
+                    navigateToMainScreen();
+                  },
+                );
               } else {
                 navigateToMainScreen();
               }
@@ -118,7 +123,11 @@ class SplashScreenState extends State<SplashScreen>
                       child: Center(
                         child: Text(
                           'Rain Sounds for Sleep',
-                          style: GoogleFonts.roboto(textStyle: const TextStyle(fontStyle: FontStyle.italic, fontSize: 20, color: Colors.white)),
+                          style: GoogleFonts.roboto(
+                              textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 20,
+                                  color: Colors.white)),
                         ),
                       ),
                     ),
@@ -138,7 +147,9 @@ class SplashScreenState extends State<SplashScreen>
                       child: Center(
                         child: Text(
                           'Help you sleep better',
-                          style: GoogleFonts.roboto(textStyle: const TextStyle(fontSize: 16, color: Colors.white)),
+                          style: GoogleFonts.roboto(
+                              textStyle: const TextStyle(
+                                  fontSize: 16, color: Colors.white)),
                         ),
                       ),
                     )

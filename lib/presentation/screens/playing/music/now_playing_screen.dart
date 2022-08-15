@@ -8,7 +8,6 @@ import 'package:rain_sounds/data/remote/model/music_model.dart';
 import 'package:rain_sounds/presentation/base/banner_ad.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
-import 'package:rain_sounds/presentation/screens/playing/loop_transale_widget.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:wave/config.dart';
@@ -59,41 +58,35 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NowPlayingBloc, NowPlayingState>(
-        bloc: _bloc..add(PlayMusicEvent(widget.musicModel)),
-        builder: (BuildContext context, NowPlayingState state) {
-          return Scaffold(
-              extendBodyBehindAppBar: true,
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0.0,
-                title: Text(
-                  widget.musicModel.group ?? '',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 24, color: Colors.white),
-                ),
-              ),
-              body: Stack(children: [
-                LoopTranslateWidget(
-                  child: Transform.scale(
-                    scale: 2,
-                    child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.3),
-                                    BlendMode.darken),
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(
-                                    widget.musicModel.background ?? '')))),
-                  ),
-                ),
-                SafeArea(
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: Text(
+            widget.musicModel.group ?? '',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 24, color: Colors.white),
+          ),
+        ),
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.3), BlendMode.darken),
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(
+                    widget.musicModel.background ?? '')),
+          ),
+          child: BlocBuilder<NowPlayingBloc, NowPlayingState>(
+              bloc: _bloc..add(PlayMusicEvent(widget.musicModel)),
+              builder: (BuildContext context, NowPlayingState state) {
+                return SafeArea(
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
                     const SizedBox(
-                      height: 48,
+                      height: 32,
                     ),
                     InkWell(
                       onTap: () async {
@@ -141,7 +134,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                         } else {
                           return StreamBuilder(
                             stream:
-                                _bloc.onlineMusicPlayer.audioPlayer.isPlaying,
+                            _bloc.onlineMusicPlayer.audioPlayer.isPlaying,
                             builder: (BuildContext context,
                                 AsyncSnapshot<bool> asyncSnapshot) {
                               final bool? isPlaying = asyncSnapshot.data;
@@ -156,26 +149,21 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       },
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 24,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
                         widget.musicModel.title ?? '',
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontStyle: FontStyle.italic),
+                        style: const TextStyle(fontSize: 20, color: Colors.white, fontStyle: FontStyle.italic),
                       ),
                     ),
                     const Spacer(),
-                    !appCache.isPremiumMember()
-                        ? const AppBannerAd()
-                        : const SizedBox()
+                    !appCache.isPremiumMember() ? const AppBannerAd() : const SizedBox()
                   ]),
-                )
-              ]));
-        });
+                );
+              }),
+        ));
   }
 }

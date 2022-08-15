@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
@@ -11,9 +12,17 @@ class AdHelper {
     if (Platform.isAndroid) {
       return "ca-app-pub-3940256099942544/6300978111";
     } else if (Platform.isIOS) {
-      return kDebugMode
-          ? "ca-app-pub-3940256099942544/2934735716"
-          : "ca-app-pub-8874925934744732/9301483138";
+      return "ca-app-pub-8874925934744732/9301483138";
+    } else {
+      throw UnsupportedError("Unsupported platform");
+    }
+  }
+
+  static String get interstitialAdUnitIdForOpening {
+    if (Platform.isAndroid) {
+      return "ca-app-pub-3940256099942544/1033173712";
+    } else if (Platform.isIOS) {
+      return "ca-app-pub-8874925934744732/1338113072";
     } else {
       throw UnsupportedError("Unsupported platform");
     }
@@ -23,9 +32,7 @@ class AdHelper {
     if (Platform.isAndroid) {
       return "ca-app-pub-3940256099942544/1033173712";
     } else if (Platform.isIOS) {
-      return kDebugMode
-          ? "ca-app-pub-3940256099942544/4411468910"
-          : "ca-app-pub-8874925934744732/1338113072";
+      return "ca-app-pub-8874925934744732/4679711848";
     } else {
       throw UnsupportedError("Unsupported platform");
     }
@@ -35,19 +42,7 @@ class AdHelper {
     if (Platform.isAndroid) {
       return "ca-app-pub-3940256099942544/5224354917";
     } else if (Platform.isIOS) {
-      return kDebugMode
-          ? "ca-app-pub-3940256099942544/1712485313"
-          : "ca-app-pub-8874925934744732/4679711848";
-    } else {
-      throw UnsupportedError("Unsupported platform");
-    }
-  }
-
-  static String get nativeAdUnitId {
-    if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/2247696110";
-    } else if (Platform.isIOS) {
-      return "ca-app-pub-3940256099942544/3986624511";
+      return "ca-app-pub-8874925934744732/6053464699";
     } else {
       throw UnsupportedError("Unsupported platform");
     }
@@ -64,7 +59,7 @@ class AdHelper {
   final AppCache appCache = getIt.get();
 
   void showInterstitialAd(
-      {required VoidCallback onAdDismissedFullScreenContent}) {
+      {required VoidCallback onAdDismissedFullScreenContent, required VoidCallback onAdFailedToLoad}) {
     if (appCache.isPremiumMember()) {
       onAdDismissedFullScreenContent();
       return;
@@ -76,12 +71,15 @@ class AdHelper {
       return;
     }
 
-    _showInterstitialAd(onAdDismissedFullScreenContent);
+    _showInterstitialAd(onAdDismissedFullScreenContent, onAdFailedToLoad);
   }
 
   void preloadInterstitialAd() {
+    final isAppOpened = appCache.isAppOpened();
     InterstitialAd.load(
-      adUnitId: AdHelper.interstitialAdUnitId,
+      adUnitId: isAppOpened
+          ? AdHelper.interstitialAdUnitId
+          : AdHelper.interstitialAdUnitIdForOpening,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
@@ -95,9 +93,13 @@ class AdHelper {
         },
       ),
     );
+
+    if (!isAppOpened) {
+      appCache.setIsAppOpened(true);
+    }
   }
 
-  void _showInterstitialAd(VoidCallback onAdDismissedFullScreenContent) {
+  void _showInterstitialAd(VoidCallback onAdDismissedFullScreenContent, VoidCallback onAdFailedToLoad) {
     if (_isInterstitialAdReady && shouldShowInterstitialAds()) {
       _interstitialAd?.show();
       _interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
@@ -136,6 +138,7 @@ class AdHelper {
           onAdFailedToLoad: (err) {
             print('Failed to load an interstitial ad: ${err.message}');
             _isInterstitialAdReady = false;
+            onAdFailedToLoad();
           },
         ),
       );

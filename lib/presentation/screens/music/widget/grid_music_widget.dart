@@ -49,6 +49,10 @@ class GridMusicWidget extends StatelessWidget {
                       getIt<NavigationService>().navigateToScreen(
                           screen: NowPlayingScreen(
                               musicModel: musicItem ?? MusicModel()));
+                    }, onAdFailedToLoad: () {
+                      getIt<NavigationService>().navigateToScreen(
+                          screen: NowPlayingScreen(
+                              musicModel: musicItem ?? MusicModel()));
                     });
                   }
                 },

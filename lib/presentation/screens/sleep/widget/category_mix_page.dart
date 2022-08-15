@@ -240,10 +240,10 @@ class _MixItemState extends State<MixItem> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    child: SvgPicture.asset(
-                                        IconPaths.icPremiumNoColor),
                                     height: 32,
                                     width: 32,
+                                    child: SvgPicture.asset(
+                                        IconPaths.icPremiumNoColor),
                                   ),
                                   const SizedBox(
                                     width: 12,
@@ -265,6 +265,9 @@ class _MixItemState extends State<MixItem> {
             getIt<NavigationService>()
                 .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
             widget.onItemClicked(widget.mix);
+          }, onAdFailedToLoad: () {
+            getIt<NavigationService>()
+                .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
           });
         }
       },

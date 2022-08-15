@@ -149,10 +149,16 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      if (appCache.isFirstLaunch() && adHelper.isInterstitialAdsReady()) {
-                        adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+                      if (appCache.isFirstLaunch()) {
+                        if (adHelper.isInterstitialAdsReady()) {
+                          adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+                            getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                          }, onAdFailedToLoad: () {
+                            getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                          });
+                        } else {
                           getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
-                        });
+                        }
                       } else {
                         Navigator.pop(context);
                       }

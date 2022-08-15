@@ -162,7 +162,7 @@ class _MoreScreenState extends State<MoreScreen>
       scheme: 'mailto',
       path: 'hopnv.1611@gmail.com',
       query: encodeQueryParameters(<String, String>{
-        'subject': 'Feedback to Sound Sleeps',
+        'subject': 'Feedback to Sound Sleeps IOS',
       }),
     );
     try {

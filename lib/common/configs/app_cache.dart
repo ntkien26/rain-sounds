@@ -19,8 +19,17 @@ class AppCache {
   final String _isSubscriptionActive = '_subscribeActive';
 
   final String _isFirstLaunch = '_isFirstLaunch';
+  final String _isAppOpened = '_isAppOpened';
 
   AppCache(this._prefs);
+
+  Future<void> setIsAppOpened(bool isOpened) async {
+    _prefs.setBool(_isAppOpened, isOpened);
+  }
+
+  bool isAppOpened() {
+    return _prefs.getBool(_isAppOpened) ?? false;
+  }
 
   Future<void> setIsFirstLaunch(bool isFirstLaunch) async {
     _prefs.setBool(_isFirstLaunch, isFirstLaunch);
