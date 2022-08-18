@@ -82,7 +82,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                         height: 8,
                       ),
                       SizedBox(
-                        height: 170,
+                        height: 160,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: state.selectedSounds?.length ?? 0,
@@ -92,8 +92,8 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                                   editSelectedSoundBloc: _bloc);
                             }),
                       ),
-                      Flexible(
-                        flex: 5,
+                      Expanded(
+                        flex: 1,
                         child: PageView.builder(
                             itemCount: totalPage,
                             onPageChanged: (page) {
@@ -108,66 +108,78 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                               );
                             }),
                       ),
-                      Flexible(
-                        flex: 1,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    IconPaths.icClose,
-                                    width: 20,
-                                    height: 20,
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  const Text(
-                                    'Cancel',
-                                    style: TextStyle(color: Colors.white38),
-                                  )
-                                ],
-                              ),
-                              DotsIndicator(
-                                dotsCount: totalPage,
-                                position: _selectedIndex.toDouble(),
-                                decorator: const DotsDecorator(
-                                  color: Colors.white30, // Inactive color
-                                  activeColor: Colors.white,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  _bloc.add(ResetEvent(mix: widget.mix));
-                                },
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      IconPaths.icReset,
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    const Text(
-                                      'Reset',
-                                      style: TextStyle(color: Colors.white38),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
+                      Center(
+                        child: DotsIndicator(
+                          dotsCount: totalPage,
+                          position: _selectedIndex.toDouble(),
+                          decorator: const DotsDecorator(
+                            color: Colors.white30, // Inactive color
+                            activeColor: Colors.white,
                           ),
                         ),
+                      ),
+                      SizedBox(height: 16,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  IconPaths.icClose,
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                const Text(
+                                  'Cancel',
+                                  style: TextStyle(color: Colors.white38),
+                                )
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: [
+                              SvgPicture.asset(
+                                IconPaths.icChecked,
+                                height: 60,
+                                width: 60,
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              )
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _bloc.add(ResetEvent(mix: widget.mix));
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  IconPaths.icReset,
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                const Text(
+                                  'Reset',
+                                  style: TextStyle(color: Colors.white38),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   );
