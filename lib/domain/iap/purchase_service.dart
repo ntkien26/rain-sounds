@@ -4,7 +4,8 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PurchaseService {
-  static const API_KEY = 'appl_PIbSzXmGdkZRobdcFJgkhHwYVHK';
+  static const API_KEY = 'appl_gybKPXpbKavCvzrwEwbrpMpkIBs';
+  static const APP_USER_ID = 'appb8af7908ae';
 
   List<String> skus = ['monthly', 'yearly', 'lifetime'];
 
@@ -23,7 +24,7 @@ class PurchaseService {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     await Purchases.setDebugLogsEnabled(true);
-    await Purchases.setup(API_KEY);
+    await Purchases.setup(API_KEY, appUserId: APP_USER_ID);
     _products.add(await Purchases.getProducts(skus));
     final purchaseInfo = await Purchases.getPurchaserInfo();
 

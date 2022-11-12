@@ -28,6 +28,7 @@ class _MoreScreenState extends State<MoreScreen>
     ItemMoreModel(IconPaths.icFeedBack, 'Feedback', '', false),
     ItemMoreModel(IconPaths.icShareApp, 'Share App', '', false),
     ItemMoreModel(IconPaths.icWarn, 'Privacy Policy', '', true),
+    ItemMoreModel(IconPaths.icWarn, 'Term of Service', '', true),
   ];
 
   final AppCache appCache = getIt.get();
@@ -82,7 +83,7 @@ class _MoreScreenState extends State<MoreScreen>
                     const SizedBox(height: 32,),
                     Column(
                       children: List.generate(
-                        5,
+                        6,
                         (index) => MoreItemWidget(
                           iconSvg: listItem[index].svgIcon ?? '',
                           titleItem: listItem[index].titleItem ?? '',
@@ -109,6 +110,9 @@ class _MoreScreenState extends State<MoreScreen>
                                 break;
                               case 4:
                                 _launchPrivacy();
+                                break;
+                              case 5:
+                                _launchTermOfService();
                                 break;
                             }
                           },
@@ -176,6 +180,15 @@ class _MoreScreenState extends State<MoreScreen>
     try {
       launchUrl(Uri.parse(
           'https://smarttouch2017.wordpress.com/2022/07/21/rain-sounds-for-sleep/'));
+    } catch (ex) {
+      print('Launch url error: $ex');
+    }
+  }
+
+  void _launchTermOfService() {
+    try {
+      launchUrl(Uri.parse(
+          'https://smarttouch2017.wordpress.com/2022/11/11/term-of-service-for-sleep-sounds/'));
     } catch (ex) {
       print('Launch url error: $ex');
     }

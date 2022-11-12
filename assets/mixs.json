@@ -57,28 +57,16 @@
     ]
   },
   {
-    "mixSoundId": 240,
-    "category": 3,
-    "name": "Heavy Rain",
+    "mixSoundId": 223,
+    "category": 5,
+    "name": "Yoga Music",
     "cover": {
-      "thumbnail": "heavy_rain_crop",
-      "background": "heavy_rain"
+      "thumbnail": "yoga_crop",
+      "background": "yoga"
     },
     "sounds": [
       {
-        "id": 103,
-        "volume": 80
-      },
-      {
-        "id": 104,
-        "volume": 80
-      },
-      {
-        "id": 110,
-        "volume": 80
-      },
-      {
-        "id": 114,
+        "id": 147,
         "volume": 80
       }
     ]
@@ -428,21 +416,6 @@
       {
         "id": 112,
         "volume": 50
-      }
-    ]
-  },
-  {
-    "mixSoundId": 223,
-    "category": 5,
-    "name": "Yoga Music",
-    "cover": {
-      "thumbnail": "yoga_crop",
-      "background": "yoga"
-    },
-    "sounds": [
-      {
-        "id": 147,
-        "volume": 80
       }
     ]
   },

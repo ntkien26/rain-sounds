@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
@@ -9,6 +10,7 @@ import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_r
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InAppPurchaseScreen extends StatefulWidget {
   const InAppPurchaseScreen({Key? key}) : super(key: key);
@@ -54,20 +56,21 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   void initState() {
     super.initState();
     purchaseService.products.listen((iapItems) => {
-      iapItems.forEach((element) {
-        switch (element.identifier) {
-          case 'monthly':
-            listOfPurchase[0].price = element.priceString;
-            break;
-          case 'yearly':
-            listOfPurchase[1].price = element.priceString;
-            break;
-          case 'lifetime':
-            listOfPurchase[2].price = element.priceString;
-        }
-      }),
-      setState(() {})
-    });
+          iapItems.forEach((element) {
+            print('iapItems: $element');
+            switch (element.identifier) {
+              case 'monthly':
+                listOfPurchase[0].price = element.priceString;
+                break;
+              case 'yearly':
+                listOfPurchase[1].price = element.priceString;
+                break;
+              case 'lifetime':
+                listOfPurchase[2].price = element.priceString;
+            }
+          }),
+          setState(() {})
+        });
   }
 
   void _handlePurchaseSuccessfully() {
@@ -91,11 +94,14 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                         fontSize: 18,
                         fontWeight: FontWeight.w400),
                   ),
-                  const SizedBox(height: 24,),
+                  const SizedBox(
+                    height: 24,
+                  ),
                   InkWell(
                     onTap: () {
                       if (appCache.isFirstLaunch()) {
-                        getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                        getIt<NavigationService>().navigateToScreen(
+                            screen: const BedTimeReminderScreen());
                       } else {
                         Navigator.popUntil(context, (route) => route.isFirst);
                       }
@@ -151,13 +157,17 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                     onTap: () {
                       if (appCache.isFirstLaunch()) {
                         if (adHelper.isInterstitialAdsReady()) {
-                          adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
-                            getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                          adHelper.showInterstitialAd(
+                              onAdDismissedFullScreenContent: () {
+                            getIt<NavigationService>().navigateToScreen(
+                                screen: const BedTimeReminderScreen());
                           }, onAdFailedToLoad: () {
-                            getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                            getIt<NavigationService>().navigateToScreen(
+                                screen: const BedTimeReminderScreen());
                           });
                         } else {
-                          getIt<NavigationService>().navigateToScreen(screen: const BedTimeReminderScreen());
+                          getIt<NavigationService>().navigateToScreen(
+                              screen: const BedTimeReminderScreen());
                         }
                       } else {
                         Navigator.pop(context);
@@ -249,21 +259,25 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                 width: w,
                 child: TextButton(
                   onPressed: () async {
+                    EasyLoading.show(status: 'Preparing purchase');
                     switch (indexChecked) {
                       case 0:
                         if (await purchaseService.buy('monthly')) {
                           _handlePurchaseSuccessfully();
                         }
+                        EasyLoading.dismiss();
                         break;
                       case 1:
                         if (await purchaseService.buy('yearly')) {
                           _handlePurchaseSuccessfully();
                         }
+                        EasyLoading.dismiss();
                         break;
                       case 2:
                         if (await purchaseService.buy('lifetime')) {
                           _handlePurchaseSuccessfully();
                         }
+                        EasyLoading.dismiss();
                         break;
                     }
                   },
@@ -291,11 +305,58 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                 style: TextStyleConstant.smallTextStyle,
                 textAlign: TextAlign.center,
               ),
+              const Spacer(),
+              Row(
+                children: [
+                  const Spacer(),
+                  InkWell(
+                    child: const Text(
+                      'Term of Service',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onTap: () {
+                      _launchTermOfService();
+                    },
+                  ),
+                  const Text(
+                    ' and ',
+                    style: TextStyle(color: Colors.white54),
+                  ),
+                  InkWell(
+                    child: const Text(
+                      'Privacy Policy',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onTap: () {
+                      _launchPrivacy();
+                    },
+                  ),
+                  const Spacer(),
+                ],
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _launchPrivacy() {
+    try {
+      launchUrl(Uri.parse(
+          'https://smarttouch2017.wordpress.com/2022/07/21/rain-sounds-for-sleep/'));
+    } catch (ex) {
+      print('Launch url error: $ex');
+    }
+  }
+
+  void _launchTermOfService() {
+    try {
+      launchUrl(Uri.parse(
+          'https://smarttouch2017.wordpress.com/2022/11/11/term-of-service-for-sleep-sounds/'));
+    } catch (ex) {
+      print('Launch url error: $ex');
+    }
   }
 
   Widget _checkedTitle(String title) {
@@ -400,11 +461,10 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   }
 
   String feeText(index) {
-    const String constString = 'Try 3 days free and then ';
     if (index == 1) {
-      return constString + '${listOfPurchase[1].price} ₫/year';
+      return '';
     } else if (index == 0) {
-      return constString + '${listOfPurchase[0].price} ₫/month';
+      return '';
     } else {
       return 'Enjoy a Lifetime Subscription at ${listOfPurchase[2].price} ₫';
     }
@@ -413,9 +473,9 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   String btText(index) {
     const String constString = 'Subscribe for ';
     if (index == 1) {
-      return constString + '${listOfPurchase[1].price} ₫/year';
+      return '$constString${listOfPurchase[1].price} ₫/year';
     } else if (index == 0) {
-      return constString + '${listOfPurchase[0].price} ₫/month';
+      return '$constString${listOfPurchase[0].price} ₫/month';
     } else {
       return 'Buy now';
     }

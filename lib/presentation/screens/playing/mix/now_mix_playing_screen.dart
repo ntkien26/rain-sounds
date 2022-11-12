@@ -71,7 +71,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
           decoration: BoxDecoration(
               image: DecorationImage(
                   colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.3), BlendMode.darken),
+                      Colors.black.withOpacity(0.3), BlendMode.colorBurn),
                   fit: BoxFit.cover,
                   image: AssetImage(
                       "${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp"))),

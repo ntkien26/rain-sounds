@@ -75,7 +75,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           decoration: BoxDecoration(
             image: DecorationImage(
                 colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3), BlendMode.darken),
+                    Colors.black.withOpacity(0.3), BlendMode.colorBurn),
                 fit: BoxFit.cover,
                 image: CachedNetworkImageProvider(
                     widget.musicModel.background ?? '')),
