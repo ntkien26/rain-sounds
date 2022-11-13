@@ -259,7 +259,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                 width: w,
                 child: TextButton(
                   onPressed: () async {
-                    EasyLoading.show(status: 'Preparing purchase');
+                    EasyLoading.show(status: 'Processing purchase');
                     switch (indexChecked) {
                       case 0:
                         if (await purchaseService.buy('monthly')) {
