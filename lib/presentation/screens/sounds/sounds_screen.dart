@@ -18,6 +18,7 @@ import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
+import 'package:badges/badges.dart' as badges;
 
 class SoundsScreen extends StatefulWidget {
   const SoundsScreen({Key? key}) : super(key: key);
@@ -191,7 +192,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
           SizedBox(
             height: 24,
             width: 24,
-            child: Badge(
+            child: badges.Badge(
               showBadge: true,
               position: BadgePosition.topEnd(end: -14),
               badgeContent: Text(
