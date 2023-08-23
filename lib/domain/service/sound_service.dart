@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
@@ -146,13 +145,13 @@ class SoundService {
       playbackTimer.start();
     }
 
-    AssetsAudioPlayer.allPlayers().values.forEach((element) {
-      element.isPlaying.listen((isPlaying) {
-        _isPlaying.add(AssetsAudioPlayer.allPlayers()
-            .values
-            .any((element) => element.isPlaying.value));
-      });
-    });
+    // AssetsAudioPlayer.allPlayers().values.forEach((element) {
+    //   element.isPlaying.listen((isPlaying) {
+    //     _isPlaying.add(AssetsAudioPlayer.allPlayers()
+    //         .values
+    //         .any((element) => element.isPlaying.value));
+    //   });
+    // });
 
     return selected;
   }

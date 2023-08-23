@@ -76,18 +76,7 @@ class SplashScreenState extends State<SplashScreen>
                 (Route<void> route) => false,
               );
             } else {
-              if (adHelper.isInterstitialAdsReady()) {
-                adHelper.showInterstitialAd(
-                  onAdDismissedFullScreenContent: () {
-                    navigateToMainScreen();
-                  },
-                  onAdFailedToLoad: () {
-                    navigateToMainScreen();
-                  },
-                );
-              } else {
-                navigateToMainScreen();
-              }
+              navigateToMainScreen();
               break;
             }
         }

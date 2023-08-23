@@ -10,9 +10,6 @@ class NowPlayingBloc extends Bloc<NowPlayingEvent, NowPlayingState> {
 
   NowPlayingBloc(this.onlineMusicPlayer) : super(NowPlayingState.initial) {
     on(_onNowPlayingEvent);
-    onlineMusicPlayer.audioPlayer.isPlaying.listen((isPlaying) {
-      emit(state.copyWith(isPlaying: isPlaying));
-    });
   }
 
   Future<void> _onNowPlayingEvent(

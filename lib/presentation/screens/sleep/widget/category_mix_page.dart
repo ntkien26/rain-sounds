@@ -261,14 +261,9 @@ class _MixItemState extends State<MixItem> {
                 );
               });
         } else {
-          adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
-            getIt<NavigationService>()
-                .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
-            widget.onItemClicked(widget.mix);
-          }, onAdFailedToLoad: () {
-            getIt<NavigationService>()
-                .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
-          });
+          getIt<NavigationService>()
+              .navigateToScreen(screen: NowMixPlayingScreen(mix: widget.mix));
+          widget.onItemClicked(widget.mix);
         }
       },
       child: Column(

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
-import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
@@ -20,7 +19,7 @@ class InAppPurchaseScreen extends StatefulWidget {
 }
 
 class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
-  final PurchaseService purchaseService = getIt.get();
+  // final PurchaseService purchaseService = getIt.get();
   final AppCache appCache = getIt.get();
   final AdHelper adHelper = getIt.get();
 
@@ -55,22 +54,23 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   @override
   void initState() {
     super.initState();
-    purchaseService.products.listen((iapItems) => {
-          iapItems.forEach((element) {
-            print('iapItems: $element');
-            switch (element.identifier) {
-              case 'monthly':
-                listOfPurchase[0].price = element.priceString;
-                break;
-              case 'yearly':
-                listOfPurchase[1].price = element.priceString;
-                break;
-              case 'lifetime':
-                listOfPurchase[2].price = element.priceString;
-            }
-          }),
-          setState(() {})
-        });
+    // purchaseService.products.listen((iapItems) => {
+    //       iapItems.forEach((element) {
+    //         print('iapItems: $element');
+    //         switch (element.identifier) {
+    //           case 'monthly':
+    //             listOfPurchase[0].price = element.priceString;
+    //             break;
+    //           case 'yearly':
+    //             listOfPurchase[1].price = element.priceString;
+    //             break;
+    //           case 'lifetime':
+    //             listOfPurchase[2].price = element.priceString;
+    //         }
+    //       }),
+    //       setState(() {})
+    //     }
+    //     );
   }
 
   void _handlePurchaseSuccessfully() {
@@ -262,21 +262,21 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                     EasyLoading.show(status: 'Processing purchase');
                     switch (indexChecked) {
                       case 0:
-                        if (await purchaseService.buy('monthly')) {
-                          _handlePurchaseSuccessfully();
-                        }
+                        // if (await purchaseService.buy('monthly')) {
+                        //   _handlePurchaseSuccessfully();
+                        // }
                         EasyLoading.dismiss();
                         break;
                       case 1:
-                        if (await purchaseService.buy('yearly')) {
-                          _handlePurchaseSuccessfully();
-                        }
+                        // if (await purchaseService.buy('yearly')) {
+                        //   _handlePurchaseSuccessfully();
+                        // }
                         EasyLoading.dismiss();
                         break;
                       case 2:
-                        if (await purchaseService.buy('lifetime')) {
-                          _handlePurchaseSuccessfully();
-                        }
+                        // if (await purchaseService.buy('lifetime')) {
+                        //   _handlePurchaseSuccessfully();
+                        // }
                         EasyLoading.dismiss();
                         break;
                     }

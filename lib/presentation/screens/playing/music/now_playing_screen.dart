@@ -5,7 +5,6 @@ import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
-import 'package:rain_sounds/presentation/base/banner_ad.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
@@ -124,30 +123,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                     const SizedBox(
                       height: 32,
                     ),
-                    StreamBuilder(
-                      stream: _bloc.onlineMusicPlayer.audioPlayer.isBuffering,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<bool> asyncSnapshot) {
-                        final bool? isBuffering = asyncSnapshot.data;
-                        if (isBuffering == true) {
-                          return const CircularProgressIndicator.adaptive();
-                        } else {
-                          return StreamBuilder(
-                            stream:
-                            _bloc.onlineMusicPlayer.audioPlayer.isPlaying,
-                            builder: (BuildContext context,
-                                AsyncSnapshot<bool> asyncSnapshot) {
-                              final bool? isPlaying = asyncSnapshot.data;
-                              return PlayingButton(
-                                  isPlaying: isPlaying == true,
-                                  onTap: () {
-                                    _bloc.add(ToggleEvent());
-                                  });
-                            },
-                          );
-                        }
-                      },
-                    ),
+                    PlayingButton(
+                      isPlaying: true,
+                      onTap: () {
+                        _bloc.add(ToggleEvent());
+                      }),
                     const SizedBox(
                       height: 24,
                     ),
@@ -160,7 +140,6 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       ),
                     ),
                     const Spacer(),
-                    !appCache.isPremiumMember() ? const AppBannerAd() : const SizedBox()
                   ]),
                 );
               }),

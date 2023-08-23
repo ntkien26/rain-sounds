@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
-import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/presentation/screens/music/music_bloc.dart';
 import 'package:rain_sounds/presentation/screens/music/music_state.dart';
 import 'package:rain_sounds/presentation/screens/music/widget/grid_music_widget.dart';
@@ -19,15 +18,6 @@ class MusicScreen extends StatefulWidget {
 class _MusicScreenState extends State<MusicScreen>
     with AutomaticKeepAliveClientMixin {
   final MusicBloc _bloc = getIt<MusicBloc>();
-  final PurchaseService purchaseService = getIt.get();
-
-  @override
-  void initState() {
-    super.initState();
-    purchaseService.purchaseUpdated.listen((updated) {
-      if (updated) setState(() {});
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

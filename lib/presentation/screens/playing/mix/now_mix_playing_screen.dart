@@ -5,7 +5,6 @@ import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
-import 'package:rain_sounds/presentation/base/banner_ad.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_screen.dart';
@@ -222,10 +221,6 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                               });
                         },
                       ),
-                      const Spacer(),
-                      !appCache.isPremiumMember()
-                          ? const AppBannerAd()
-                          : const SizedBox()
                     ],
                   ),
                 );

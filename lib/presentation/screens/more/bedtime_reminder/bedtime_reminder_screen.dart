@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
-import 'package:rain_sounds/domain/manager/notification_manager.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
@@ -20,7 +19,6 @@ class BedTimeReminderScreen extends StatefulWidget {
 
 class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
   final AppCache appCache = getIt.get();
-  final NotificationService notificationService = getIt.get();
   TimeOfDay? timeOfDay;
   DateTime now = DateTime.now();
 
@@ -269,19 +267,19 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
   }
 
   Future<void> setUpReminder() async {
-    if (!appCache.isEnableReminder()) {
-      await notificationService.cancelScheduledNotifications();
-      return;
-    } else {
-      final daysChecked = listOfDays.where((element) => element.onCheck);
-      await notificationService.cancelScheduledNotifications();
-      for (var element in daysChecked) {
-        await notificationService.createReminderNotification(
-            NotificationWeekAndTime(
-                dayOfTheWeek: element.weekDay,
-                timeOfDay: timeOfDay ?? const TimeOfDay(hour: 21, minute: 30)));
-      }
-    }
+    // if (!appCache.isEnableReminder()) {
+    //   await notificationService.cancelScheduledNotifications();
+    //   return;
+    // } else {
+    //   final daysChecked = listOfDays.where((element) => element.onCheck);
+    //   await notificationService.cancelScheduledNotifications();
+    //   for (var element in daysChecked) {
+    //     await notificationService.createReminderNotification(
+    //         NotificationWeekAndTime(
+    //             dayOfTheWeek: element.weekDay,
+    //             timeOfDay: timeOfDay ?? const TimeOfDay(hour: 21, minute: 30)));
+    //   }
+    // }
   }
 }
 

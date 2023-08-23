@@ -3,7 +3,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/network_di.dart';
 import 'package:rain_sounds/data/local/model/more.dart';
-import 'package:rain_sounds/domain/iap/purchase_service.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
 import 'package:rain_sounds/presentation/screens/more/widget/more_item_widget.dart';
@@ -32,17 +31,8 @@ class _MoreScreenState extends State<MoreScreen>
   ];
 
   final AppCache appCache = getIt.get();
-  final PurchaseService purchaseService = getIt.get();
 
   static const _appID = 1631507315;
-
-  @override
-  void initState() {
-    super.initState();
-    purchaseService.purchaseUpdated.listen((updated) {
-      if (updated) setState(() {});
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
