@@ -7,6 +7,7 @@ import 'package:rain_sounds/common/configs/app_route.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/app/app_bloc.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/intro/intro_screen.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_screen.dart';
 
 

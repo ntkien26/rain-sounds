@@ -33,3 +33,8 @@ const Color k299ac6 = Color(0xff299ac6);
 const Color kb62f69 = Color(0xffb62f69);
 const Color kf9d136 = Color(0xfff9d136);
 const Color k78f721 = Color(0xff78f721);
+
+//onboarding screen
+const Color k5C40DF = Color(0xff5C40DF);
+const Color k7F65F0 = Color(0xff7F65F0);
+const Color kFFFFFF = Color(0xffFFFFFF);
