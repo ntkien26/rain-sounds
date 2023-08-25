@@ -64,5 +64,8 @@ class IconPaths {
   static const String icReset = '${Assets.baseIconPath}/ic_retry.svg';
   static const String icCloseCircle = '${Assets.baseIconPath}/ic_circle_bg_close.svg';
   static const String icConfirm = '${Assets.baseIconPath}/ic_confirm.svg';
-
+  static const String icUp = '${Assets.baseIconPath}/ic_up.svg';
+  static const String icDown = '${Assets.baseIconPath}/ic_down.svg';
+  static const String icCancel = '${Assets.baseIconPath}/ic_cancel.svg';
+  static const String icConfirmGreen = '${Assets.baseIconPath}/ic_confirm_green.svg';
 }
