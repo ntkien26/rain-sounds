@@ -29,6 +29,13 @@ class ImagePaths {
   static const String bgCover6 = '${Assets.baseImagesPath}/bg_cover_6';
   static const String bgCover7 = '${Assets.baseImagesPath}/bg_cover_7';
   static const String bgCover8 = '${Assets.baseImagesPath}/bg_cover_8';
+  static const String bgOnBoarding = '${Assets.baseImagesPath}/bg_onboarding.png';
+  static const String imgTree = '${Assets.baseImagesPath}/tree.png';
+  static const String imgMoon = '${Assets.baseImagesPath}/moon.png';
+  static const String imgInstrument = '${Assets.baseImagesPath}/instrument.png';
+
+
+
 }
 
 class IconPaths {
@@ -56,4 +63,6 @@ class IconPaths {
   static const String icSelectBlue = '${Assets.baseIconPath}/ic_select_blue.svg';
   static const String icReset = '${Assets.baseIconPath}/ic_retry.svg';
   static const String icCloseCircle = '${Assets.baseIconPath}/ic_circle_bg_close.svg';
+  static const String icConfirm = '${Assets.baseIconPath}/ic_confirm.svg';
+
 }

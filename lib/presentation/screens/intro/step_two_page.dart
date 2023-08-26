@@ -17,7 +17,7 @@ class StepTwoPage extends StatelessWidget {
       height: double.infinity,
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(ImagePaths.bgMoreScreen), fit: BoxFit.fill)),
+              image: AssetImage(ImagePaths.bgOnBoarding), fit: BoxFit.fill)),
       child: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -30,80 +30,85 @@ class StepTwoPage extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  '50+ mix sounds - music collection',
+                  '50+ mix sounds\n music collection',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       textStyle: const TextStyle(
-                          color: Colors.amberAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18)),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  )),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'Relax and fall asleep faster with relaxing\n content selected just for you',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(
+                      textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  )),
                 ),
               ),
               const SizedBox(
-                height: 24,
-              ),
-              FutureBuilder<String>(
-                future: rootBundle.loadString(Assets.mixesJson),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final mixes = mixesFromJson(snapshot.data!);
-                    return Expanded(
-                      child: GridView.builder(
-                          itemCount: mixes.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 16,
-                                  crossAxisSpacing: 16,
-                                  crossAxisCount: 3),
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.asset(
-                                  '${Assets.baseImagesPath}/${mixes[index].cover?.thumbnail}.webp'),
-                            );
-                          }),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
+                height: 48,
               ),
               const SizedBox(
-                height: 24,
+                width: double.infinity,
+                child: Image(
+                  image: AssetImage(ImagePaths.imgInstrument),
+                ),
               ),
-              Text(
-                  'Relax and fall asleep faster with relaxing content selected just for you',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 16)),
-              const SizedBox(
-                height: 24,
-              ),
+              const Spacer(),
               TextButton(
                 onPressed: () {
                   onNextClicked();
                 },
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: const BorderSide(color: kb62f69))),
-                  backgroundColor: MaterialStateProperty.all<Color>(kb62f69),
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  side: const BorderSide(
+                    color: k7F65F0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      'Next',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.nunito(
-                          fontWeight: FontWeight.w500, color: Colors.white),
+                child: Ink(
+                  padding: EdgeInsets.zero,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: <Color>[
+                        k5C40DF,
+                        k7F65F0,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        'Next',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
             ],
           ),
