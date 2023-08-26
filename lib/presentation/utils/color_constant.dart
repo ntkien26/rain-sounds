@@ -38,3 +38,11 @@ const Color k78f721 = Color(0xff78f721);
 const Color k5C40DF = Color(0xff5C40DF);
 const Color k7F65F0 = Color(0xff7F65F0);
 const Color kFFFFFF = Color(0xffFFFFFF);
+
+//bedtime reminder screen
+const Color k181E4A = Color(0xff181E4A);
+const Color k202968 = Color(0xff202968);
+const Color k70679A = Color(0xff70679A);
+const Color k293379 = Color(0xff293379);
+const Color kF2EFFF = Color(0xffF2EFFF);
+
