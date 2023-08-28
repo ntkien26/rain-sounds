@@ -11,6 +11,7 @@ import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
 import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
 import 'package:rain_sounds/presentation/screens/more/more_screen.dart';
 import 'package:rain_sounds/presentation/screens/sleep/relax_screen.dart';
+import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_screen.dart';
 
 
@@ -40,7 +41,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(textTheme: GoogleFonts.robotoTextTheme()),
       //  initialRoute: MainScreen.routePath,
         builder: EasyLoading.init(),
-        home: const MoreScreen(),
+        home: const BedTimeReminderScreen(),
       ),
     );
   }
