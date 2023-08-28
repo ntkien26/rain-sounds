@@ -7,6 +7,10 @@ import 'package:rain_sounds/common/configs/app_route.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/presentation/app/app_bloc.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
+import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
+import 'package:rain_sounds/presentation/screens/more/more_screen.dart';
+import 'package:rain_sounds/presentation/screens/sleep/relax_screen.dart';
 import 'package:rain_sounds/presentation/screens/splash/splash_screen.dart';
 
 
@@ -34,8 +38,9 @@ class _MyAppState extends State<MyApp> {
         navigatorKey: getIt<NavigationService>().navigatorKey,
         onGenerateRoute: AppRoute.getRoute,
         theme: ThemeData(textTheme: GoogleFonts.robotoTextTheme()),
-        initialRoute: SplashScreen.routePath,
+      //  initialRoute: MainScreen.routePath,
         builder: EasyLoading.init(),
+        home: const MoreScreen(),
       ),
     );
   }

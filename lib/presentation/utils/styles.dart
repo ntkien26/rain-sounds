@@ -15,6 +15,8 @@ class TextStyleConstant {
   );
   static TextStyle smallTextStyle = const TextStyle(
       fontSize: 13, color: Colors.white, fontWeight: FontWeight.w300);
+  static TextStyle bigTextStyle = const TextStyle(
+      fontSize: 24, color: Colors.white, fontWeight: FontWeight.w600);
   static TextStyle mediumTextStyle = const TextStyle(
     fontSize: 16,
     color: Colors.white,

@@ -8,11 +8,13 @@ class MoreItemWidget extends StatelessWidget {
     required this.iconSvg,
     required this.titleItem,
     this.tailingText,
-    this.isLast, this.onTap,
+    this.isLast, this.onTap, this.tailingIcon, this.tailingIconSvg,
   }) : super(key: key);
   final String iconSvg;
   final String titleItem;
   final String? tailingText;
+  final bool? tailingIcon;
+  final String? tailingIconSvg;
   final bool? isLast;
   final VoidCallback? onTap;
 
@@ -42,11 +44,11 @@ class MoreItemWidget extends StatelessWidget {
                   )
                 ],
               ),
-              if (tailingText != null)
-                Text(
+              (tailingText != null && tailingIcon == false)
+                ? Text(
                   tailingText ?? '',
                   style: TextStyleConstant.songTitleTextStyle,
-                )
+                ) : SvgPicture.asset(tailingIconSvg??''),
             ],
           ),
           const SizedBox(
@@ -58,7 +60,7 @@ class MoreItemWidget extends StatelessWidget {
                 )
               : const SizedBox(),
           const SizedBox(
-            height: 16,
+            height: 20,
           ),
         ],
       ),

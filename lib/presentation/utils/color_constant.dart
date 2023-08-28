@@ -46,3 +46,11 @@ const Color k70679A = Color(0xff70679A);
 const Color k293379 = Color(0xff293379);
 const Color kF2EFFF = Color(0xffF2EFFF);
 
+//Home screen
+const Color k38184A = Color(0xff38184A);
+const Color k00072D = Color(0xff00072D);
+const Color k181f4c = Color(0xff181f4c);
+
+//More Screen
+const Color k8489B0 = Color(0xff8489B0);
+
