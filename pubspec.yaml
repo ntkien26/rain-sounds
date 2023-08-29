@@ -62,6 +62,7 @@ dependencies:
   url_launcher: ^6.1.5
   package_info_plus: ^3.1.0
   share_plus: ^4.0.10
+  audio_video_progress_bar: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

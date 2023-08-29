@@ -14,6 +14,7 @@ import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_sta
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -56,172 +57,206 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          centerTitle: true,
           title: Text(
             widget.mix.name ?? '',
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 24, color: Colors.white),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.3), BlendMode.colorBurn),
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                      "${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp"))),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              tileMode: TileMode.decal,
+              colors: [
+                k010621,
+                k1D1A55,
+              ],
+            ),
+          ),
           child: BlocBuilder<NowMixPlayingBloc, NowMixPlayingState>(
               bloc: _bloc
                 ..add(
                     PlayMixEvent(mix: widget.mix, autoStart: widget.autoStart)),
               builder: (BuildContext context, NowMixPlayingState state) {
                 return SafeArea(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          getIt<NavigationService>()
-                              .navigateToScreen(screen: SetTimerScreen());
-                        },
-                        child: SizedBox(
-                          width: 250,
-                          height: 250,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(150),
-                            child: Stack(
-                              children: [
-                                WaveWidget(
-                                  config: CustomConfig(
-                                    colors: _colors,
-                                    durations: _durations,
-                                    heightPercentages: _heightPercentages,
-                                  ),
-                                  backgroundColor:
-                                      _backgroundColor.withOpacity(0.7),
-                                  size: const Size(
-                                      double.infinity, double.infinity),
-                                  waveAmplitude: 0,
-                                ),
-                                CountDownTimer(
-                                  fontSize: 54,
-                                )
-                              ],
-                            ),
-                          ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const SizedBox(
+                          height: 16,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      SizedBox(
-                        height: 80,
-                        child: InkWell(
-                          onTap: () async {
-                            await getIt
-                                .get<NavigationService>()
-                                .navigateToScreen(
-                                    screen: EditSelectedSoundScreen(
-                                  mix: state.mix!,
-                                ));
-                            _bloc.add(RefreshEvent(mix: state.mix!));
+                        InkWell(
+                          onTap: () {
+                            getIt<NavigationService>()
+                                .navigateToScreen(screen: SetTimerScreen());
                           },
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            reverse: true,
-                            itemCount: state.mix?.sounds == null
-                                ? 1
-                                : state.mix!.sounds!.length + 1,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (index == 0) {
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      margin: const EdgeInsets.all(8),
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white30,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(8))),
-                                      child: SizedBox(
-                                        height: 35,
-                                        width: 35,
-                                        child:
-                                            Image.asset(ImagePaths.icEdit),
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Edit',
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                );
-                              }
-                              index -= 1;
-
-                              // return row
-                              var sound = state.mix?.sounds?[index];
-                              final extension = sound?.icon?.split('.').last;
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    margin: const EdgeInsets.all(8),
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white30,
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20))),
-                                    child: SizedBox(
-                                      child: extension == 'svg'
-                                          ? SvgPicture.asset(
-                                              '${Assets.baseIconPath}/${sound?.icon}')
-                                          : Image.asset(
-                                              '${Assets.baseIconPath}/${sound?.icon}'),
-                                    ),
+                          child: Column(
+                            children: [
+                              Container(
+                                // padding: const EdgeInsets.all(20),
+                                margin: const EdgeInsets.all(16),
+                                height: MediaQuery.of(context).size.width - 32,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        '${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp'),
+                                    fit: BoxFit.fill,
                                   ),
-                                  Text(
-                                    '${sound?.volume.toInt().toString()}%',
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    style:
-                                        const TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              );
-                            },
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12)),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 64,
+                              ),
+                              CountDownTimer(
+                                isNowPlayScreen: true,
+                              )
+                            ],
                           ),
+                          // child: SizedBox(
+                          //   width: 250,
+                          //   height: 250,
+                          //   child: ClipRRect(
+                          //     borderRadius: BorderRadius.circular(150),
+                          //     child: Stack(
+                          //       children: [
+                          //         WaveWidget(
+                          //           config: CustomConfig(
+                          //             colors: _colors,
+                          //             durations: _durations,
+                          //             heightPercentages: _heightPercentages,
+                          //           ),
+                          //           backgroundColor:
+                          //               _backgroundColor.withOpacity(0.7),
+                          //           size: const Size(
+                          //               double.infinity, double.infinity),
+                          //           waveAmplitude: 0,
+                          //         ),
+                          //         CountDownTimer(
+                          //           fontSize: 54,
+                          //         )
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      StreamBuilder(
-                        stream: _bloc.soundService.isPlaying,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<bool> asyncSnapshot) {
-                          final bool? isPlaying = asyncSnapshot.data;
-                          return PlayingButton(
-                              isPlaying: isPlaying == true,
-                              onTap: () {
-                                _bloc.add(ToggleMixEvent());
-                              });
-                        },
-                      ),
-                    ],
+                        // SizedBox(
+                        //   height: 80,
+                        //   child: InkWell(
+                        //     onTap: () async {
+                        //       await getIt
+                        //           .get<NavigationService>()
+                        //           .navigateToScreen(
+                        //               screen: EditSelectedSoundScreen(
+                        //             mix: state.mix!,
+                        //           ));
+                        //       _bloc.add(RefreshEvent(mix: state.mix!));
+                        //     },
+                        //     child: ListView.builder(
+                        //       shrinkWrap: true,
+                        //       scrollDirection: Axis.horizontal,
+                        //       reverse: true,
+                        //       itemCount: state.mix?.sounds == null
+                        //           ? 1
+                        //           : state.mix!.sounds!.length + 1,
+                        //       itemBuilder: (BuildContext context, int index) {
+                        //         if (index == 0) {
+                        //           return Column(
+                        //             mainAxisAlignment: MainAxisAlignment.center,
+                        //             children: [
+                        //               Container(
+                        //                 height: 40,
+                        //                 width: 40,
+                        //                 margin: const EdgeInsets.all(8),
+                        //                 decoration: const BoxDecoration(
+                        //                     color: Colors.white30,
+                        //                     borderRadius: BorderRadius.all(
+                        //                         Radius.circular(8))),
+                        //                 child: SizedBox(
+                        //                   height: 35,
+                        //                   width: 35,
+                        //                   child: Image.asset(ImagePaths.icEdit),
+                        //                 ),
+                        //               ),
+                        //               const Text(
+                        //                 'Edit',
+                        //                 textAlign: TextAlign.center,
+                        //                 maxLines: 1,
+                        //                 style: TextStyle(color: Colors.white),
+                        //               ),
+                        //             ],
+                        //           );
+                        //         }
+                        //         index -= 1;
+                        //
+                        //         // return row
+                        //         var sound = state.mix?.sounds?[index];
+                        //         final extension = sound?.icon?.split('.').last;
+                        //         return Column(
+                        //           mainAxisAlignment: MainAxisAlignment.center,
+                        //           children: [
+                        //             Container(
+                        //               height: 40,
+                        //               width: 40,
+                        //               margin: const EdgeInsets.all(8),
+                        //               decoration: const BoxDecoration(
+                        //                   color: Colors.white30,
+                        //                   borderRadius: BorderRadius.all(
+                        //                       Radius.circular(20))),
+                        //               child: SizedBox(
+                        //                 child: extension == 'svg'
+                        //                     ? SvgPicture.asset(
+                        //                         '${Assets.baseIconPath}/${sound?.icon}')
+                        //                     : Image.asset(
+                        //                         '${Assets.baseIconPath}/${sound?.icon}'),
+                        //               ),
+                        //             ),
+                        //             Text(
+                        //               '${sound?.volume.toInt().toString()}%',
+                        //               textAlign: TextAlign.center,
+                        //               maxLines: 1,
+                        //               style: const TextStyle(color: Colors.white),
+                        //             ),
+                        //           ],
+                        //         );
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        StreamBuilder(
+                          stream: _bloc.soundService.isPlaying,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<bool> asyncSnapshot) {
+                            final bool? isPlaying = asyncSnapshot.data;
+                            return PlayingButton(
+                                isPlaying: isPlaying == true,
+                                onTap: () {
+                                  _bloc.add(ToggleMixEvent());
+                                });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }),

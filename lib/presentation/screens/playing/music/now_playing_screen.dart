@@ -62,6 +62,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          centerTitle: true,
           title: Text(
             widget.musicModel.group ?? '',
             textAlign: TextAlign.center,
@@ -113,6 +114,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                 waveAmplitude: 0,
                               ),
                               CountDownTimer(
+                                isNowPlayScreen: false,
                                 fontSize: 54,
                               )
                             ],
