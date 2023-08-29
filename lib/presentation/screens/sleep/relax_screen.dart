@@ -194,21 +194,25 @@ class _RelaxScreenState extends State<RelaxScreen>
         itemScrollController.jumpTo(index: index);
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        margin: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        margin: index == 0
+            ? const EdgeInsets.symmetric(horizontal: 8).copyWith(left: 0)
+            : const EdgeInsets.symmetric(horizontal: 8),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
             transform: const GradientRotation(5.50),
-            colors: _selectedIndex == index ? [
-              k5C40DF,
-              k7F65F0,
-            ] : [
-              Colors.black.withOpacity(0.3),
-              Colors.black.withOpacity(0.3),
-            ],
+            colors: _selectedIndex == index
+                ? [
+                    k5C40DF,
+                    k7F65F0,
+                  ]
+                : [
+                    Colors.black.withOpacity(0.3),
+                    Colors.black.withOpacity(0.3),
+                  ],
           ),
         ),
         child: Center(

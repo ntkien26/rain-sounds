@@ -289,7 +289,7 @@ class _MixItemState extends State<MixItem> {
             Stack(
               children: [
                 Container(
-                  height: size.height * 0.185,
+                  height: size.height * 0.165,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
@@ -300,7 +300,7 @@ class _MixItemState extends State<MixItem> {
                 ),
                 if (widget.mix.premium == true && !appCache.isPremiumMember())
                   SizedBox(
-                    height: size.height * 0.185,
+                    height: size.height * 0.165,
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: ClipRRect(
@@ -318,7 +318,7 @@ class _MixItemState extends State<MixItem> {
               ],
             ),
             const SizedBox(
-              height: 8,
+              height: 20,
             ),
             Text(
               widget.mix.name ?? '',
