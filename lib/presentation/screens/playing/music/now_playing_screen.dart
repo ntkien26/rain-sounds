@@ -9,6 +9,8 @@ import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
+import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -63,22 +65,33 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           title: Text(
             widget.musicModel.group ?? '',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 24, color: Colors.white),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.3), BlendMode.colorBurn),
-                fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(
-                    widget.musicModel.background ?? '')),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              tileMode: TileMode.decal,
+              colors: [
+                k010621,
+                k1D1A55,
+              ],
+            ),
           ),
           child: BlocBuilder<NowPlayingBloc, NowPlayingState>(
               bloc: _bloc..add(PlayMusicEvent(widget.musicModel)),
@@ -86,7 +99,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                 return SafeArea(
                   child: Column(mainAxisSize: MainAxisSize.max, children: [
                     const SizedBox(
-                      height: 32,
+                      height: 16,
                     ),
                     InkWell(
                       onTap: () async {
@@ -94,53 +107,81 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                             .navigateToScreen(screen: SetTimerScreen());
                         setState(() {});
                       },
-                      child: SizedBox(
-                        width: 250,
-                        height: 250,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(150),
-                          child: Stack(
-                            children: [
-                              WaveWidget(
-                                config: CustomConfig(
-                                  colors: _colors,
-                                  durations: _durations,
-                                  heightPercentages: _heightPercentages,
-                                ),
-                                backgroundColor:
-                                    _backgroundColor.withOpacity(0.7),
-                                size: const Size(
-                                    double.infinity, double.infinity),
-                                waveAmplitude: 0,
+                      child: Column(
+                        children: [
+                          Container(
+                            // padding: const EdgeInsets.all(20),
+                            margin: const EdgeInsets.all(16),
+                            height: MediaQuery.of(context).size.width - 32,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                              widget.musicModel.background ?? ''),
+                                fit: BoxFit.fill,
                               ),
-                              CountDownTimer(
-                                isNowPlayScreen: false,
-                                fontSize: 54,
-                              )
-                            ],
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(12)),
+                            ),
                           ),
-                        ),
+                          const SizedBox(
+                            height: 64,
+                          ),
+                          CountDownTimer(
+                            isNowPlayScreen: true,
+                          )
+                        ],
                       ),
+                      // child: SizedBox(
+                      //   width: 250,
+                      //   height: 250,
+                      //   // child: ClipRRect(
+                      //   //   borderRadius: BorderRadius.circular(150),
+                      //   //   child: Stack(
+                      //   //     children: [
+                      //   //       WaveWidget(
+                      //   //         config: CustomConfig(
+                      //   //           colors: _colors,
+                      //   //           durations: _durations,
+                      //   //           heightPercentages: _heightPercentages,
+                      //   //         ),
+                      //   //         backgroundColor:
+                      //   //             _backgroundColor.withOpacity(0.7),
+                      //   //         size: const Size(
+                      //   //             double.infinity, double.infinity),
+                      //   //         waveAmplitude: 0,
+                      //   //       ),
+                      //   //       CountDownTimer(
+                      //   //         isNowPlayScreen: false,
+                      //   //         fontSize: 54,
+                      //   //       )
+                      //   //     ],
+                      //   //   ),
+                      //   // ),
+                      // ),
                     ),
                     const SizedBox(
                       height: 32,
                     ),
                     PlayingButton(
-                      isPlaying: true,
-                      onTap: () {
-                        _bloc.add(ToggleEvent());
-                      }),
+                        isPlaying: true,
+                        onTap: () {
+                          _bloc.add(ToggleEvent());
+                        }),
                     const SizedBox(
                       height: 24,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Text(
-                        widget.musicModel.title ?? '',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20, color: Colors.white, fontStyle: FontStyle.italic),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 24),
+                    //   child: Text(
+                    //     widget.musicModel.title ?? '',
+                    //     textAlign: TextAlign.center,
+                    //     style: const TextStyle(
+                    //         fontSize: 20,
+                    //         color: Colors.white,
+                    //         fontStyle: FontStyle.italic),
+                    //   ),
+                    // ),
                     const Spacer(),
                   ]),
                 );
