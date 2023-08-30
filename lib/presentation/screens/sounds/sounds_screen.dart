@@ -239,7 +239,9 @@ class _SoundsScreenState extends State<SoundsScreen> {
             const SizedBox(
               height: 4,
             ),
-            CountDownTimer()
+            CountDownTimer(
+              isNowPlayScreen: false,
+            )
           ],
         ));
   }
@@ -260,12 +262,20 @@ class PlayingButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 168,
-        height: 40,
+        width: 120,
+        height: 60,
         alignment: Alignment.center,
         decoration: const BoxDecoration(
-            color: Color(0x33ffffff),
-            borderRadius: BorderRadius.all(Radius.circular(20))),
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              transform: GradientRotation(5.50),
+              colors: [
+                k5C40DF,
+                k7F65F0,
+              ],
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(100))),
         child: isPlaying
             ? SvgPicture.asset(IconPaths.icPause, height: 30,)
             : SvgPicture.asset(IconPaths.icPlay, height: 30,),

@@ -81,6 +81,6 @@ class IconPaths {
   static const String icStarRate = '${Assets.baseIconPath}/ic_star_rate.svg';
   static const String icBedTimeReminderNew = '${Assets.baseIconPath}/ic_bedtime_reminder_new.svg';
   static const String icRightArrow = '${Assets.baseIconPath}/ic_right_arrow.svg';
-
+  static const String icBackBt = '${Assets.baseIconPath}/ic_back.svg';
 
 }

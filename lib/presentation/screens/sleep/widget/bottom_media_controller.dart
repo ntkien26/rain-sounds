@@ -67,7 +67,9 @@ class _BottomMediaControllerState extends State<BottomMediaController> {
                     const SizedBox(
                       height: 4,
                     ),
-                    CountDownTimer()
+                    CountDownTimer(
+                      isNowPlayScreen: false,
+                    )
                   ],
                 ),
                 const Spacer(),
