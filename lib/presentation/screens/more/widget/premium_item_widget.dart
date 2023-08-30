@@ -19,78 +19,60 @@ class PremiumWidget extends StatelessWidget {
         getIt<NavigationService>()
             .navigateToScreen(screen: const InAppPurchaseScreen());
       },
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset(
-                    IconPaths.icPremiumNoColor,
-                    height: 24,
-                    width: 24,
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Upgrade Premium',
-                        style: TextStyleConstant.songTitleTextStyle,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Unlock all sounds and remove ads',
-                        style: TextStyleConstant.textTextStyle
-                            .copyWith(fontSize: 13),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Container(
-                        height: 32,
-                        width: 148,
-                        decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              begin: Alignment.bottomLeft,
-                              end: Alignment.topRight,
-                              colors: [
-                                kGradientOrangeBtColor,
-                                kGradientPurpleBtColor,
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(36)),
-                        child: ElevatedButton(
-                          onPressed: null,
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.transparent,
-                              shadowColor: Colors.transparent),
-                          child: Text(
-                            'Go Premium',
-                            style: TextStyleConstant.textTextStyle.copyWith(
-                                fontSize: 14, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          border: Border.all(
+            color: k7F65F0,
+            width: 2,
+          ),
+          gradient: const LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            transform: GradientRotation(5.50),
+            colors: [
+              k5C40DF,
+              k7F65F0,
             ],
           ),
-          const Divider(
-            height: 1,
-            color: kDividerColor,
-          ),
-        ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.asset(ImagePaths.imgCrown),
+                const SizedBox(
+                  width: 16,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      'Get Premium',
+                      style: TextStyleConstant.bigTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Unlock all feature and sound\nwith premium',
+                      style: TextStyleConstant.smallTextStyle
+                          .copyWith(fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

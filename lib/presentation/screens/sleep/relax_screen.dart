@@ -15,14 +15,14 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'widget/bottom_media_controller.dart';
 
-class SleepScreen extends StatefulWidget {
-  const SleepScreen({Key? key}) : super(key: key);
+class RelaxScreen extends StatefulWidget {
+  const RelaxScreen({Key? key}) : super(key: key);
 
   @override
-  State<SleepScreen> createState() => _SleepScreenState();
+  State<RelaxScreen> createState() => _RelaxScreenState();
 }
 
-class _SleepScreenState extends State<SleepScreen>
+class _RelaxScreenState extends State<RelaxScreen>
     with AutomaticKeepAliveClientMixin {
   final SleepBloc _bloc = getIt<SleepBloc>();
 
@@ -45,7 +45,7 @@ class _SleepScreenState extends State<SleepScreen>
           height: double.infinity,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(ImagePaths.bgMoreScreen),
+                  image: AssetImage(ImagePaths.bgHome),
                   fit: BoxFit.fill)),
           child: SafeArea(
             child: Column(
@@ -137,8 +137,9 @@ class _SleepScreenState extends State<SleepScreen>
                                             padding: const EdgeInsets.symmetric(horizontal: 16),
                                             child: CategoryMixPage(
                                               mixes: listMixes[index],
-                                              showPremiumBanner: index == 0 &&
-                                                  !appCache.isPremiumMember(),
+                                              showPremiumBanner: true,
+                                              // showPremiumBanner: index == 0 &&
+                                              //     !appCache.isPremiumMember(),
                                               sleepBloc: _bloc,
                                             ),
                                           );

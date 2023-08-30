@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/network_di.dart';
@@ -8,6 +9,7 @@ import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_r
 import 'package:rain_sounds/presentation/screens/more/widget/more_item_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/widget/premium_item_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,12 +24,17 @@ class MoreScreen extends StatefulWidget {
 class _MoreScreenState extends State<MoreScreen>
     with AutomaticKeepAliveClientMixin {
   List<ItemMoreModel> listItem = [
-    ItemMoreModel(IconPaths.icBedReminder, 'Bedtime Reminder', '', false),
-    ItemMoreModel(IconPaths.icStar, 'Rate Us 5*', '', false),
-    ItemMoreModel(IconPaths.icFeedBack, 'Feedback', '', false),
-    ItemMoreModel(IconPaths.icShareApp, 'Share App', '', false),
-    ItemMoreModel(IconPaths.icWarn, 'Privacy Policy', '', true),
-    ItemMoreModel(IconPaths.icWarn, 'Term of Service', '', true),
+    ItemMoreModel(IconPaths.icBedTimeReminderNew, 'Bedtime Reminder', '', '',
+        false, false),
+    ItemMoreModel(IconPaths.icStarRate, 'Rate Us 5*', '',
+        IconPaths.icRightArrow, true, false),
+    ItemMoreModel(IconPaths.icFeedbackNew, 'Feedback', '',
+        IconPaths.icRightArrow, true, false),
+    ItemMoreModel(IconPaths.icShareNew, 'Share App', '', IconPaths.icRightArrow,
+        true, false),
+    ItemMoreModel(IconPaths.icPrivacy, 'Privacy Policy', '',
+        IconPaths.icRightArrow, true, true),
+    // ItemMoreModel(IconPaths.icWarn, 'Term of Service', '', true),
   ];
 
   final AppCache appCache = getIt.get();
@@ -46,20 +53,26 @@ class _MoreScreenState extends State<MoreScreen>
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(ImagePaths.bgMoreScreen), fit: BoxFit.fill)),
+              image: AssetImage(ImagePaths.bgHome), fit: BoxFit.fill)),
       child: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Settings',
-              style: TextStyleConstant.titleTextStyle
-                  .copyWith(fontWeight: FontWeight.w500),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'App name title',
+                  style: TextStyleConstant.titleTextStyle
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+                SvgPicture.asset(IconPaths.icCrown)
+              ],
             ),
             const SizedBox(
-              height: 32,
+              height: 24,
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -70,59 +83,92 @@ class _MoreScreenState extends State<MoreScreen>
                     appCache.isPremiumMember()
                         ? const SizedBox()
                         : const PremiumWidget(),
-                    const SizedBox(height: 32,),
-                    Column(
-                      children: List.generate(
-                        6,
-                        (index) => MoreItemWidget(
-                          iconSvg: listItem[index].svgIcon ?? '',
-                          titleItem: listItem[index].titleItem ?? '',
-                          tailingText: listItem[index].tailingText,
-                          isLast: listItem[index].isLast,
-                          onTap: () async {
-                            switch (index) {
-                              case 0:
-                                Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const BedTimeReminderScreen()))
-                                    .then((value) => {setState(() {})});
-                                break;
-                              case 1:
-                                _launchAppStore();
-                                break;
-                              case 2:
-                                _launchMail();
-                                break;
-                              case 3:
-                                Share.share('https://apps.apple.com/vn/app/id$_appID');
-                                break;
-                              case 4:
-                                _launchPrivacy();
-                                break;
-                              case 5:
-                                _launchTermOfService();
-                                break;
-                            }
-                          },
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                          color: k202968,
+                          width: 2,
+                        ),
+                        gradient: const LinearGradient(
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          transform: GradientRotation(5.50),
+                          colors: [
+                            k181E4A,
+                            k202968,
+                          ],
+                        ),
+                      ),
+                      child: Column(
+                        children: List.generate(
+                          5,
+                          (index) => MoreItemWidget(
+                            iconSvg: listItem[index].svgIcon ?? '',
+                            titleItem: listItem[index].titleItem ?? '',
+                            tailingText: listItem[index].tailingText,
+                            isLast: listItem[index].isLast,
+                            tailingIcon: listItem[index].tailingIcon,
+                            tailingIconSvg: listItem[index].tailingIconSvg,
+                            onTap: () async {
+                              switch (index) {
+                                case 0:
+                                  Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const BedTimeReminderScreen()))
+                                      .then((value) => {setState(() {})});
+                                  break;
+                                case 1:
+                                  _launchAppStore();
+                                  break;
+                                case 2:
+                                  _launchMail();
+                                  break;
+                                case 3:
+                                  Share.share(
+                                      'https://apps.apple.com/vn/app/id$_appID');
+                                  break;
+                                case 4:
+                                  _launchPrivacy();
+                                  break;
+                                // case 5:
+                                //   _launchTermOfService();
+                                //   break;
+                              }
+                            },
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 8,
+                      height: 24,
                     ),
                     FutureBuilder(
                         future: PackageInfo.fromPlatform(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            PackageInfo packageInfo =  snapshot.data as PackageInfo;
+                            PackageInfo packageInfo =
+                                snapshot.data as PackageInfo;
                             String version = packageInfo.version;
                             String buildNumber = packageInfo.buildNumber;
-                            return Text(
-                              'Version $version build $buildNumber',
-                              style: TextStyleConstant.songTitleTextStyle
-                                  .copyWith(fontWeight: FontWeight.w600),
+                            return SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                'Ver $version',
+                                style: TextStyleConstant.songTitleTextStyle
+                                    .copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: k8489B0,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             );
                           } else {
                             return const SizedBox();
@@ -186,8 +232,7 @@ class _MoreScreenState extends State<MoreScreen>
 
   void _launchAppStore() {
     try {
-      launchUrl(Uri.parse(
-          'https://apps.apple.com/vn/app/id$_appID'));
+      launchUrl(Uri.parse('https://apps.apple.com/vn/app/id$_appID'));
     } catch (ex) {
       print('Launch url error: $ex');
     }
