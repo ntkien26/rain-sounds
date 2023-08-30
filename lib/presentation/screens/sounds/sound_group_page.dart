@@ -8,6 +8,7 @@ import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/constants.dart';
 
 class SoundGroupPage extends StatelessWidget {
@@ -87,8 +88,18 @@ class _SoundItemState extends State<SoundItem> {
                 width: 65,
                 margin: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                    color: active ? Colors.blueAccent : Colors.white10,
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
+                  // color: active ? Colors.blueAccent : Colors.white10,
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  // gradient: const LinearGradient(
+                  //   begin: Alignment.bottomLeft,
+                  //   end: Alignment.topRight,
+                  //   transform: GradientRotation(5.50),
+                  //   colors: [
+                  //     k181E4A,
+                  //     k202968,
+                  //   ],
+                  // ),
+                ),
                 child: SizedBox(
                   child: extension == 'svg'
                       ? SvgPicture.asset(
@@ -143,9 +154,8 @@ class _SoundItemState extends State<SoundItem> {
     return Expanded(
         child: SliderTheme(
       data: const SliderThemeData(
-        trackHeight: 6,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12)
-      ),
+          trackHeight: 6,
+          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12)),
       child: Slider(
         value: volume,
         min: Constants.minSliderValue,

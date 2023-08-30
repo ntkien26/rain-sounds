@@ -19,6 +19,7 @@ import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:rain_sounds/presentation/utils/styles.dart';
 
 class SoundsScreen extends StatefulWidget {
   const SoundsScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(ImagePaths.bgSoundsScreen),
+                image: AssetImage(ImagePaths.bgHome),
                 fit: BoxFit.fill)),
         child: BlocBuilder<SoundsBloc, SoundsState>(
             bloc: _soundsBloc,
@@ -79,75 +80,77 @@ class _SoundsScreenState extends State<SoundsScreen> {
                 }
               }
               return SafeArea(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(
-                            'Rain Sounds for Sleep',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    SizedBox(
-                      height: 430,
-                      child: PageView.builder(
-                          itemCount: totalPage,
-                          onPageChanged: (page) {
-                            setState(() {
-                              _selectedIndex = page;
-                            });
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            return SoundGroupPage(
-                              sounds: lists[index],
-                              soundsBloc: _soundsBloc,
-                            );
-                          }),
-                    ),
-                    const SizedBox(height: 32,),
-                    DotsIndicator(
-                      dotsCount: totalPage,
-                      position: _selectedIndex.toDouble(),
-                      decorator: const DotsDecorator(
-                        color: Colors.white30, // Inactive color
-                        activeColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        height: 16,
                       ),
-                    ),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(width: 32,),
-                        buildSetTimeButton(),
-                        const SizedBox(width: 12,),
-                        const Spacer(),
-                        PlayingButton(
-                          isPlaying: state.isPlaying ?? false,
-                          onTap: () {
-                            _soundsBloc.add(ToggleSoundsEvent());
-                          },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'App name title',
+                            style: TextStyleConstant.titleTextStyle
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          SvgPicture.asset(IconPaths.icCrown)
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      SizedBox(
+                        height: 430,
+                        child: PageView.builder(
+                            itemCount: totalPage,
+                            onPageChanged: (page) {
+                              setState(() {
+                                _selectedIndex = page;
+                              });
+                            },
+                            itemBuilder: (BuildContext context, int index) {
+                              return SoundGroupPage(
+                                sounds: lists[index],
+                                soundsBloc: _soundsBloc,
+                              );
+                            }),
+                      ),
+                      const SizedBox(height: 32,),
+                      DotsIndicator(
+                        dotsCount: totalPage,
+                        position: _selectedIndex.toDouble(),
+                        decorator: const DotsDecorator(
+                          color: Colors.white30, // Inactive color
+                          activeColor: Colors.white,
                         ),
-                        const Spacer(),
-                        buildSelectedButton(state.totalSelected ?? 0),
-                        const SizedBox(width: 24,),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    )
-                  ],
+                      ),
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(width: 32,),
+                          buildSetTimeButton(),
+                          const SizedBox(width: 12,),
+                          const Spacer(),
+                          PlayingButton(
+                            isPlaying: state.isPlaying ?? false,
+                            onTap: () {
+                              _soundsBloc.add(ToggleSoundsEvent());
+                            },
+                          ),
+                          const Spacer(),
+                          buildSelectedButton(state.totalSelected ?? 0),
+                          const SizedBox(width: 24,),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      )
+                    ],
+                  ),
                 ),
               );
             }),
