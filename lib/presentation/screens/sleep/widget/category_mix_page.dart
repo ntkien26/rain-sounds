@@ -270,19 +270,19 @@ class _MixItemState extends State<MixItem> {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(8).copyWith(bottom: 8),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            transform: GradientRotation(5.50),
-            colors: [
-              k181E4A,
-              k202968,
-            ],
+          padding: const EdgeInsets.all(8).copyWith(bottom: 8),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              transform: GradientRotation(5.50),
+              colors: [
+                k181E4A,
+                k202968,
+              ],
+            ),
           ),
-        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
