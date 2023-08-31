@@ -68,9 +68,9 @@ class CategoryMixPage extends StatelessWidget {
                     ],
                   ),
                   borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'Go Premium',
                     style: TextStyle(
@@ -163,18 +163,16 @@ class _MixItemState extends State<MixItem> {
                           alignment: Alignment.bottomCenter,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(
-                                    '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
-                                fit: BoxFit.cover),
+                              image: AssetImage(
+                                  '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
+                              fit: BoxFit.cover,
+                            ),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(6)),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Text(
-                              widget.mix.name ?? '',
-                              style: const TextStyle(color: Colors.white),
-                            ),
+                          child: Text(
+                            widget.mix.name ?? '',
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                         const SizedBox(
@@ -271,44 +269,65 @@ class _MixItemState extends State<MixItem> {
           });
         }
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: size.height * 0.185,
-                decoration: BoxDecoration(
+      child: Container(
+          padding: const EdgeInsets.all(8).copyWith(bottom: 8),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              transform: GradientRotation(5.50),
+              colors: [
+                k181E4A,
+                k202968,
+              ],
+            ),
+          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  height: size.height * 0.165,
+                  decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
                             '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
                         fit: BoxFit.cover),
-                    borderRadius: const BorderRadius.all(Radius.circular(6))),
-              ),
-              if (widget.mix.premium == true && !appCache.isPremiumMember())
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset(
-                      IconPaths.icPremium,
-                      height: 24,
-                      width: 24,
-                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
                   ),
-                )
-              else
-                const SizedBox()
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Text(
-            widget.mix.name ?? '',
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ],
+                ),
+                if (widget.mix.premium == true && !appCache.isPremiumMember())
+                  SizedBox(
+                    height: size.height * 0.165,
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(bottomRight: Radius.circular(8)),
+                        child: SvgPicture.asset(
+                          IconPaths.icCrownBanner,
+                          height: 24,
+                          width: 24,
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  const SizedBox()
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Expanded(
+              child: Text(
+                widget.mix.name ?? '',
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

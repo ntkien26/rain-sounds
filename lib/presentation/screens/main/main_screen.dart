@@ -1,7 +1,8 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/more_screen.dart';
 import 'package:rain_sounds/presentation/screens/music/music_screen.dart';
-import 'package:rain_sounds/presentation/screens/sleep/sleep_screen.dart';
+import 'package:rain_sounds/presentation/screens/sleep/relax_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
@@ -49,7 +50,7 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kBottomBarColor,
+        backgroundColor: k181f4c,
         items: bottomBarItems,
         onTap: _onTappedBar,
         selectedItemColor: Colors.white,
@@ -61,7 +62,7 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: const <Widget>[
-          SleepScreen(),
+          RelaxScreen(),
           SoundsScreen(),
           MusicScreen(),
           MoreScreen()
@@ -79,22 +80,22 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   final List<BottomNavigationBarItem> bottomBarItems =
-      <BottomNavigationBarItem>[
+  <BottomNavigationBarItem>[
     BottomNavigationBarItem(
-      label: "Sleep",
+      label: "Relax Sound",
       icon: Container(
           margin: const EdgeInsets.all(6),
           height: 20,
           width: 20,
-          child: Image.asset(ImagePaths.icSleep)),
+          child: SvgPicture.asset(IconPaths.icMoonSound)),
     ),
     BottomNavigationBarItem(
-      label: "Sounds",
+      label: "Ambience",
       icon: Container(
           margin: const EdgeInsets.all(6),
           height: 20,
           width: 20,
-          child: Image.asset(ImagePaths.icSounds)),
+          child: SvgPicture.asset(IconPaths.icAmbience)),
     ),
     BottomNavigationBarItem(
       label: "Music",
@@ -102,15 +103,15 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           margin: const EdgeInsets.all(6),
           height: 20,
           width: 20,
-          child: Image.asset(ImagePaths.icMusic)),
+          child: SvgPicture.asset(IconPaths.icMusicTab)),
     ),
     BottomNavigationBarItem(
-      label: "More",
+      label: "Setting",
       icon: Container(
           margin: const EdgeInsets.all(6),
           height: 20,
           width: 20,
-          child: Image.asset(ImagePaths.icSettings)),
+          child: SvgPicture.asset(IconPaths.icSetup)),
     ),
   ];
 

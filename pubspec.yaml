@@ -72,6 +72,7 @@ dependencies:
   share_plus: ^4.0.10
   firebase_analytics: ^9.2.1
   file: ^6.1.4
+  audio_video_progress_bar: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

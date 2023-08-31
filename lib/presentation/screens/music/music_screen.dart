@@ -24,6 +24,7 @@ class _MusicScreenState extends State<MusicScreen>
   @override
   void initState() {
     super.initState();
+    _bloc.loadGroupMusic();
     purchaseService.purchaseUpdated.listen((updated) {
       if (updated) setState(() {});
     });
@@ -36,7 +37,7 @@ class _MusicScreenState extends State<MusicScreen>
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(ImagePaths.bgMusicScreen), fit: BoxFit.fill)),
+                image: AssetImage(ImagePaths.bgHome), fit: BoxFit.fill)),
         child: BlocBuilder<MusicBloc, MusicState>(
           bloc: _bloc,
           builder: (BuildContext context, MusicState state) {
@@ -53,7 +54,9 @@ class _MusicScreenState extends State<MusicScreen>
                       children: [
                         Center(
                           child: Text('Relaxing Music',
-                              style: TextStyleConstant.titleTextStyle),
+                              style: TextStyleConstant.titleTextStyle.copyWith(
+                                fontWeight: FontWeight.bold,
+                              )),
                         ),
                         const SizedBox(
                           height: 32,

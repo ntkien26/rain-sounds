@@ -143,9 +143,8 @@ class _SoundItemState extends State<SoundItem> {
     return Expanded(
         child: SliderTheme(
       data: const SliderThemeData(
-        trackHeight: 6,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12)
-      ),
+          trackHeight: 6,
+          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12)),
       child: Slider(
         value: volume,
         min: Constants.minSliderValue,

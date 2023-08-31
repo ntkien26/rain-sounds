@@ -15,8 +15,7 @@ import 'package:rain_sounds/presentation/screens/playing/mix/now_mix_playing_sta
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
 class NowMixPlayingScreen extends StatefulWidget {
   const NowMixPlayingScreen(
@@ -57,66 +56,77 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          centerTitle: true,
           title: Text(
             widget.mix.name ?? '',
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 24, color: Colors.white),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         body: Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.3), BlendMode.colorBurn),
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                      "${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp"))),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              tileMode: TileMode.decal,
+              colors: [
+                k010621,
+                k1D1A55,
+              ],
+            ),
+          ),
           child: BlocBuilder<NowMixPlayingBloc, NowMixPlayingState>(
               bloc: _bloc
                 ..add(
                     PlayMixEvent(mix: widget.mix, autoStart: widget.autoStart)),
               builder: (BuildContext context, NowMixPlayingState state) {
                 return SafeArea(
+                    child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       const SizedBox(
-                        height: 32,
+                        height: 16,
                       ),
                       InkWell(
                         onTap: () {
                           getIt<NavigationService>()
                               .navigateToScreen(screen: SetTimerScreen());
                         },
-                        child: SizedBox(
-                          width: 250,
-                          height: 250,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(150),
-                            child: Stack(
-                              children: [
-                                WaveWidget(
-                                  config: CustomConfig(
-                                    colors: _colors,
-                                    durations: _durations,
-                                    heightPercentages: _heightPercentages,
+                        child: Column(
+                          children: [
+                            Container(
+                                // padding: const EdgeInsets.all(20),
+                                margin: const EdgeInsets.all(16),
+                                height: MediaQuery.of(context).size.width - 32,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        '${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp'),
+                                    fit: BoxFit.fill,
                                   ),
-                                  backgroundColor:
-                                      _backgroundColor.withOpacity(0.7),
-                                  size: const Size(
-                                      double.infinity, double.infinity),
-                                  waveAmplitude: 0,
-                                ),
-                                CountDownTimer(
-                                  fontSize: 54,
-                                )
-                              ],
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12)),
+                                )),
+                            const SizedBox(
+                              height: 64,
                             ),
-                          ),
+                            CountDownTimer(
+                              isNowPlayScreen: true,
+                            )
+                          ],
                         ),
                       ),
                       const SizedBox(
@@ -157,8 +167,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                                       child: SizedBox(
                                         height: 35,
                                         width: 35,
-                                        child:
-                                            Image.asset(ImagePaths.icEdit),
+                                        child: Image.asset(ImagePaths.icEdit),
                                       ),
                                     ),
                                     const Text(
@@ -198,8 +207,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                                     '${sound?.volume.toInt().toString()}%',
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
-                                    style:
-                                        const TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                   ),
                                 ],
                               );
@@ -228,7 +236,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                           : const SizedBox()
                     ],
                   ),
-                );
+                ));
               }),
         ));
   }

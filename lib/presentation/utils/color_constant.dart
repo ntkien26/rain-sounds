@@ -33,3 +33,27 @@ const Color k299ac6 = Color(0xff299ac6);
 const Color kb62f69 = Color(0xffb62f69);
 const Color kf9d136 = Color(0xfff9d136);
 const Color k78f721 = Color(0xff78f721);
+
+//onboarding screen
+const Color k5C40DF = Color(0xff5C40DF);
+const Color k7F65F0 = Color(0xff7F65F0);
+const Color kFFFFFF = Color(0xffFFFFFF);
+
+//bedtime reminder screen
+const Color k181E4A = Color(0xff181E4A);
+const Color k202968 = Color(0xff202968);
+const Color k70679A = Color(0xff70679A);
+const Color k293379 = Color(0xff293379);
+const Color kF2EFFF = Color(0xffF2EFFF);
+
+//Home screen
+const Color k38184A = Color(0xff38184A);
+const Color k00072D = Color(0xff00072D);
+const Color k181f4c = Color(0xff181f4c);
+
+//More Screen
+const Color k8489B0 = Color(0xff8489B0);
+
+//Playing button screen
+const Color k1D1A55 = Color(0xff1D1A55);
+const Color k010621 = Color(0xff010621);

@@ -99,7 +99,7 @@ class SplashScreenState extends State<SplashScreen>
           height: double.infinity,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(ImagePaths.bgSplashScreen),
+                  image: AssetImage(ImagePaths.bgHome),
                   fit: BoxFit.fill)),
           child: SafeArea(
             child: Column(

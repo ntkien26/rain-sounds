@@ -29,6 +29,13 @@ class ImagePaths {
   static const String bgCover6 = '${Assets.baseImagesPath}/bg_cover_6';
   static const String bgCover7 = '${Assets.baseImagesPath}/bg_cover_7';
   static const String bgCover8 = '${Assets.baseImagesPath}/bg_cover_8';
+  static const String bgOnBoarding = '${Assets.baseImagesPath}/bg_onboarding.png';
+  static const String imgTree = '${Assets.baseImagesPath}/tree.png';
+  static const String imgMoon = '${Assets.baseImagesPath}/moon.png';
+  static const String imgInstrument = '${Assets.baseImagesPath}/instrument.png';
+  static const String bgHome = '${Assets.baseImagesPath}/bg_home.png';
+  static const String imgCrown = '${Assets.baseImagesPath}/img_crown.png';
+
 }
 
 class IconPaths {
@@ -56,4 +63,24 @@ class IconPaths {
   static const String icSelectBlue = '${Assets.baseIconPath}/ic_select_blue.svg';
   static const String icReset = '${Assets.baseIconPath}/ic_retry.svg';
   static const String icCloseCircle = '${Assets.baseIconPath}/ic_circle_bg_close.svg';
+  static const String icConfirm = '${Assets.baseIconPath}/ic_confirm.svg';
+  static const String icUp = '${Assets.baseIconPath}/ic_up.svg';
+  static const String icDown = '${Assets.baseIconPath}/ic_down.svg';
+  static const String icCancel = '${Assets.baseIconPath}/ic_cancel.svg';
+  static const String icConfirmGreen = '${Assets.baseIconPath}/ic_confirm_green.svg';
+  static const String icMoonSound = '${Assets.baseIconPath}/ic_moon_sound.svg';
+  static const String icAmbience = '${Assets.baseIconPath}/ic_ambience.svg';
+  static const String icMusicTab = '${Assets.baseIconPath}/ic_music.svg';
+  static const String icSetup = '${Assets.baseIconPath}/ic_setup.svg';
+  static const String icCrown = '${Assets.baseIconPath}/ic_crown.svg';
+  static const String icCrownBanner = '${Assets.baseIconPath}/ic_crown_banner.svg';
+  static const String icFeedbackNew = '${Assets.baseIconPath}/ic_feedback_new.svg';
+  static const String icPrivacy = '${Assets.baseIconPath}/ic_privacy.svg';
+  static const String icSetUpNew = '${Assets.baseIconPath}/ic_setup.svg';
+  static const String icShareNew = '${Assets.baseIconPath}/ic_share_new.svg';
+  static const String icStarRate = '${Assets.baseIconPath}/ic_star_rate.svg';
+  static const String icBedTimeReminderNew = '${Assets.baseIconPath}/ic_bedtime_reminder_new.svg';
+  static const String icRightArrow = '${Assets.baseIconPath}/ic_right_arrow.svg';
+  static const String icBackBt = '${Assets.baseIconPath}/ic_back.svg';
+
 }
