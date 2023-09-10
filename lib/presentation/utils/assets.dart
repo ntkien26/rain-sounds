@@ -82,5 +82,9 @@ class IconPaths {
   static const String icBedTimeReminderNew = '${Assets.baseIconPath}/ic_bedtime_reminder_new.svg';
   static const String icRightArrow = '${Assets.baseIconPath}/ic_right_arrow.svg';
   static const String icBackBt = '${Assets.baseIconPath}/ic_back.svg';
+  static const String icTimer = '${Assets.baseIconPath}/ic_timer.svg';
+  static const String icSelected = '${Assets.baseIconPath}/ic_selected.svg';
+  static const String icCancelGray = '${Assets.baseIconPath}/ic_cancel_gray.svg';
+  static const String icEditMusic = '${Assets.baseIconPath}/ic_edit_music.svg';
 
 }

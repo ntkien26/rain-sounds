@@ -9,6 +9,7 @@ import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/edit_selected_sound_state.dart';
 import 'package:rain_sounds/presentation/screens/playing/mix/edit_selected_sound/sound_group_page.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/constants.dart';
 
 import 'edit_selected_sound_event.dart';
@@ -84,7 +85,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                       SizedBox(
                         height: 160,
                         child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
+                            scrollDirection: Axis.vertical,
                             itemCount: state.selectedSounds?.length ?? 0,
                             itemBuilder: (context, index) {
                               return SelectedSoundItem(
@@ -208,64 +209,116 @@ class SelectedSoundItem extends StatefulWidget {
 class _SelectedSoundItemState extends State<SelectedSoundItem> {
   bool active = false;
   double volume = 1;
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     active = widget.sound.active;
     volume = widget.sound.volume.toDouble();
+  }
+  @override
+  Widget build(BuildContext context) {
     final extension = widget.sound.icon?.split('.').last;
-    return Column(
-      children: [
-        const SizedBox(
-          height: 8,
-        ),
-        Stack(
-          children: [
-            Container(
-              height: 65,
-              width: 65,
-              margin: const EdgeInsets.all(4),
+    return Container(
+      margin: const EdgeInsets.all(8),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          // const SizedBox(
+          //   width: 8,
+          // ),
+          SizedBox(
+            child: Container(
+              height: 75,
+              width: 75,
+              // margin: const EdgeInsets.all(4),
               decoration: const BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    transform: GradientRotation(5.50),
+                    colors: [
+                      k7F65F0,
+                      k5C40DF,
+                    ],
+                  )),
               child: SizedBox(
                 child: extension == 'svg'
                     ? SvgPicture.asset(
-                        '${Assets.baseIconPath}/${widget.sound.icon}')
+                    '${Assets.baseIconPath}/${widget.sound.icon}')
                     : Image.asset(
-                        '${Assets.baseIconPath}/${widget.sound.icon}'),
+                    '${Assets.baseIconPath}/${widget.sound.icon}'),
               ),
             ),
-            Positioned(
-              top: 8,
-              right: 8,
-              child: InkWell(
-                onTap: () {
+          ),
+          buildVolumeSlider(),
+          InkWell(
+            onTap: () {
                   widget.editSelectedSoundBloc.add(UpdateSound(
                       soundId: widget.sound.id, active: false, volume: volume));
                 },
-                child: SvgPicture.asset(
-                  IconPaths.icClose,
-                  height: 20,
-                  width: 20,
-                ),
-              ),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        Text(
-          widget.sound.name ?? '',
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          style: const TextStyle(color: Colors.white),
-        ),
-        buildVolumeSlider()
-      ],
+            child: SvgPicture.asset(IconPaths.icCancelGray),
+          ),
+          // const SizedBox(
+          //   width: 24,
+          // )
+        ],
+      ),
     );
+    // return Column(
+    //   children: [
+    //     const SizedBox(
+    //       height: 8,
+    //     ),
+    //     Stack(
+    //       children: [
+    //         Container(
+    //           height: 65,
+    //           width: 65,
+    //           margin: const EdgeInsets.all(4),
+    //           decoration: const BoxDecoration(
+    //               color: Colors.blueAccent,
+    //               borderRadius: BorderRadius.all(Radius.circular(20))),
+    //           child: SizedBox(
+    //             child: extension == 'svg'
+    //                 ? SvgPicture.asset(
+    //                     '${Assets.baseIconPath}/${widget.sound.icon}')
+    //                 : Image.asset(
+    //                     '${Assets.baseIconPath}/${widget.sound.icon}'),
+    //           ),
+    //         ),
+    //         Positioned(
+    //           top: 8,
+    //           right: 8,
+    //           child: InkWell(
+    //             onTap: () {
+    //               widget.editSelectedSoundBloc.add(UpdateSound(
+    //                   soundId: widget.sound.id, active: false, volume: volume));
+    //             },
+    //             child: SvgPicture.asset(
+    //               IconPaths.icClose,
+    //               height: 20,
+    //               width: 20,
+    //             ),
+    //           ),
+    //         )
+    //       ],
+    //     ),
+    //     const SizedBox(
+    //       height: 12,
+    //     ),
+    //     Text(
+    //       widget.sound.name ?? '',
+    //       textAlign: TextAlign.center,
+    //       maxLines: 1,
+    //       style: const TextStyle(color: Colors.white),
+    //     ),
+    //     buildVolumeSlider()
+    //   ],
+    // );
   }
+
+
 
   Widget buildVolumeSlider() {
     _onVolumeChanged(double volume) {
@@ -276,17 +329,35 @@ class _SelectedSoundItemState extends State<SelectedSoundItem> {
           soundId: widget.sound.id, active: active, volume: volume));
     }
 
-    return SizedBox(
-      width: 130,
-      child: Slider(
-        value: volume,
-        min: Constants.minSliderValue,
-        max: Constants.maxSliderValue,
-        onChanged: active
-            ? (double newValue) {
-                _onVolumeChanged(newValue.round().toDouble());
-              }
-            : null,
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const SizedBox(
+                width: 24,
+              ),
+              Text(
+                widget.sound.name ?? '',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+          Slider(
+            value: volume,
+            min: Constants.minSliderValue,
+            max: Constants.maxSliderValue,
+            activeColor: Colors.white,
+            onChanged: active
+                ? (double newValue) {
+              _onVolumeChanged(newValue.round().toDouble());
+            }
+                : null,
+          ),
+        ],
       ),
     );
   }

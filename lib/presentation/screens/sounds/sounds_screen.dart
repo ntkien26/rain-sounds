@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:badges/badges.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +12,14 @@ import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/custom_selected_sound/save_custom_screen.dart';
 import 'package:rain_sounds/presentation/screens/custom_selected_sound/selected_sounds_screen.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sound_group_page.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_state.dart';
+import 'package:rain_sounds/presentation/screens/sounds/widget/custom_timer_ambience.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:badges/badges.dart' as badges;
@@ -32,6 +36,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
   int _selectedIndex = 0;
   final SoundsBloc _soundsBloc = getIt<SoundsBloc>();
   final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
+  ValueNotifier<bool> isOpenModalBottomSheet = ValueNotifier(false);
 
   @override
   void dispose() {
@@ -43,118 +48,139 @@ class _SoundsScreenState extends State<SoundsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(ImagePaths.bgHome),
-                fit: BoxFit.fill)),
-        child: BlocBuilder<SoundsBloc, SoundsState>(
-            bloc: _soundsBloc,
-            builder: (BuildContext context, SoundsState state) {
-              if (state.status == SoundsStatus.loading) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      body: ValueListenableBuilder<bool>(
+          valueListenable: isOpenModalBottomSheet,
+          builder: (_, value, widget) {
+            return ImageFiltered(
+              enabled: isOpenModalBottomSheet.value,
+              imageFilter: ImageFilter.blur(
+                  sigmaX: 2, sigmaY: 2, tileMode: TileMode.decal),
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(ImagePaths.bgHome),
+                        fit: BoxFit.fill)),
+                child: BlocBuilder<SoundsBloc, SoundsState>(
+                    bloc: _soundsBloc,
+                    builder: (BuildContext context, SoundsState state) {
+                      if (state.status == SoundsStatus.loading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-              print(
-                  'State changed: ${state.status}} - isPlaying ${state.isPlaying}');
-              int totalPage = (state.sounds!.length / 9).round();
-              if ((state.sounds!.length / 9).round() <
-                  state.sounds!.length / 9) {
-                totalPage = (state.sounds!.length / 9).round() + 1;
-              }
-              final List<List<Sound>> lists = List.empty(growable: true);
-              for (int i = 0; i < totalPage; i++) {
-                int startIndex = i * 9;
-                int endIndex = startIndex + 9;
-                if (endIndex < state.sounds!.length) {
-                  var page = state.sounds?.sublist(startIndex, endIndex) ??
-                      List.empty();
-                  lists.add(page);
-                } else {
-                  var page =
-                      state.sounds?.sublist(startIndex, state.sounds!.length) ??
-                          List.empty();
-                  lists.add(page);
-                }
-              }
-              return SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'App name title',
-                            style: TextStyleConstant.titleTextStyle
-                                .copyWith(fontWeight: FontWeight.bold),
+                      print(
+                          'State changed: ${state.status}} - isPlaying ${state.isPlaying}');
+                      int totalPage = (state.sounds!.length / 9).round();
+                      if ((state.sounds!.length / 9).round() <
+                          state.sounds!.length / 9) {
+                        totalPage = (state.sounds!.length / 9).round() + 1;
+                      }
+                      final List<List<Sound>> lists =
+                          List.empty(growable: true);
+                      for (int i = 0; i < totalPage; i++) {
+                        int startIndex = i * 9;
+                        int endIndex = startIndex + 9;
+                        if (endIndex < state.sounds!.length) {
+                          var page =
+                              state.sounds?.sublist(startIndex, endIndex) ??
+                                  List.empty();
+                          lists.add(page);
+                        } else {
+                          var page = state.sounds
+                                  ?.sublist(startIndex, state.sounds!.length) ??
+                              List.empty();
+                          lists.add(page);
+                        }
+                      }
+                      return SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'App name title',
+                                    style: TextStyleConstant.titleTextStyle
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  SvgPicture.asset(IconPaths.icCrown)
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              SizedBox(
+                                height: 430,
+                                child: PageView.builder(
+                                    itemCount: totalPage,
+                                    onPageChanged: (page) {
+                                      setState(() {
+                                        _selectedIndex = page;
+                                      });
+                                    },
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return SoundGroupPage(
+                                        sounds: lists[index],
+                                        soundsBloc: _soundsBloc,
+                                      );
+                                    }),
+                              ),
+                              const SizedBox(
+                                height: 32,
+                              ),
+                              DotsIndicator(
+                                dotsCount: totalPage,
+                                position: _selectedIndex.toDouble(),
+                                decorator: const DotsDecorator(
+                                  color: Colors.white30, // Inactive color
+                                  activeColor: Colors.white,
+                                ),
+                              ),
+                              const Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    width: 32,
+                                  ),
+                                  buildSetTimeButton(),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  const Spacer(),
+                                  PlayingButton(
+                                    isPlaying: state.isPlaying ?? false,
+                                    onTap: () {
+                                      _soundsBloc.add(ToggleSoundsEvent());
+                                    },
+                                  ),
+                                  const Spacer(),
+                                  buildSelectedButton(state.totalSelected ?? 0),
+                                  const SizedBox(
+                                    width: 24,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 24,
+                              )
+                            ],
                           ),
-                          SvgPicture.asset(IconPaths.icCrown)
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      SizedBox(
-                        height: 430,
-                        child: PageView.builder(
-                            itemCount: totalPage,
-                            onPageChanged: (page) {
-                              setState(() {
-                                _selectedIndex = page;
-                              });
-                            },
-                            itemBuilder: (BuildContext context, int index) {
-                              return SoundGroupPage(
-                                sounds: lists[index],
-                                soundsBloc: _soundsBloc,
-                              );
-                            }),
-                      ),
-                      const SizedBox(height: 32,),
-                      DotsIndicator(
-                        dotsCount: totalPage,
-                        position: _selectedIndex.toDouble(),
-                        decorator: const DotsDecorator(
-                          color: Colors.white30, // Inactive color
-                          activeColor: Colors.white,
                         ),
-                      ),
-                      const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(width: 32,),
-                          buildSetTimeButton(),
-                          const SizedBox(width: 12,),
-                          const Spacer(),
-                          PlayingButton(
-                            isPlaying: state.isPlaying ?? false,
-                            onTap: () {
-                              _soundsBloc.add(ToggleSoundsEvent());
-                            },
-                          ),
-                          const Spacer(),
-                          buildSelectedButton(state.totalSelected ?? 0),
-                          const SizedBox(width: 24,),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }),
-      ),
+                      );
+                    }),
+              ),
+            );
+          }),
     );
   }
 
@@ -170,6 +196,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
     Route route = MaterialPageRoute(
         builder: (context) => SelectedSoundsScreen(
               soundsBloc: _soundsBloc,
+              onCancelClick: () {}, onSaveCustomClick: (sounds) {  },
             ),
         settings: const RouteSettings(name: SelectedSoundsScreen.routeName));
     Navigator.push(context, route).then(onGoBack);
@@ -179,7 +206,29 @@ class _SoundsScreenState extends State<SoundsScreen> {
     return InkWell(
       onTap: () {
         if (_soundsBloc.soundService.totalActiveSound > 0) {
-          navigateSelectedSoundsScreen();
+          // navigateSelectedSoundsScreen();
+          isOpenModalBottomSheet.value = true;
+          showModalBottomSheet<int>(
+            isDismissible: false,
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) {
+              return SelectedSoundsScreen(
+                soundsBloc: _soundsBloc,
+                onCancelClick: () {
+                  Navigator.pop(context);
+                  isOpenModalBottomSheet.value = false;
+                },
+                onSaveCustomClick: (sounds) {
+                  isOpenModalBottomSheet.value = false;
+                  getIt.get<NavigationService>().navigateToScreen(
+                          screen: SaveCustomScreen(
+                        sounds: sounds,
+                      ));
+                },
+              );
+            },
+          );
         } else {
           Fluttertoast.showToast(
               msg: "Choose a sound to create a custom",
@@ -204,7 +253,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
               ),
               badgeColor: Colors.blueAccent,
               child: SvgPicture.asset(
-                IconPaths.icSound,
+                IconPaths.icSelected,
                 color: Colors.white,
               ),
             ),
@@ -223,9 +272,43 @@ class _SoundsScreenState extends State<SoundsScreen> {
 
   Widget buildSetTimeButton() {
     return InkWell(
-        onTap: () async {
-          await getIt<NavigationService>().navigateToScreen(screen: SetTimerScreen());
-          setState(() {});
+        onTap: () {
+          isOpenModalBottomSheet.value = true;
+          // await getIt<NavigationService>().navigateToScreen(screen: SetTimerScreen());
+          // setState(() {});
+          showModalBottomSheet<int>(
+            isDismissible: false,
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) {
+              return Container(
+                height: MediaQuery.of(context).size.height / 2.5,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      transform: GradientRotation(5.50),
+                      colors: [
+                        k202968,
+                        k181E4A,
+                      ],
+                    )),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SetCustomAmbience(
+                      onConfirmClick: () {
+                        Navigator.pop(context);
+                        isOpenModalBottomSheet.value = false;
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
         },
         child: Column(
           children: [
@@ -233,7 +316,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                 height: 24,
                 width: 24,
                 child: SvgPicture.asset(
-                  IconPaths.icSetTime,
+                  IconPaths.icTimer,
                   color: Colors.white,
                 )),
             const SizedBox(
@@ -277,8 +360,14 @@ class PlayingButton extends StatelessWidget {
             ),
             borderRadius: BorderRadius.all(Radius.circular(100))),
         child: isPlaying
-            ? SvgPicture.asset(IconPaths.icPause, height: 30,)
-            : SvgPicture.asset(IconPaths.icPlay, height: 30,),
+            ? SvgPicture.asset(
+                IconPaths.icPause,
+                height: 30,
+              )
+            : SvgPicture.asset(
+                IconPaths.icPlay,
+                height: 30,
+              ),
       ),
     );
   }
