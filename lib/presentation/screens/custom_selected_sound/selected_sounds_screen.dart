@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/sound.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
@@ -7,15 +8,23 @@ import 'package:rain_sounds/presentation/screens/custom_selected_sound/save_cust
 import 'package:rain_sounds/presentation/screens/sounds/sounds_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_event.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/constants.dart';
+import 'package:rain_sounds/presentation/utils/styles.dart';
 
 class SelectedSoundsScreen extends StatefulWidget {
-  const SelectedSoundsScreen({Key? key, required this.soundsBloc})
+  const SelectedSoundsScreen(
+      {Key? key,
+      required this.soundsBloc,
+      required this.onCancelClick,
+      required this.onSaveCustomClick})
       : super(key: key);
 
   static const routeName = "selected-sounds";
 
   final SoundsBloc soundsBloc;
+  final VoidCallback onCancelClick;
+  final Function(List<Sound>) onSaveCustomClick;
 
   @override
   State<SelectedSoundsScreen> createState() => _SelectedSoundsScreenState();
@@ -32,23 +41,35 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
-        body: Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: const Color(0xFF201936),
-            child: SafeArea(
-                child: Column(
-              children: [
-                sounds.isNotEmpty
-                    ? SizedBox(
+    return Container(
+        height: MediaQuery.of(context).size.height / 2,
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              transform: GradientRotation(5.50),
+              colors: [
+                k202968,
+                k181E4A,
+              ],
+            )),
+        child: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Customize volume",
+                style: TextStyleConstant.mediumTextStyle
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+              sounds.isNotEmpty
+                  ? SizedBox(
                       child: ListView.builder(
                           itemCount: sounds.length,
+                          physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
                             return SoundItem(
@@ -65,41 +86,134 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
                             );
                           }),
                     )
-                    : Container(),
-                const Spacer(),
-                SaveCustomButton(
-                  text: 'Save Custom',
-                  onTap: () {
-                    getIt
-                        .get<NavigationService>()
-                        .navigateToScreen(screen: SaveCustomScreen(
-                      sounds: sounds,
-                    ));
+                  : Container(),
+              const SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8).copyWith(bottom: 0),
+                child: TextButton(
+                  onPressed: () {
+                    widget.onSaveCustomClick(sounds);
                   },
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: SizedBox(
-                    width: 40,
-                    height: 50,
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(IconPaths.icCloseArrow),
-                        const Text(
-                          'Close',
-                          style: TextStyle(color: Colors.white70),
-                        )
-                      ],
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    side: const BorderSide(
+                      color: k7F65F0,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
                     ),
                   ),
-                )
-              ],
-            ))));
+                  child: Ink(
+                    padding: EdgeInsets.zero,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: <Color>[
+                          k5C40DF,
+                          k7F65F0,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 16),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 32,
+                        child: Text(
+                          'Save Custom',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8).copyWith(bottom: 0),
+                child: TextButton(
+                  onPressed: widget.onCancelClick,
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    side: const BorderSide(
+                      color: Colors.white,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  child: Ink(
+                    padding: EdgeInsets.zero,
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 16),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 32,
+                        child: Text(
+                          'Cancel',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // SaveCustomButton(
+              //   text: 'Save Custom',
+              //   onTap: () {
+              //     getIt
+              //         .get<NavigationService>()
+              //         .navigateToScreen(screen: SaveCustomScreen(
+              //       sounds: sounds,
+              //     ));
+              //   },
+              // ),
+              // const SizedBox(
+              //   height: 16,
+              // ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.of(context).pop();
+              //   },
+              //   child: SizedBox(
+              //     width: 40,
+              //     height: 50,
+              //     child: Column(
+              //       children: [
+              //         SvgPicture.asset(IconPaths.icCloseArrow),
+              //         const Text(
+              //           'Close',
+              //           style: TextStyle(color: Colors.white70),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // )
+            ],
+          ),
+        ));
   }
 
   Future<void> loadSelectedSounds() async {
@@ -144,45 +258,41 @@ class _SoundItemState extends State<SoundItem> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const SizedBox(
-            width: 8,
-          ),
+          // const SizedBox(
+          //   width: 8,
+          // ),
           SizedBox(
-            width: 75,
-            child: Column(
-              children: [
-                Container(
-                  height: 50,
-                  width: 50,
-                  margin: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: SizedBox(
-                    child: extension == 'svg'
-                        ? SvgPicture.asset(
-                            '${Assets.baseIconPath}/${widget.sound.icon}')
-                        : Image.asset(
-                            '${Assets.baseIconPath}/${widget.sound.icon}'),
-                  ),
-                ),
-                Text(
-                  widget.sound.name ?? '',
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
+            child: Container(
+              height: 75,
+              width: 75,
+              // margin: const EdgeInsets.all(4),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                transform: GradientRotation(5.50),
+                colors: [
+                  k7F65F0,
+                  k5C40DF,
+                ],
+              )),
+              child: SizedBox(
+                child: extension == 'svg'
+                    ? SvgPicture.asset(
+                        '${Assets.baseIconPath}/${widget.sound.icon}')
+                    : Image.asset(
+                        '${Assets.baseIconPath}/${widget.sound.icon}'),
+              ),
             ),
           ),
           buildVolumeSlider(),
           InkWell(
-            child: SvgPicture.asset(IconPaths.icClose),
             onTap: widget.onRemoveClicked,
+            child: SvgPicture.asset(IconPaths.icCancelGray),
           ),
-          const SizedBox(
-            width: 24,
-          )
+          // const SizedBox(
+          //   width: 24,
+          // )
         ],
       ),
     );
@@ -198,15 +308,34 @@ class _SoundItemState extends State<SoundItem> {
     }
 
     return Expanded(
-      child: Slider(
-        value: volume,
-        min: Constants.minSliderValue,
-        max: Constants.maxSliderValue,
-        onChanged: active
-            ? (double newValue) {
-                _onVolumeChanged(newValue.round().toDouble());
-              }
-            : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const SizedBox(
+                width: 24,
+              ),
+              Text(
+                widget.sound.name ?? '',
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+          Slider(
+            value: volume,
+            min: Constants.minSliderValue,
+            max: Constants.maxSliderValue,
+            activeColor: Colors.white,
+            onChanged: active
+                ? (double newValue) {
+                    _onVolumeChanged(newValue.round().toDouble());
+                  }
+                : null,
+          ),
+        ],
       ),
     );
   }

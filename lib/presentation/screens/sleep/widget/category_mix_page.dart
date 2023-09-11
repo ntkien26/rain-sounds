@@ -33,7 +33,7 @@ class CategoryMixPage extends StatelessWidget {
         .map(
           (mix) => StaggeredGridTile.count(
             crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            mainAxisCellCount: 2.5,
             child: MixItem(
               mix: mix,
               onItemClicked: (mix) {
@@ -96,8 +96,8 @@ class CategoryMixPage extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 100),
       child: StaggeredGrid.count(
         crossAxisCount: 4,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 28,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
         axisDirection: AxisDirection.down,
         children: listGridTile,
       ),
@@ -196,7 +196,7 @@ class _MixItemState extends State<MixItem> {
                             unlockMix(adHelper, soundService, context);
                           },
                           child: Container(
-                            height: size.height * 0.075,
+                            height: size.height * 0.175,
                             decoration: const BoxDecoration(
                               color: Colors.brown,
                               borderRadius:
@@ -221,7 +221,7 @@ class _MixItemState extends State<MixItem> {
                           height: 24,
                         ),
                         Container(
-                            height: size.height * 0.075,
+                            height: size.height * 0.175,
                             decoration: const BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.bottomLeft,
@@ -270,26 +270,26 @@ class _MixItemState extends State<MixItem> {
         }
       },
       child: Container(
-          padding: const EdgeInsets.all(8).copyWith(bottom: 8),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              transform: GradientRotation(5.50),
-              colors: [
-                k181E4A,
-                k202968,
-              ],
-            ),
+        padding: const EdgeInsets.all(8).copyWith(bottom: 8),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            transform: GradientRotation(5.50),
+            colors: [
+              k181E4A,
+              k202968,
+            ],
           ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Stack(
               children: [
                 Container(
-                  height: size.height * 0.165,
+                  height: size.height * 0.215,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
@@ -300,11 +300,12 @@ class _MixItemState extends State<MixItem> {
                 ),
                 if (widget.mix.premium == true && !appCache.isPremiumMember())
                   SizedBox(
-                    height: size.height * 0.165,
+                    height: size.height * 0.215,
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.only(bottomRight: Radius.circular(8)),
+                        borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(8)),
                         child: SvgPicture.asset(
                           IconPaths.icCrownBanner,
                           height: 24,
@@ -322,7 +323,10 @@ class _MixItemState extends State<MixItem> {
             ),
             Text(
               widget.mix.name ?? '',
-              style: const TextStyle(color: Colors.white, fontSize: 16),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400),
             ),
           ],
         ),
