@@ -31,9 +31,9 @@ class _MoreScreenState extends State<MoreScreen>
     ItemMoreModel(IconPaths.icFeedbackNew, 'Feedback', '',
         IconPaths.icRightArrow, true, false),
     ItemMoreModel(IconPaths.icShareNew, 'Share App', '', IconPaths.icRightArrow,
-        true, false),
-    ItemMoreModel(IconPaths.icPrivacy, 'Privacy Policy', '',
-        IconPaths.icRightArrow, true, true),
+        true, true),
+    // ItemMoreModel(IconPaths.icPrivacy, 'Privacy Policy', '',
+    //     IconPaths.icRightArrow, true, true),
     // ItemMoreModel(IconPaths.icWarn, 'Term of Service', '', true),
   ];
 
@@ -80,9 +80,9 @@ class _MoreScreenState extends State<MoreScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    appCache.isPremiumMember()
-                        ? const SizedBox()
-                        : const PremiumWidget(),
+                    // appCache.isPremiumMember()
+                    //     ? const SizedBox()
+                    //     : const PremiumWidget(),
                     const SizedBox(
                       height: 16,
                     ),
@@ -107,7 +107,7 @@ class _MoreScreenState extends State<MoreScreen>
                       ),
                       child: Column(
                         children: List.generate(
-                          5,
+                          4,
                           (index) => MoreItemWidget(
                             iconSvg: listItem[index].svgIcon ?? '',
                             titleItem: listItem[index].titleItem ?? '',
@@ -135,9 +135,9 @@ class _MoreScreenState extends State<MoreScreen>
                                   Share.share(
                                       'https://apps.apple.com/vn/app/id$_appID');
                                   break;
-                                case 4:
-                                  _launchPrivacy();
-                                  break;
+                                // case 4:
+                                //   _launchPrivacy();
+                                //   break;
                                 // case 5:
                                 //   _launchTermOfService();
                                 //   break;
