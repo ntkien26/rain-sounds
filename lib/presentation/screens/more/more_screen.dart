@@ -206,9 +206,9 @@ class _MoreScreenState extends State<MoreScreen>
 
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
-      path: 'hopnv.1611@gmail.com',
+      path: 'chillapp.mobile@gmail.com',
       query: encodeQueryParameters(<String, String>{
-        'subject': 'Feedback to Sound Sleeps IOS',
+        'subject': 'Feedback: Chill Rain Sound',
       }),
     );
     try {
