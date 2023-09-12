@@ -396,7 +396,7 @@ class _MoreScreenState extends State<MoreScreen>
                             height: 24,
                           ),
                           RatingBar(
-                            initialRating: 3,
+                            initialRating: 2,
                             minRating: 1,
                             direction: Axis.horizontal,
                             allowHalfRating: true,
