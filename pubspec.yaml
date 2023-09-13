@@ -64,6 +64,7 @@ dependencies:
   share_plus: ^4.0.10
   audio_video_progress_bar: ^2.0.0
   flutter_rating_bar: ^4.0.1
+  flutter_launcher_icons: ^0.11.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -78,5 +79,8 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/sounds/
-
+flutter_icons:
+  image_path: "assets/images/img_logo.png"
+  android: true
+  ios: true
 
