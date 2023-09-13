@@ -86,5 +86,7 @@ class IconPaths {
   static const String icSelected = '${Assets.baseIconPath}/ic_selected.svg';
   static const String icCancelGray = '${Assets.baseIconPath}/ic_cancel_gray.svg';
   static const String icEditMusic = '${Assets.baseIconPath}/ic_edit_music.svg';
+  static const String icStarFilled = '${Assets.baseIconPath}/ic_star_filled.svg';
+  static const String icStarNotFilled = '${Assets.baseIconPath}/ic_star_not_filled.svg';
 
 }

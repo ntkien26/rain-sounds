@@ -53,6 +53,9 @@ const Color k181f4c = Color(0xff181f4c);
 
 //More Screen
 const Color k8489B0 = Color(0xff8489B0);
+const Color kDEAA21 = Color(0xffDEAA21);
+const Color k8C8C8C = Color(0xff8C8C8C);
+
 
 //Playing button screen
 const Color k1D1A55 = Color(0xff1D1A55);
