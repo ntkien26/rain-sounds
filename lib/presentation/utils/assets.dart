@@ -88,5 +88,9 @@ class IconPaths {
   static const String icEditMusic = '${Assets.baseIconPath}/ic_edit_music.svg';
   static const String icStarFilled = '${Assets.baseIconPath}/ic_star_filled.svg';
   static const String icStarNotFilled = '${Assets.baseIconPath}/ic_star_not_filled.svg';
+  static const String icLeftArrow = '${Assets.baseIconPath}/ic_left_arrow.svg';
+  static const String icCheckedFilled = '${Assets.baseIconPath}/ic_checked_filled.svg';
+  static const String icCheckedEmpty = '${Assets.baseIconPath}/ic_checked_empty.svg';
+
 
 }

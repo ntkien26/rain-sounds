@@ -29,24 +29,24 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
       text: '3 days trial free',
       price: '',
       isIcon: false,
-      color1: k5f5490,
-      color2: k4b3fad,
+      color1: k1B8961,
+      color2: k40DBC8,
     ),
     PurchaseModel(
       title: 'Yearly',
       text: 'Best seller',
       price: '',
       isIcon: true,
-      color1: k7d7b88,
-      color2: k893c82,
+      color1: k891B71,
+      color2: kDB40AF,
     ),
     PurchaseModel(
       title: 'Lifetime',
       text: 'Sale off 20%',
       price: '',
       isIcon: false,
-      color1: k795ec8,
-      color2: k299ac6,
+      color1: k1B4E89,
+      color2: k40ACDB,
     ),
   ];
   int indexChecked = 1;
@@ -142,121 +142,110 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     return Container(
+      width: double.infinity,
+      height: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(ImagePaths.bgPremium), fit: BoxFit.fill)),
+              image: AssetImage(ImagePaths.bgOnBoarding), fit: BoxFit.fill)),
       child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      if (appCache.isFirstLaunch()) {
-                        if (adHelper.isInterstitialAdsReady()) {
-                          adHelper.showInterstitialAd(
-                              onAdDismissedFullScreenContent: () {
-                            getIt<NavigationService>().navigateToScreen(
-                                screen: const BedTimeReminderScreen());
-                          }, onAdFailedToLoad: () {
-                            getIt<NavigationService>().navigateToScreen(
-                                screen: const BedTimeReminderScreen());
-                          });
-                        } else {
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () {
+                    if (appCache.isFirstLaunch()) {
+                      if (adHelper.isInterstitialAdsReady()) {
+                        adHelper.showInterstitialAd(
+                            onAdDismissedFullScreenContent: () {
+                              getIt<NavigationService>().navigateToScreen(
+                                  screen: const BedTimeReminderScreen());
+                            }, onAdFailedToLoad: () {
                           getIt<NavigationService>().navigateToScreen(
                               screen: const BedTimeReminderScreen());
-                        }
+                        });
                       } else {
-                        Navigator.pop(context);
+                        getIt<NavigationService>().navigateToScreen(
+                            screen: const BedTimeReminderScreen());
                       }
-                    },
-                    child: SvgPicture.asset(
-                      IconPaths.icClose,
-                      height: 30,
-                      width: 30,
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _checkedTitle('Unlock all sounds'),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      _checkedTitle('Remove ads'),
-                    ],
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: SvgPicture.asset(
+                    IconPaths.icLeftArrow,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _checkedTitle('Unlock all music'),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      _checkedTitle('Constantly update'),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(3, (index) {
-                  final indexPurchase = listOfPurchase[index];
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        indexChecked = index;
-                        if (!indexPurchase.isIcon) {
-                          indexPurchase.isIcon = true;
-                          for (final purchase in listOfPurchase) {
-                            if (purchase != indexPurchase) {
-                              purchase.isIcon = false;
-                            }
+                )
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(3, (index) {
+                final indexPurchase = listOfPurchase[index];
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      indexChecked = index;
+                      if (!indexPurchase.isIcon) {
+                        indexPurchase.isIcon = true;
+                        for (final purchase in listOfPurchase) {
+                          if (purchase != indexPurchase) {
+                            purchase.isIcon = false;
                           }
                         }
-                      });
-                    },
-                    child: _priceContainer(
-                      index: index,
-                      height: h,
-                      width: w,
-                      title: indexPurchase.title,
-                      text: indexPurchase.text,
-                      price: indexPurchase.price,
-                      isIcon: indexPurchase.isIcon,
-                      color1: indexPurchase.color1,
-                      color2: indexPurchase.color2,
+                      }
+                    });
+                  },
+                  child: _priceContainer(
+                    index: index,
+                    height: h,
+                    width: w,
+                    title: indexPurchase.title,
+                    text: indexPurchase.text,
+                    price: indexPurchase.price,
+                    isIcon: indexPurchase.isIcon,
+                    color1: indexPurchase.color1,
+                    color2: indexPurchase.color2,
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _checkedTitle('Unlock all sounds'),
+                    const SizedBox(
+                      height: 16,
                     ),
-                  );
-                }),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Text(
-                feeText(indexChecked),
-                style: TextStyleConstant.normalTextStyle,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              SizedBox(
-                width: w,
+                    _checkedTitle('Remove ads'),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _checkedTitle('Unlock all music'),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    _checkedTitle('Constantly update'),
+                  ],
+                ),
+              ],
+            ),
+            const Spacer(),
+            SizedBox(
+              width: w,
+              child: Padding(
+                padding: const EdgeInsets.all(12).copyWith(bottom: 0),
                 child: TextButton(
                   onPressed: () async {
                     EasyLoading.show(status: 'Processing purchase');
@@ -281,61 +270,94 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                         break;
                     }
                   },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: const BorderSide(color: kb62f69))),
-                    backgroundColor: MaterialStateProperty.all<Color>(kb62f69),
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    side: const BorderSide(
+                      color: k7F65F0,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      btText(indexChecked),
-                      style: TextStyleConstant.normalTextStyle,
+                  child: Ink(
+                    padding: EdgeInsets.zero,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: <Color>[
+                          k5C40DF,
+                          k7F65F0,
+                        ],
+                      ),
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(100)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 16),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 32,
+                        child: Text(
+                          btText(indexChecked),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                feeTextSub(indexChecked),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Subscription automatically renews after the end of the current period. You will be charged 100,000d. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app or in Google Play',
                 style: TextStyleConstant.smallTextStyle,
                 textAlign: TextAlign.center,
               ),
-              const Spacer(),
-              Row(
-                children: [
-                  const Spacer(),
-                  InkWell(
-                    child: const Text(
-                      'Term of Service',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onTap: () {
-                      _launchTermOfService();
-                    },
-                  ),
-                  const Text(
-                    ' and ',
-                    style: TextStyle(color: Colors.white54),
-                  ),
-                  InkWell(
-                    child: const Text(
-                      'Privacy Policy',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onTap: () {
-                      _launchPrivacy();
-                    },
-                  ),
-                  const Spacer(),
-                ],
-              )
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            // const Spacer(),
+            // Row(
+            //   children: [
+            //     const Spacer(),
+            //     InkWell(
+            //       child: const Text(
+            //         'Term of Service',
+            //         style: TextStyle(color: Colors.white),
+            //       ),
+            //       onTap: () {
+            //         _launchTermOfService();
+            //       },
+            //     ),
+            //     const Text(
+            //       ' and ',
+            //       style: TextStyle(color: Colors.white54),
+            //     ),
+            //     InkWell(
+            //       child: const Text(
+            //         'Privacy Policy',
+            //         style: TextStyle(color: Colors.white),
+            //       ),
+            //       onTap: () {
+            //         _launchPrivacy();
+            //       },
+            //     ),
+            //     const Spacer(),
+            //   ],
+            // )
+          ],
         ),
       ),
     );
@@ -362,7 +384,10 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   Widget _checkedTitle(String title) {
     return Row(
       children: [
-        SvgPicture.asset(IconPaths.icCheckedGreen),
+        Text(
+          '●',
+          style: TextStyleConstant.mediumTextStyle.copyWith(fontSize: 8),
+        ),
         const SizedBox(
           width: 5,
         ),
@@ -387,69 +412,86 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
     return Stack(
       children: [
         Container(
-          height: isIcon ? height / 3.9 : height / 4.4,
-          width: isIcon ? width / 3.6 : width / 3.5,
-          margin: index == 1
-              ? const EdgeInsets.symmetric(horizontal: 8).copyWith(top: 12)
-              : const EdgeInsets.only(top: 12),
+          // padding: EdgeInsets.all(value),
+          height: height / 7,
+          width: width,
+          margin: const EdgeInsets.only(top: 28),
           decoration: BoxDecoration(
-              border: Border.all(color: kFirstPrimaryColor),
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  color1,
-                  color2,
-                ],
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            border: Border.all(color: kFFFFFF.withOpacity(0.2)),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            gradient: const LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: <Color>[
+                k181E4A,
+                k202968,
+              ],
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const SizedBox(
-                height: 24,
+                width: 16,
               ),
-              Text(
-                text,
-                style: const TextStyle(
-                    color: kf9d136,
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w500),
+              const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '3 days free trial',
+                    style: TextStyle(
+                        color: kFFFFFF,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    '100,000 vnd',
+                    style: TextStyle(
+                        color: kFFFFFF,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 32,
-              ),
-              Text(
-                price,
-                style: const TextStyle(
-                    color: k78f721, fontSize: 18, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 28,
-              ),
+              const Spacer(),
               isIcon
-                  ? SvgPicture.asset(IconPaths.icSelectBlue)
-                  : const SizedBox(),
+                  ? SvgPicture.asset(IconPaths.icCheckedFilled)
+                  : SvgPicture.asset(IconPaths.icCheckedEmpty),
+              const SizedBox(
+                width: 16,
+              ),
             ],
           ),
         ),
         Positioned.fill(
           right: 0,
+          left: 16,
+          top: 8,
           child: Align(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.topLeft,
             child: Container(
-              height: 22,
-              width: 70,
-              decoration: const BoxDecoration(
-                color: kFirstPrimaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(4)),
+              height: 30,
+              width: 90,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    color2,
+                    color1,
+                  ],
+                ),
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
               ),
               child: Center(
                 child: Text(
                   title,
                   style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
+                      fontWeight: FontWeight.w700, color: kFFFFFF),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -460,34 +502,14 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
     );
   }
 
-  String feeText(index) {
-    if (index == 1) {
-      return '';
-    } else if (index == 0) {
-      return '';
-    } else {
-      return 'Enjoy a Lifetime Subscription at ${listOfPurchase[2].price} ₫';
-    }
-  }
-
   String btText(index) {
-    const String constString = 'Subscribe for ';
+    const String constString = 'Subscribe for 100,000';
     if (index == 1) {
       return '$constString${listOfPurchase[1].price} ₫/year';
     } else if (index == 0) {
       return '$constString${listOfPurchase[0].price} ₫/month';
     } else {
-      return 'Buy now';
-    }
-  }
-
-  String feeTextSub(index) {
-    if (index == 1) {
-      return 'Subscription automatically renews after the end of the current period. You will be charged ${listOfPurchase[1].price} ₫. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app.';
-    } else if (index == 0) {
-      return 'Subscription automatically renews after the end of the current period. You will be charged ${listOfPurchase[0].price} ₫. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app.';
-    } else {
-      return '';
+      return '$constString${listOfPurchase[0].price} ₫/month';
     }
   }
 }
