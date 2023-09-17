@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +16,7 @@ import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -157,95 +159,47 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                           //   ),
                           // ),
                         ),
-                        SizedBox(
-                          height: 80,
-                          child: InkWell(
-                            onTap: () async {
-                              await getIt
-                                  .get<NavigationService>()
-                                  .navigateToScreen(
-                                      screen: EditSelectedSoundScreen(
-                                    mix: state.mix!,
-                                  ));
-                              _bloc.add(RefreshEvent(mix: state.mix!));
-                            },
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              reverse: true,
-                              itemCount: state.mix?.sounds == null
-                                  ? 1
-                                  : state.mix!.sounds!.length + 1,
-                              itemBuilder: (BuildContext context, int index) {
-                                if (index == 0) {
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 40,
-                                        width: 40,
-                                        margin: const EdgeInsets.all(8),
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white30,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8))),
-                                        child: SizedBox(
-                                          height: 35,
-                                          width: 35,
-                                          child: Image.asset(ImagePaths.icEdit),
-                                        ),
-                                      ),
-                                      const Text(
-                                        'Edit',
-                                        textAlign: TextAlign.center,
-                                        maxLines: 1,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  );
-                                }
-                                index -= 1;
-
-                                // return row
-                                var sound = state.mix?.sounds?[index];
-                                final extension = sound?.icon?.split('.').last;
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      margin: const EdgeInsets.all(8),
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white30,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20))),
-                                      child: SizedBox(
-                                        child: extension == 'svg'
-                                            ? SvgPicture.asset(
-                                                '${Assets.baseIconPath}/${sound?.icon}')
-                                            : Image.asset(
-                                                '${Assets.baseIconPath}/${sound?.icon}'),
-                                      ),
-                                    ),
-                                    Text(
-                                      '${sound?.volume.toInt().toString()}%',
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 32,
-                        ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet<int>(
+                                  isDismissible: false,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return EditSelectedSoundScreen(
+                                      mix: state.mix!,
+                                      selection: 1,
+                                      onCancelClick: () {
+                                        Navigator.pop(context);
+                                      },
+                                    );
+                                  },
+                                );
+                                _bloc.add(RefreshEvent(mix: state.mix!));
+                              },
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: SvgPicture.asset(
+                                      IconPaths.icAmbience,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  const Text(
+                                    'Edit',
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
                             StreamBuilder(
                               stream: _bloc.soundService.isPlaying,
                               builder: (BuildContext context,
@@ -258,7 +212,57 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                                     });
                               },
                             ),
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet<int>(
+                                  isDismissible: false,
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return EditSelectedSoundScreen(
+                                      mix: state.mix!,
+                                      selection: 0,
+                                      onCancelClick: () {
+                                        Navigator.pop(context);
+                                      },
+                                    );
+                                  },
+                                );
+                                _bloc.add(RefreshEvent(mix: state.mix!));
+                              },
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: badges.Badge(
+                                      showBadge: true,
+                                      position: BadgePosition.topEnd(end: -14),
+                                      badgeContent: const Text(
+                                        '3',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      badgeColor: Colors.blueAccent,
+                                      child: SvgPicture.asset(
+                                        IconPaths.icSelected,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  const Text(
+                                    'Selected',
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 32,
                         ),
                       ],
                     ),
