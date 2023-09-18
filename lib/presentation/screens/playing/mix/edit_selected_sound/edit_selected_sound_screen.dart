@@ -216,7 +216,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                   );
                 }
                 else {
-                  return Colum(
+                  return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
