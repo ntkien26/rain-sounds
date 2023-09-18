@@ -52,6 +52,8 @@ class SoundItem extends StatefulWidget {
 }
 
 class _SoundItemState extends State<SoundItem> {
+  final ValueNotifier<bool> active = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context) {
     final AppCache appCache = getIt.get();
@@ -60,89 +62,115 @@ class _SoundItemState extends State<SoundItem> {
         getIt<NavigationService>()
             .navigateToScreen(screen: const InAppPurchaseScreen());
       } else {
-        widget.editSelectedSoundBloc
-            .add(UpdateSound(soundId: widget.sound.id, active: true, volume: 80));
+        widget.editSelectedSoundBloc.add(UpdateSound(
+            soundId: widget.sound.id, active: active.value, volume: 80));
       }
     }
 
     final extension = widget.sound.icon?.split('.').last;
-    return InkWell(
-      splashColor: Colors.black,
-      onTap: _onButtonClick,
-      child: Container(
-        margin: const EdgeInsets.only(right: 8,bottom: 4),
-        decoration:  BoxDecoration(
-          // color: active ? Colors.blueAccent : Colors.white10,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          // border: Border.all(color: active ? k7F65F0 : Colors.transparent),
-          gradient: const LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            transform: GradientRotation(5.50),
-            colors: [
-              k181E4A,
-              k202968,
-            ],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.8),
-              blurRadius: 8,
-              offset: Offset(0, 4),// changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 8,
-            ),
-            Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.width/4,
-                  width: MediaQuery.of(context).size.width/4,
-                  margin: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                      color: Colors.white10,
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                  ),
-                  child: SizedBox(
-                    child: extension == 'svg'
-                        ? SvgPicture.asset(
-                            '${Assets.baseIconPath}/${widget.sound.icon}')
-                        : Image.asset(
-                            '${Assets.baseIconPath}/${widget.sound.icon}'),
-                  ),
+    return ValueListenableBuilder<bool>(
+        valueListenable: active,
+        builder: (context, value, child) {
+          return InkWell(
+            splashColor: Colors.black,
+            onTap: () {
+              active.value = !active.value;
+              _onButtonClick;
+            },
+            child: Container(
+              margin: const EdgeInsets.only(right: 8, bottom: 4),
+              decoration: BoxDecoration(
+                // color: active ? Colors.blueAccent : Colors.white10,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                // border: Border.all(color: active ? k7F65F0 : Colors.transparent),
+                gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  transform: GradientRotation(5.50),
+                  colors: [
+                    k181E4A,
+                    k202968,
+                  ],
                 ),
-                if (widget.sound.premium == true && !appCache.isPremiumMember())
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: SvgPicture.asset(
-                      IconPaths.icCrown,
-                      height: 20,
-                      width: 20,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Stack(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.width / 4,
+                        width: MediaQuery.of(context).size.width / 4,
+                        margin: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          gradient: active.value
+                              ? const LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  transform: GradientRotation(5.50),
+                                  colors: [
+                                    k7F65F0,
+                                    k5C40DF,
+                                  ],
+                                )
+                              : const LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  transform: GradientRotation(5.50),
+                                  colors: [
+                                    k2F366D,
+                                    k404B99,
+                                  ],
+                                ),
+                          borderRadius: const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: SizedBox(
+                          child: extension == 'svg'
+                              ? SvgPicture.asset(
+                                  '${Assets.baseIconPath}/${widget.sound.icon}')
+                              : Image.asset(
+                                  '${Assets.baseIconPath}/${widget.sound.icon}'),
+                        ),
+                      ),
+                      if (widget.sound.premium == true &&
+                          !appCache.isPremiumMember())
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: SvgPicture.asset(
+                            IconPaths.icCrown,
+                            height: 20,
+                            width: 20,
+                          ),
+                        )
+                      else
+                        const SizedBox()
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Expanded(
+                    child: Text(
+                      widget.sound.name ?? '',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      style: const TextStyle(color: Colors.white),
                     ),
-                  )
-                else
-                  const SizedBox()
-              ],
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Expanded(
-              child: Text(
-                widget.sound.name ?? '',
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                style: const TextStyle(color: Colors.white),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
