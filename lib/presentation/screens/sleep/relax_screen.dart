@@ -6,6 +6,8 @@ import 'package:focus_detector/focus_detector.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/data/local/model/mix.dart';
+import 'package:rain_sounds/presentation/base/navigation_service.dart';
+import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase_screen.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_bloc.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_event.dart';
 import 'package:rain_sounds/presentation/screens/sleep/sleep_state.dart';
@@ -64,7 +66,13 @@ class _RelaxScreenState extends State<RelaxScreen>
                         style: TextStyleConstant.titleTextStyle
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
-                      SvgPicture.asset(IconPaths.icCrown)
+                      InkWell(
+                          onTap: () {
+                            getIt<NavigationService>()
+                                .navigateToScreen(screen: const InAppPurchaseScreen());
+                          },
+                          child: SvgPicture.asset(IconPaths.icCrown)
+                      )
                     ],
                   ),
                   const SizedBox(

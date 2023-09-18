@@ -1,43 +1,26 @@
 {
   "project_info": {
-    "project_number": "538772117054",
-    "project_id": "sleep-sound-ios",
-    "storage_bucket": "sleep-sound-ios.appspot.com"
+    "project_number": "569475592449",
+    "project_id": "chill-rain-sound",
+    "storage_bucket": "chill-rain-sound.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:538772117054:android:4bca4364d20a1b3216236f",
+        "mobilesdk_app_id": "1:569475592449:android:fe4391c1805af7a0c16b00",
         "android_client_info": {
-          "package_name": "com.uet.rain_sounds"
+          "package_name": "com.chillapp.rainsounds.sleepsounds.relax"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "538772117054-tn8rdrsj1gacvpkgj0df5dmlgr5eah4o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDUY1lAZE0OpQO9MtDfx8gSf8dkAuZEvBQ"
+          "current_key": "AIzaSyBvLSSiznuqTBXc15TfKoUeq1G6u10ZN_c"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "538772117054-tn8rdrsj1gacvpkgj0df5dmlgr5eah4o.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "538772117054-v181csrpvlcg328uri62mhfaj1hlkafo.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "uet.rainsounds.sleepsounds"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

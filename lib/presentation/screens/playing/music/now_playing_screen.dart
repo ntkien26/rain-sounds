@@ -11,8 +11,6 @@ import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/set_timer/set_timer_screen.dart';
 import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
 
 import 'now_playing_bloc.dart';
 import 'now_playing_event.dart';
@@ -33,23 +31,6 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
 
   final AdHelper adHelper = getIt.get();
   final AppCache appCache = getIt.get();
-
-  static const _backgroundColor = Colors.black;
-
-  static const _colors = [
-    Color(0xff7ea2d0),
-    Color(0xff1e346a),
-  ];
-
-  static const _durations = [
-    5000,
-    4000,
-  ];
-
-  static const _heightPercentages = [
-    0.65,
-    0.66,
-  ];
 
   @override
   void dispose() {
@@ -151,7 +132,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                                 AsyncSnapshot<bool> asyncSnapshot) {
                               final bool? isPlaying = asyncSnapshot.data;
                               return PlayingButton(
-                                  isPlaying: isPlaying == true,
+                                  isPlaying: isPlaying ?? false,
                                   onTap: () {
                                     _bloc.add(ToggleEvent());
                                   });
@@ -162,14 +143,6 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                     ),
                     const SizedBox(
                       height: 24,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Text(
-                        widget.musicModel.title ?? '',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20, color: Colors.white, fontStyle: FontStyle.italic),
-                      ),
                     ),
                     const Spacer(),
                     !appCache.isPremiumMember() ? const AppBannerAd() : const SizedBox()

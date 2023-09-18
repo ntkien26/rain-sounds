@@ -16,6 +16,7 @@ import 'package:rain_sounds/presentation/utils/styles.dart';
 
 class BedTimeReminderScreen extends StatefulWidget {
   const BedTimeReminderScreen({Key? key}) : super(key: key);
+  static const String routePath = 'bedTimeReminderScreen';
 
   @override
   State<BedTimeReminderScreen> createState() => _BedTimeReminderScreenState();
@@ -162,155 +163,139 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                       height: 24,
                     ),
                     SizedBox(
-                      child: ValueListenableBuilder<bool>(
-                        valueListenable: bedtimeReminderSwitch,
-                        builder: (context, switchValue, _) {
-                          return ImageFiltered(
-                            enabled: !bedtimeReminderSwitch.value,
-                            imageFilter: ImageFilter.blur(
-                                sigmaX: 2, sigmaY: 2, tileMode: TileMode.decal),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            reminderTime.value =
-                                                !reminderTime.value;
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'Reminder Time',
-                                                style: TextStyleConstant
-                                                    .songTitleTextStyle,
-                                              ),
-                                              SvgPicture.asset(
-                                                  reminderTime.value
-                                                      ? IconPaths.icUp
-                                                      : IconPaths.icDown),
-                                            ],
+                        child: ValueListenableBuilder<bool>(
+                      valueListenable: bedtimeReminderSwitch,
+                      builder: (context, switchValue,_){
+                        return ImageFiltered(
+                          enabled: !bedtimeReminderSwitch.value,
+                          imageFilter: ImageFilter.blur(
+                              sigmaX: 2, sigmaY: 2, tileMode: TileMode.decal),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          reminderTime.value = !reminderTime.value;
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Reminder Time',
+                                              style: TextStyleConstant
+                                                  .songTitleTextStyle,
+                                            ),
+                                            SvgPicture.asset(reminderTime.value
+                                                ? IconPaths.icUp
+                                                : IconPaths.icDown),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      ValueListenableBuilder(
+                                          valueListenable: timeOfDay,
+                                          builder: (context, time, _) {
+                                            return Text(
+                                              '${timeOfDay.value.hour.toString()}:${timeOfDay.value.minute.toString()}',
+                                              style: TextStyleConstant.textTextStyle
+                                                  .copyWith(
+                                                  fontSize: 13, color: k8f8b9a),
+                                            );
+                                          }),
+                                      ValueListenableBuilder<bool>(
+                                        valueListenable: reminderTime,
+                                        builder: (context, reminderValue, _) {
+                                          return AnimatedContainer(
+                                            duration:
+                                            const Duration(milliseconds: 500),
+                                            child: reminderTime.value
+                                                ? TimerPickerSpinnerWidget(
+                                              onCancelClick: () {
+                                                reminderTime.value = false;
+                                                timeOfDay.value =
+                                                const TimeOfDay(
+                                                    hour: 21, minute: 30);
+                                              },
+                                              onConfirmClick: (dateTime) {
+                                                timeOfDay.value = TimeOfDay(
+                                                    hour: dateTime.hour,
+                                                    minute: dateTime.minute);
+                                                reminderTime.value = false;
+                                              },
+                                            )
+                                                : const SizedBox(),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                'Repeat',
+                                style: TextStyleConstant.songTitleTextStyle,
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: List.generate(
+                                    7,
+                                        (index) => GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          listOfDays[index].onCheck =
+                                          !listOfDays[index].onCheck;
+                                        });
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: listOfDays[index].onCheck
+                                                ? k293379
+                                                : k7F65F0,
+                                            width: 1,
+                                          ),
+                                          color: listOfDays[index].onCheck
+                                              ? k293379
+                                              : k5C40DF,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            listOfDays[index].shortName,
+                                            style: TextStyleConstant
+                                                .songTitleTextStyle
+                                                .copyWith(
+                                              color: listOfDays[index].onCheck
+                                                  ? k70679A
+                                                  : kFFFFFF,
+                                            ),
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        ValueListenableBuilder(
-                                            valueListenable: timeOfDay,
-                                            builder: (context, time, _) {
-                                              return Text(
-                                                '${timeOfDay.value.hour.toString()}:${timeOfDay.value.minute.toString()}',
-                                                style: TextStyleConstant
-                                                    .textTextStyle
-                                                    .copyWith(
-                                                        fontSize: 13,
-                                                        color: k8f8b9a),
-                                              );
-                                            }),
-                                        ValueListenableBuilder<bool>(
-                                          valueListenable: reminderTime,
-                                          builder: (context, reminderValue, _) {
-                                            return AnimatedContainer(
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              child: reminderTime.value
-                                                  ? TimerPickerSpinnerWidget(
-                                                      onCancelClick: () {
-                                                        reminderTime.value =
-                                                            false;
-                                                        timeOfDay.value =
-                                                            const TimeOfDay(
-                                                                hour: 21,
-                                                                minute: 30);
-                                                      },
-                                                      onConfirmClick:
-                                                          (dateTime) {
-                                                        timeOfDay.value =
-                                                            TimeOfDay(
-                                                                hour: dateTime
-                                                                    .hour,
-                                                                minute: dateTime
-                                                                    .minute);
-                                                        reminderTime.value =
-                                                            false;
-                                                      },
-                                                    )
-                                                  : const SizedBox(),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 24,
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  'Repeat',
-                                  style: TextStyleConstant.songTitleTextStyle,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: List.generate(
-                                      7,
-                                      (index) => GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                listOfDays[index].onCheck =
-                                                    !listOfDays[index].onCheck;
-                                              });
-                                            },
-                                            child: Container(
-                                              height: 40,
-                                              width: 40,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color:
-                                                      listOfDays[index].onCheck
-                                                          ? k293379
-                                                          : k7F65F0,
-                                                  width: 1,
-                                                ),
-                                                color: listOfDays[index].onCheck
-                                                    ? k293379
-                                                    : k5C40DF,
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  listOfDays[index].shortName,
-                                                  style: TextStyleConstant
-                                                      .songTitleTextStyle
-                                                      .copyWith(
-                                                    color: listOfDays[index]
-                                                            .onCheck
-                                                        ? k70679A
-                                                        : kFFFFFF,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          )),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),),
                   ],
                 ),
               ),

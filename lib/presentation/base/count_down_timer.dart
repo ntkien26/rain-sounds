@@ -1,23 +1,25 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/domain/manager/playback_timer.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/duration_util.dart';
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 
 class CountDownTimer extends StatelessWidget {
-  CountDownTimer({Key? key, required this.isNowPlayScreen, this.fontSize = 14}) : super(key: key);
+  CountDownTimer({Key? key, required this.isNowPlayScreen, this.fontSize = 14})
+      : super(key: key);
 
   final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
-  final  bool isNowPlayScreen;
+  final bool isNowPlayScreen;
   final double fontSize;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
         stream: _playbackTimer.remainingTime,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if(isNowPlayScreen == true){
+            if (isNowPlayScreen == true) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
 
@@ -32,7 +34,7 @@ class CountDownTimer extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           '00:00',
                           style: TextStyle(fontSize: 13, color: k8489B0),
                         ),
@@ -40,7 +42,7 @@ class CountDownTimer extends StatelessWidget {
                           _playbackTimer.status != Status.off
                               ? formatHHMMSS(snapshot.data as int)
                               : "Timer",
-                          style: TextStyle(fontSize: 13, color: k8489B0),
+                          style: const TextStyle(fontSize: 13, color: k8489B0),
                         ),
                       ],
                     ),
@@ -67,7 +69,7 @@ class CountDownTimer extends StatelessWidget {
                   ],
                 ),
               );
-            }else{
+            } else {
               return Center(
                 child: Text(
                   _playbackTimer.status != Status.off
