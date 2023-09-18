@@ -50,6 +50,8 @@ const Color kF2EFFF = Color(0xffF2EFFF);
 const Color k38184A = Color(0xff38184A);
 const Color k00072D = Color(0xff00072D);
 const Color k181f4c = Color(0xff181f4c);
+const Color kFFE144 = Color(0xffFFE144);
+
 
 //More Screen
 const Color k8489B0 = Color(0xff8489B0);
