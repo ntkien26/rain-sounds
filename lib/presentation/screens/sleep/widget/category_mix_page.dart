@@ -135,11 +135,11 @@ class _MixItemState extends State<MixItem> {
                 final Size size = MediaQuery.of(context).size;
                 return Dialog(
                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
+                        borderRadius: BorderRadius.circular(8)),
                     elevation: 16,
                     child: SingleChildScrollView(
                       child: Container(
-                        height: size.height/1.35,
+                        height: size.height / 1.35,
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8)),
@@ -185,8 +185,8 @@ class _MixItemState extends State<MixItem> {
                                       '${Assets.baseImagesPath}/${widget.mix.cover?.thumbnail}.webp'),
                                   fit: BoxFit.cover,
                                 ),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(16)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(16)),
                               ),
                             ),
                             const SizedBox(
@@ -223,7 +223,7 @@ class _MixItemState extends State<MixItem> {
                                 ),
                                 child: Ink(
                                   padding: EdgeInsets.zero,
-                                  decoration:  const BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                       begin: Alignment.bottomLeft,
                                       end: Alignment.topRight,
@@ -345,7 +345,7 @@ class _MixItemState extends State<MixItem> {
             Stack(
               children: [
                 Container(
-                  height: size.height * 0.215,
+                  height: size.height * 0.21,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
@@ -356,7 +356,7 @@ class _MixItemState extends State<MixItem> {
                 ),
                 if (widget.mix.premium == true && !appCache.isPremiumMember())
                   SizedBox(
-                    height: size.height * 0.215,
+                    height: size.height * 0.21,
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: ClipRRect(
@@ -375,14 +375,16 @@ class _MixItemState extends State<MixItem> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 12,
             ),
-            Text(
-              widget.mix.name ?? '',
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400),
+            Expanded(
+              child: Text(
+                widget.mix.name ?? '',
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
           ],
         ),

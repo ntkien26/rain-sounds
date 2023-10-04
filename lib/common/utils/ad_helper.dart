@@ -10,7 +10,7 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 class AdHelper {
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/6300978111";
+      return "ca-app-pub-5610784403919753/6111063536";
     } else if (Platform.isIOS) {
       return "ca-app-pub-8874925934744732/9301483138";
     } else {
@@ -30,7 +30,7 @@ class AdHelper {
 
   static String get interstitialAdUnitId {
     if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/1033173712";
+      return "ca-app-pub-5610784403919753/9948831222";
     } else if (Platform.isIOS) {
       return "ca-app-pub-8874925934744732/4679711848";
     } else {
@@ -40,7 +40,7 @@ class AdHelper {
 
   static String get rewardedAdUnitId {
     if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/5224354917";
+      return "ca-app-pub-5610784403919753/7265863538";
     } else if (Platform.isIOS) {
       return "ca-app-pub-8874925934744732/6053464699";
     } else {

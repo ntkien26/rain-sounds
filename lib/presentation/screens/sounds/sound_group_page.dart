@@ -24,7 +24,7 @@ class SoundGroupPage extends StatelessWidget {
     return GridView.count(
         crossAxisCount: 3,
         mainAxisSpacing: 4,
-        childAspectRatio: 0.7,
+        childAspectRatio: 0.8,
         children: sounds
             .map((e) => SoundItem(
                   sound: e,
@@ -100,28 +100,29 @@ class _SoundItemState extends State<SoundItem> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.width/4,
-                  width: MediaQuery.of(context).size.width/4,
+                  height: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 4,
                   decoration: BoxDecoration(
-                    // color: active ? Colors.blueAccent : Colors.white10,
                     borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    gradient: active ?  const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      transform: GradientRotation(5.50),
-                      colors: [
-                        k7F65F0,
-                        k5C40DF,
-                      ],
-                    ) :  const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      transform: GradientRotation(5.50),
-                      colors: [
-                        k2F366D,
-                        k404B99,
-                      ],
-                    ),
+                    gradient: active
+                        ? const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            transform: GradientRotation(5.50),
+                            colors: [
+                              k7F65F0,
+                              k5C40DF,
+                            ],
+                          )
+                        : const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            transform: GradientRotation(5.50),
+                            colors: [
+                              k2F366D,
+                              k404B99,
+                            ],
+                          ),
                   ),
                   child: SizedBox(
                     child: extension == 'svg'
@@ -131,22 +132,22 @@ class _SoundItemState extends State<SoundItem> {
                             '${Assets.baseIconPath}/${widget.sound.icon}'),
                   ),
                 ),
-                // if (widget.sound.premium == true && !appCache.isPremiumMember())
-                //   Positioned(
-                //     top: 0,
-                //     right: 0,
-                //     child: SvgPicture.asset(
-                //       IconPaths.icPremium,
-                //       height: 20,
-                //       width: 20,
-                //     ),
-                //   )
-                // else
-                  const SizedBox()
+                if (widget.sound.premium == true && !appCache.isPremiumMember())
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: SvgPicture.asset(
+                      IconPaths.icCrownBanner,
+                      height: 20,
+                      width: 20,
+                    ),
+                  )
+                else
+                const SizedBox()
               ],
             ),
             const SizedBox(
-              height: 16,
+              height: 8,
             ),
             Expanded(
               child: Text(

@@ -62,7 +62,7 @@ class _RelaxScreenState extends State<RelaxScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'App name title',
+                        'Chill Sound',
                         style: TextStyleConstant.titleTextStyle
                             .copyWith(fontWeight: FontWeight.bold),
                       ),

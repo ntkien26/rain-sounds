@@ -4,16 +4,16 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PurchaseService {
-  static const API_KEY = 'appl_gybKPXpbKavCvzrwEwbrpMpkIBs';
+  static const API_KEY = 'goog_JjgCxzJgFizJIXqZvEiWgqqMnoj';
 
   List<String> skus = ['monthly', 'yearly', 'lifetime'];
 
   final AppCache appCache = getIt.get();
 
-  final BehaviorSubject<List<Product>> _products =
-      BehaviorSubject<List<Product>>.seeded(List.empty());
+  final BehaviorSubject<List<StoreProduct>> _products =
+      BehaviorSubject<List<StoreProduct>>.seeded(List.empty());
 
-  ValueStream<List<Product>> get products => _products.stream;
+  ValueStream<List<StoreProduct>> get products => _products.stream;
 
   final BehaviorSubject<bool> _purchaseUpdated =
   BehaviorSubject<bool>.seeded(false);
@@ -22,10 +22,10 @@ class PurchaseService {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    await Purchases.setDebugLogsEnabled(true);
-    await Purchases.setup(API_KEY);
+    await Purchases.setLogLevel(LogLevel.debug);
+    await Purchases.configure(PurchasesConfiguration(API_KEY));
     _products.add(await Purchases.getProducts(skus));
-    final purchaseInfo = await Purchases.getPurchaserInfo();
+    final purchaseInfo = await Purchases.getCustomerInfo();
 
     if (!appCache.isLifetimePremium()) {
       print('User doesnt have lifetime premium currently');

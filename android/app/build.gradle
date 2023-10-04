@@ -50,8 +50,8 @@ android {
         applicationId "com.chillapp.rainsounds.sleepsounds.relax"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {

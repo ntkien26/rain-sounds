@@ -106,7 +106,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'App name title',
+                                    'Chill Sound',
                                     style: TextStyleConstant.titleTextStyle
                                         .copyWith(fontWeight: FontWeight.bold),
                                   ),
@@ -117,7 +117,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                                 height: 16,
                               ),
                               SizedBox(
-                                height: 430,
+                                height: 460,
                                 child: PageView.builder(
                                     itemCount: totalPage,
                                     onPageChanged: (page) {
@@ -133,9 +133,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                                       );
                                     }),
                               ),
-                              const SizedBox(
-                                height: 32,
-                              ),
+                              const Spacer(),
                               DotsIndicator(
                                 dotsCount: totalPage,
                                 position: _selectedIndex.toDouble(),

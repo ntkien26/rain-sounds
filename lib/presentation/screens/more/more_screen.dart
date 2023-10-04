@@ -79,7 +79,7 @@ class _MoreScreenState extends State<MoreScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'App name title',
+                    'Chill Sound',
                     style: TextStyleConstant.titleTextStyle
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
@@ -150,12 +150,12 @@ class _MoreScreenState extends State<MoreScreen>
                                     Share.share(
                                         'https://apps.apple.com/vn/app/id$_appID');
                                     break;
-                                  // case 4:
-                                  //   _launchPrivacy();
-                                  //   break;
-                                  // case 5:
-                                  //   _launchTermOfService();
-                                  //   break;
+                                  case 4:
+                                    _launchPrivacy();
+                                    break;
+                                  case 5:
+                                    _launchTermOfService();
+                                    break;
                                 }
                               },
                             ),
