@@ -59,18 +59,18 @@ class GridMusicWidget extends StatelessWidget {
                       getIt<NavigationService>()
                           .navigateToScreen(screen: const InAppPurchaseScreen());
                     } else {
-                      getIt<NavigationService>().navigateToScreen(
-                          screen: NowPlayingScreen(
-                              musicModel: musicItem ?? MusicModel()));
-                      // adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
-                      //   getIt<NavigationService>().navigateToScreen(
-                      //       screen: NowPlayingScreen(
-                      //           musicModel: musicItem ?? MusicModel()));
-                      // }, onAdFailedToLoad: () {
-                      //   getIt<NavigationService>().navigateToScreen(
-                      //       screen: NowPlayingScreen(
-                      //           musicModel: musicItem ?? MusicModel()));
-                      // });
+                      // getIt<NavigationService>().navigateToScreen(
+                      //     screen: NowPlayingScreen(
+                      //         musicModel: musicItem ?? MusicModel()));
+                      adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
+                        getIt<NavigationService>().navigateToScreen(
+                            screen: NowPlayingScreen(
+                                musicModel: musicItem ?? MusicModel()));
+                      }, onAdFailedToLoad: () {
+                        getIt<NavigationService>().navigateToScreen(
+                            screen: NowPlayingScreen(
+                                musicModel: musicItem ?? MusicModel()));
+                      });
                     }
                   },
                   child: Container(

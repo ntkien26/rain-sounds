@@ -35,7 +35,7 @@ class SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    adHelper.preloadInterstitialAd();
+    // adHelper.preloadInterstitialAd();
     _controller = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
@@ -76,18 +76,19 @@ class SplashScreenState extends State<SplashScreen>
                 (Route<void> route) => false,
               );
             } else {
-              if (adHelper.isInterstitialAdsReady()) {
-                adHelper.showInterstitialAd(
-                  onAdDismissedFullScreenContent: () {
-                    navigateToMainScreen();
-                  },
-                  onAdFailedToLoad: () {
-                    navigateToMainScreen();
-                  },
-                );
-              } else {
-                navigateToMainScreen();
-              }
+              navigateToMainScreen();
+              // if (adHelper.isInterstitialAdsReady()) {
+              //   adHelper.showInterstitialAd(
+              //     onAdDismissedFullScreenContent: () {
+              //       navigateToMainScreen();
+              //     },
+              //     onAdFailedToLoad: () {
+              //       navigateToMainScreen();
+              //     },
+              //   );
+              // } else {
+              //   navigateToMainScreen();
+              // }
               break;
             }
         }

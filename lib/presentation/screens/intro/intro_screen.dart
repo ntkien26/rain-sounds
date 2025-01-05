@@ -5,6 +5,7 @@ import 'package:rain_sounds/presentation/screens/in_app_purchase/in_app_purchase
 import 'package:rain_sounds/presentation/screens/intro/step_one_page.dart';
 import 'package:rain_sounds/presentation/screens/intro/step_three_page.dart';
 import 'package:rain_sounds/presentation/screens/intro/step_two_page.dart';
+import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -50,7 +51,7 @@ class _IntroScreenState extends State<IntroScreen> {
               onNextClicked: () {
                 getIt
                     .get<NavigationService>()
-                    .navigateToScreen(screen: const InAppPurchaseScreen());
+                    .navigateToScreen(screen: const MainScreen());
               },
             )
           ],

@@ -55,22 +55,22 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   @override
   void initState() {
     super.initState();
-    purchaseService.products.listen((iapItems) => {
-          iapItems.forEach((element) {
-            print('iapItems: $element');
-            switch (element.identifier) {
-              case 'monthly':
-                listOfPurchase[0].price = element.priceString;
-                break;
-              case 'yearly':
-                listOfPurchase[1].price = element.priceString;
-                break;
-              case 'lifetime':
-                listOfPurchase[2].price = element.priceString;
-            }
-          }),
-          setState(() {})
-        });
+    purchaseService.products.listen((iapItems) {
+      for (var element in iapItems) {
+        print('iapItems: $element');
+        switch (element.identifier) {
+          case 'monthly':
+            listOfPurchase[0].price = element.priceString;
+            break;
+          case 'yearly':
+            listOfPurchase[1].price = element.priceString;
+            break;
+          case 'lifetime':
+            listOfPurchase[2].price = element.priceString;
+        }
+      }
+      setState(() {});
+    });
   }
 
   void _handlePurchaseSuccessfully() {
@@ -122,7 +122,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                       child: ElevatedButton(
                         onPressed: null,
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.transparent,
+                            backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent),
                         child: Text(
                           'OK',
@@ -160,9 +160,9 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                       if (adHelper.isInterstitialAdsReady()) {
                         adHelper.showInterstitialAd(
                             onAdDismissedFullScreenContent: () {
-                              getIt<NavigationService>().navigateToScreen(
-                                  screen: const BedTimeReminderScreen());
-                            }, onAdFailedToLoad: () {
+                          getIt<NavigationService>().navigateToScreen(
+                              screen: const BedTimeReminderScreen());
+                        }, onAdFailedToLoad: () {
                           getIt<NavigationService>().navigateToScreen(
                               screen: const BedTimeReminderScreen());
                         });
@@ -291,8 +291,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                           k7F65F0,
                         ],
                       ),
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(100)),
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

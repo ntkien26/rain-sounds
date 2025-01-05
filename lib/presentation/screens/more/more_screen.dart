@@ -79,7 +79,7 @@ class _MoreScreenState extends State<MoreScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Chill Sound',
+                    'Relax & Sleep',
                     style: TextStyleConstant.titleTextStyle
                         .copyWith(fontWeight: FontWeight.bold),
                   ),

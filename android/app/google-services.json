@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "569475592449",
-    "project_id": "chill-rain-sound",
-    "storage_bucket": "chill-rain-sound.appspot.com"
+    "project_number": "662158661410",
+    "project_id": "sleep-sounds-d360b",
+    "storage_bucket": "sleep-sounds-d360b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:569475592449:android:fe4391c1805af7a0c16b00",
+        "mobilesdk_app_id": "1:662158661410:android:b3b945ff08b4a534f4b77b",
         "android_client_info": {
-          "package_name": "com.chillapp.rainsounds.sleepsounds.relax"
+          "package_name": "com.moewsoft.sleepsounds.relax"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBvLSSiznuqTBXc15TfKoUeq1G6u10ZN_c"
+          "current_key": "AIzaSyC-Xya1KWSlg_VqAELIFpS8NlYncQD4zqA"
         }
       ],
       "services": {

@@ -50,11 +50,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDUY1lAZE0OpQO9MtDfx8gSf8dkAuZEvBQ',
-    appId: '1:538772117054:android:4bca4364d20a1b3216236f',
+    apiKey: 'AIzaSyC-Xya1KWSlg_VqAELIFpS8NlYncQD4zqA',
+    appId: '1:662158661410:android:b3b945ff08b4a534f4b77b',
     messagingSenderId: '538772117054',
-    projectId: 'sleep-sound-ios',
-    storageBucket: 'sleep-sound-ios.appspot.com',
+    projectId: 'sleep-sounds-d360b',
+    storageBucket: 'sleep-sounds-d360b.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

@@ -62,8 +62,8 @@ class _SoundItemState extends State<SoundItem> {
         getIt<NavigationService>()
             .navigateToScreen(screen: const InAppPurchaseScreen());
       } else {
-        widget.editSelectedSoundBloc.add(UpdateSound(
-            soundId: widget.sound.id, active: active.value, volume: 80));
+        // widget.editSelectedSoundBloc.add(UpdateSound(
+        //     soundId: widget.sound.id, active: active.value, volume: 80));
       }
     }
 

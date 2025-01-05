@@ -106,7 +106,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Chill Sound',
+                                    'Relax & Sleep',
                                     style: TextStyleConstant.titleTextStyle
                                         .copyWith(fontWeight: FontWeight.bold),
                                   ),

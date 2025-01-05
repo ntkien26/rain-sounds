@@ -62,7 +62,7 @@ class _RelaxScreenState extends State<RelaxScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Chill Sound',
+                        'Relax & Sleep',
                         style: TextStyleConstant.titleTextStyle
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -146,9 +146,8 @@ class _RelaxScreenState extends State<RelaxScreen>
                                               int index) {
                                             return CategoryMixPage(
                                               mixes: listMixes[index],
-                                              showPremiumBanner: false,
-                                              // showPremiumBanner: index == 0 &&
-                                              //     !appCache.isPremiumMember(),
+                                              showPremiumBanner: index == 0 &&
+                                                  !appCache.isPremiumMember(),
                                               sleepBloc: _bloc,
                                             );
                                           }),

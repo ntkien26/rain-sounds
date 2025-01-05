@@ -9,7 +9,6 @@ class NotificationService {
   static Future<void> init() async {
     // set the icon to null if you want to use the default app icon
     AwesomeNotifications().initialize(
-        // set the icon to null if you want to use the default app icon
         null,
         [
           NotificationChannel(
@@ -33,10 +32,10 @@ class NotificationService {
         ],
         channelGroups: [
           NotificationChannelGroup(
-              channelGroupkey: 'scheduled_channel_group',
+              channelGroupKey: 'scheduled_channel_group',
               channelGroupName: 'Sleep sound'),
           NotificationChannelGroup(
-              channelGroupkey: 'media_player_group',
+              channelGroupKey: 'media_player_group',
               channelGroupName: 'Media player controller')
         ],
         debug: true);

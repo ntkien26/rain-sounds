@@ -102,7 +102,7 @@ class _SetCustomTimerState extends State<SetCustomTimer> {
                           .pop(TimeOfDay.fromDateTime(dateTime));
                     }
                   },
-                  child: SvgPicture.asset(
+                  child: SvgPicture.string(
                     IconPaths.icChecked,
                     height: 80,
                     width: 80,

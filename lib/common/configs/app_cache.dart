@@ -56,11 +56,12 @@ class AppCache {
   }
 
   bool isPremiumMember() {
-    if (_prefs.getBool(_isPremiumMember) == true) {
-      return true;
-    } else {
-      return isSubscriptionActive();
-    }
+    // if (_prefs.getBool(_isPremiumMember) == true) {
+    //   return true;
+    // } else {
+    //   return isSubscriptionActive();
+    // }
+    return true;
   }
 
   Future<void> setTimer(String time) async {
