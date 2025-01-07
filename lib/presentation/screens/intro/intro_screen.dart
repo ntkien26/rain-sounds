@@ -6,7 +6,10 @@ import 'package:rain_sounds/presentation/screens/intro/step_one_page.dart';
 import 'package:rain_sounds/presentation/screens/intro/step_three_page.dart';
 import 'package:rain_sounds/presentation/screens/intro/step_two_page.dart';
 import 'package:rain_sounds/presentation/screens/main/main_screen.dart';
+import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
+
+import '../../../common/configs/app_cache.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -19,6 +22,7 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final PageController pageController = PageController();
+  final AppCache appCache = getIt.get();
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +53,12 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
             StepThreePage(
               onNextClicked: () {
-                getIt
-                    .get<NavigationService>()
-                    .navigateToScreen(screen: const MainScreen());
+                if (appCache.isFirstLaunch()) {
+                  getIt<NavigationService>().navigateToScreen(
+                      screen: const BedTimeReminderScreen());
+                } else {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                }
               },
             )
           ],

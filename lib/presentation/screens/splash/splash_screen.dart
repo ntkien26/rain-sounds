@@ -123,7 +123,7 @@ class SplashScreenState extends State<SplashScreen>
                       sizeFactor: _animation,
                       child: Center(
                         child: Text(
-                          'Rain Sounds for Sleep',
+                          'Sleep Relaxtion - Calm Music',
                           style: GoogleFonts.roboto(
                               textStyle: const TextStyle(
                                   fontStyle: FontStyle.italic,
