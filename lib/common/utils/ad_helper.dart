@@ -10,7 +10,7 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 class AdHelper {
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
-      return "ca-app-pub-5610784403919753/6111063536";
+      return "ca-app-pub-5651929111360802/2432884071";
     } else if (Platform.isIOS) {
       return "ca-app-pub-8874925934744732/9301483138";
     } else {
@@ -20,7 +20,7 @@ class AdHelper {
 
   static String get interstitialAdUnitIdForOpening {
     if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/1033173712";
+      return "ca-app-pub-5651929111360802/4927185472";
     } else if (Platform.isIOS) {
       return "ca-app-pub-8874925934744732/1338113072";
     } else {
@@ -30,7 +30,7 @@ class AdHelper {
 
   static String get interstitialAdUnitId {
     if (Platform.isAndroid) {
-      return "ca-app-pub-5610784403919753/9948831222";
+      return "ca-app-pub-5651929111360802/4815504837";
     } else if (Platform.isIOS) {
       return "ca-app-pub-8874925934744732/4679711848";
     } else {
@@ -40,7 +40,7 @@ class AdHelper {
 
   static String get rewardedAdUnitId {
     if (Platform.isAndroid) {
-      return "ca-app-pub-5610784403919753/7265863538";
+      return "ca-app-pub-5651929111360802/6826945722";
     } else if (Platform.isIOS) {
       return "ca-app-pub-8874925934744732/6053464699";
     } else {
@@ -60,10 +60,10 @@ class AdHelper {
 
   void showInterstitialAd(
       {required VoidCallback onAdDismissedFullScreenContent, required VoidCallback onAdFailedToLoad}) {
-    if (appCache.isPremiumMember()) {
-      onAdDismissedFullScreenContent();
-      return;
-    }
+    // if (appCache.isPremiumMember()) {
+    //   onAdDismissedFullScreenContent();
+    //   return;
+    // }
 
     if (!shouldShowInterstitialAds()) {
       countAds();
@@ -100,20 +100,24 @@ class AdHelper {
   }
 
   void _showInterstitialAd(VoidCallback onAdDismissedFullScreenContent, VoidCallback onAdFailedToLoad) {
+    print('AdHelper: _showInterstitialAd');
     if (_isInterstitialAdReady && shouldShowInterstitialAds()) {
+      print('AdHelper: Start show ad');
       _interstitialAd?.show();
       _interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
         onAdShowedFullScreenContent: (ad) {
+          print('AdHelper: onAdShowedFullScreenContent');
           _isInterstitialAdReady = false;
         },
         onAdDismissedFullScreenContent: (ad) {
+          print('AdHelper: onAdDismissedFullScreenContent');
           onAdDismissedFullScreenContent();
           ad.dispose();
+
+          countAds();
+          preloadInterstitialAd();
         },
       );
-      print('Ad showed');
-      countAds();
-      preloadInterstitialAd();
     } else {
       InterstitialAd.load(
         adUnitId: AdHelper.interstitialAdUnitId,
@@ -129,7 +133,11 @@ class AdHelper {
                 _isInterstitialAdReady = false;
               },
               onAdDismissedFullScreenContent: (ad) {
+                onAdDismissedFullScreenContent();
                 ad.dispose();
+
+                countAds();
+                preloadInterstitialAd();
               },
             );
 
@@ -196,8 +204,8 @@ class AdHelper {
   }
 
   bool shouldShowInterstitialAds() {
-    print('shouldShowInterstitialAds');
-    return countToDisplayAds == 0 || countToDisplayAds == 5;
+    print('AdHelper shouldShowInterstitialAds: $countToDisplayAds - $countToDisplayAds');
+    return countToDisplayAds == 0 || countToDisplayAds == 3;
   }
 
   bool isInterstitialAdsReady() {

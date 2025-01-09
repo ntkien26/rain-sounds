@@ -44,6 +44,7 @@ class SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     );
+    adHelper.preloadInterstitialAd();
   }
 
   @override
