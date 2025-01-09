@@ -18,6 +18,8 @@ import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
+import '../../../base/banner_ad.dart';
+
 class NowMixPlayingScreen extends StatefulWidget {
   const NowMixPlayingScreen(
       {Key? key, required this.mix, this.autoStart = true})
@@ -220,6 +222,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                         const SizedBox(
                           height: 32,
                         ),
+                        const AppBannerAd()
                       ],
                     ),
                   ),

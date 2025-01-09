@@ -106,7 +106,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 64,
+                            height: 32,
                           ),
                           CountDownTimer(
                             isNowPlayScreen: true,
@@ -115,7 +115,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       ),
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 12,
                     ),
                     StreamBuilder(
                       stream: _bloc.onlineMusicPlayer.audioPlayer.isBuffering,
@@ -142,10 +142,10 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       },
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 12,
                     ),
                     const Spacer(),
-                    !appCache.isPremiumMember() ? const AppBannerAd() : const SizedBox()
+                    const AppBannerAd()
                   ]),
                 );
               }),
