@@ -7,6 +7,7 @@ import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/domain/service/sound_service.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
+import 'package:rain_sounds/presentation/utils/duration_util.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
 
 class SetCustomAmbience extends StatefulWidget {
@@ -40,7 +41,9 @@ class _SetCustomAmbienceState extends State<SetCustomAmbience> {
       dateTime.value =
           DateTime(0, 0, 0, widget.timeOfDay!.hour, widget.timeOfDay!.minute);
     } else {
-      dateTime.value = DateTime.now();
+      dateTime.value = DateTime(
+          0, 0, 0, 0, 30
+      );
     }
   }
 
@@ -89,6 +92,7 @@ class _SetCustomAmbienceState extends State<SetCustomAmbience> {
           children: [
             TimePickerSpinner(
               is24HourMode: true,
+              time: dateTime.value,
               normalTextStyle: TextStyle(
                   fontSize: 24, foreground: Paint()..shader = linearGradient),
               highlightedTextStyle: const TextStyle(

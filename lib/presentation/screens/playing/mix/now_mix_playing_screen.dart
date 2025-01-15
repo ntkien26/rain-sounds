@@ -121,8 +121,8 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                             InkWell(
                               onTap: () {
                                 showModalBottomSheet<int>(
-                                  isDismissible: false,
-                                  backgroundColor: Colors.transparent,
+                                  isDismissible: true,
+                                  scrollControlDisabledMaxHeightRatio: 0.875,
                                   context: context,
                                   builder: (context) {
                                     return EditSelectedSoundScreen(
@@ -171,8 +171,8 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                             InkWell(
                               onTap: () {
                                 showModalBottomSheet<int>(
-                                  isDismissible: false,
-                                  backgroundColor: Colors.transparent,
+                                  isDismissible: true,
+                                  scrollControlDisabledMaxHeightRatio: 1,
                                   context: context,
                                   builder: (context) {
                                     return EditSelectedSoundScreen(

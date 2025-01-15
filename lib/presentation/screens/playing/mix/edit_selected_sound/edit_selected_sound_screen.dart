@@ -39,10 +39,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.selection == 0
-          ? (MediaQuery.of(context).size.height / 2)
-          : (MediaQuery.of(context).size.height * 0.965),
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           gradient: LinearGradient(
@@ -216,7 +213,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                       Padding(
                         padding: const EdgeInsets.all(12.0).copyWith(left: 8),
                         child: const Text(
-                          'Customize volume',
+                          'Customize sounds',
                           style: TextStyle(
                             color: kFFFFFF,
                             fontSize: 16,
@@ -290,7 +287,7 @@ class _EditSelectedSoundScreenState extends State<EditSelectedSoundScreen> {
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width - 32,
                                 child: Text(
-                                  'Save Custom',
+                                  'Done',
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.nunito(
                                     fontWeight: FontWeight.w500,

@@ -85,7 +85,7 @@ class AppCache {
   }
 
   bool isEnableReminder() {
-    return _prefs.getBool(_enableReminder) ?? true;
+    return _prefs.getBool(_enableReminder) ?? false;
   }
 
   Future<void> enableReminderFor(String day, bool enable) async {

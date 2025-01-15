@@ -42,7 +42,6 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height / 2,
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -65,6 +64,7 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
                 style: TextStyleConstant.mediumTextStyle
                     .copyWith(fontWeight: FontWeight.w600),
               ),
+              const SizedBox(height: 12,),
               sounds.isNotEmpty
                   ? SizedBox(
                       child: ListView.builder(
@@ -81,7 +81,11 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
                                     active: false,
                                     volume: sounds[index].volume));
                                 sounds.removeAt(index);
-                                setState(() {});
+                                setState(() {
+                                  if (sounds.isEmpty) {
+                                      Navigator.pop(context);
+                                  }
+                                });
                               },
                             );
                           }),
@@ -180,37 +184,6 @@ class _SelectedSoundsScreenState extends State<SelectedSoundsScreen> {
                   ),
                 ),
               ),
-              // SaveCustomButton(
-              //   text: 'Save Custom',
-              //   onTap: () {
-              //     getIt
-              //         .get<NavigationService>()
-              //         .navigateToScreen(screen: SaveCustomScreen(
-              //       sounds: sounds,
-              //     ));
-              //   },
-              // ),
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              // InkWell(
-              //   onTap: () {
-              //     Navigator.of(context).pop();
-              //   },
-              //   child: SizedBox(
-              //     width: 40,
-              //     height: 50,
-              //     child: Column(
-              //       children: [
-              //         SvgPicture.asset(IconPaths.icCloseArrow),
-              //         const Text(
-              //           'Close',
-              //           style: TextStyle(color: Colors.white70),
-              //         )
-              //       ],
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ));

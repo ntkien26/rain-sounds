@@ -57,13 +57,13 @@ class _SoundItemState extends State<SoundItem> {
   @override
   Widget build(BuildContext context) {
     final AppCache appCache = getIt.get();
-    _onButtonClick() {
+    active.value = widget.sound.active;
+
+    onButtonClick() {
       if (widget.sound.premium && !appCache.isPremiumMember()) {
+        print('editSelectedSoundBloc1: Update sound');
         getIt<NavigationService>()
             .navigateToScreen(screen: const InAppPurchaseScreen());
-      } else {
-        // widget.editSelectedSoundBloc.add(UpdateSound(
-        //     soundId: widget.sound.id, active: active.value, volume: 80));
       }
     }
 
@@ -75,7 +75,8 @@ class _SoundItemState extends State<SoundItem> {
             splashColor: Colors.black,
             onTap: () {
               active.value = !active.value;
-              _onButtonClick;
+              widget.editSelectedSoundBloc.add(UpdateSound(
+                  soundId: widget.sound.id, active: active.value, volume: widget.sound.volume));
             },
             child: Container(
               margin: const EdgeInsets.only(right: 8, bottom: 4),

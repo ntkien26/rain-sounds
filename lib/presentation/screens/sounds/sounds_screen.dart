@@ -34,7 +34,6 @@ class SoundsScreen extends StatefulWidget {
 class _SoundsScreenState extends State<SoundsScreen> {
   int _selectedIndex = 0;
   final SoundsBloc _soundsBloc = getIt<SoundsBloc>();
-  final PlaybackTimer _playbackTimer = getIt<PlaybackTimer>();
   ValueNotifier<bool> isOpenModalBottomSheet = ValueNotifier(false);
 
   @override
@@ -203,21 +202,17 @@ class _SoundsScreenState extends State<SoundsScreen> {
     return InkWell(
       onTap: () {
         if (_soundsBloc.soundService.totalActiveSound > 0) {
-          // navigateSelectedSoundsScreen();
-          isOpenModalBottomSheet.value = true;
           showModalBottomSheet<int>(
-            isDismissible: false,
-            backgroundColor: Colors.transparent,
+            scrollControlDisabledMaxHeightRatio: 1,
+            isDismissible: true,
             context: context,
             builder: (context) {
               return SelectedSoundsScreen(
                 soundsBloc: _soundsBloc,
                 onCancelClick: () {
                   Navigator.pop(context);
-                  isOpenModalBottomSheet.value = false;
                 },
                 onSaveCustomClick: (sounds) {
-                  isOpenModalBottomSheet.value = false;
                   getIt.get<NavigationService>().navigateToScreen(
                           screen: SaveCustomScreen(
                         sounds: sounds,
@@ -228,7 +223,7 @@ class _SoundsScreenState extends State<SoundsScreen> {
           );
         } else {
           Fluttertoast.showToast(
-              msg: "Choose a sound to create a custom",
+              msg: "You haven't chosen any sounds",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.SNACKBAR,
               timeInSecForIosWeb: 1,
@@ -270,12 +265,8 @@ class _SoundsScreenState extends State<SoundsScreen> {
   Widget buildSetTimeButton() {
     return InkWell(
         onTap: () {
-          isOpenModalBottomSheet.value = true;
-          // await getIt<NavigationService>().navigateToScreen(screen: SetTimerScreen());
-          // setState(() {});
           showModalBottomSheet<int>(
-            isDismissible: false,
-            backgroundColor: Colors.transparent,
+            isDismissible: true,
             context: context,
             builder: (context) {
               return Container(
@@ -293,12 +284,10 @@ class _SoundsScreenState extends State<SoundsScreen> {
                     )),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SetCustomAmbience(
                       onConfirmClick: () {
                         Navigator.pop(context);
-                        isOpenModalBottomSheet.value = false;
                       },
                     ),
                   ],

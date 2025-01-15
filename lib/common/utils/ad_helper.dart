@@ -127,21 +127,7 @@ class AdHelper {
             _interstitialAd = ad;
             print('Ad loaded');
             _isInterstitialAdReady = true;
-
-            ad.fullScreenContentCallback = FullScreenContentCallback(
-              onAdShowedFullScreenContent: (ad) {
-                _isInterstitialAdReady = false;
-              },
-              onAdDismissedFullScreenContent: (ad) {
-                onAdDismissedFullScreenContent();
-                ad.dispose();
-
-                countAds();
-                preloadInterstitialAd();
-              },
-            );
-
-            _interstitialAd?.show();
+            onAdDismissedFullScreenContent();
           },
           onAdFailedToLoad: (err) {
             print('Failed to load an interstitial ad: ${err.message}');
