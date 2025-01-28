@@ -13,6 +13,8 @@ import 'package:rain_sounds/presentation/screens/splash/splash_state.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
+import '../../../common/utils/InterstitialAdManager.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
   static const String routePath = 'splashScreen';
@@ -29,7 +31,7 @@ class SplashScreenState extends State<SplashScreen>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  final AdHelper adHelper = getIt.get();
+  final InterstitialAdManager interstitialAdManager = getIt.get();
   final AppCache appCache = getIt.get();
 
   @override
@@ -44,7 +46,7 @@ class SplashScreenState extends State<SplashScreen>
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     );
-    adHelper.preloadInterstitialAd();
+    interstitialAdManager.loadAd(context);
   }
 
   @override

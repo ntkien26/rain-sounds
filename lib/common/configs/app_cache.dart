@@ -16,7 +16,6 @@ class AppCache {
   final String _enableReminderSat = 'enableReminderSat';
 
   final String _isPremiumMember = 'isPremiumMember';
-  final String _isSubscriptionActive = '_subscribeActive';
 
   final String _isFirstLaunch = '_isFirstLaunch';
   final String _isAppOpened = '_isAppOpened';
@@ -43,25 +42,8 @@ class AppCache {
     _prefs.setBool(_isPremiumMember, enable);
   }
 
-  bool isLifetimePremium() {
-    return _prefs.getBool(_isPremiumMember) ?? false;
-  }
-
-  Future<void> activeSubscription(bool active) async {
-    _prefs.setBool(_isSubscriptionActive, active);
-  }
-
-  bool isSubscriptionActive() {
-    return _prefs.getBool(_isSubscriptionActive) ?? false;
-  }
-
   bool isPremiumMember() {
-    // if (_prefs.getBool(_isPremiumMember) == true) {
-    //   return true;
-    // } else {
-    //   return isSubscriptionActive();
-    // }
-    return true;
+    return _prefs.getBool(_isPremiumMember) ?? false;
   }
 
   Future<void> setTimer(String time) async {

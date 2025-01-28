@@ -18,6 +18,7 @@ import 'package:rain_sounds/presentation/screens/sounds/sounds_screen.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 
+import '../../../../domain/iap/PremiumManager.dart';
 import '../../../base/banner_ad.dart';
 
 class NowMixPlayingScreen extends StatefulWidget {
@@ -36,6 +37,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
   final NowMixPlayingBloc _bloc = getIt.get();
   final AdHelper adHelper = getIt.get();
   final AppCache appCache = getIt.get();
+  final PremiumManager premiumManager = getIt.get();
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +224,7 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                         const SizedBox(
                           height: 32,
                         ),
-                        const AppBannerAd()
+                        !premiumManager.isPremium() ? const AppBannerAd() : const SizedBox()
                       ],
                     ),
                   ),

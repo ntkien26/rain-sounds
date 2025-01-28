@@ -1,9 +1,11 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
-import 'package:rain_sounds/domain/iap/purchase_service.dart';
+import 'package:rain_sounds/domain/iap/PremiumManager.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
 import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
@@ -20,7 +22,7 @@ class InAppPurchaseScreen extends StatefulWidget {
 }
 
 class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
-  final PurchaseService purchaseService = getIt.get();
+  final PremiumManager premiumManager = getIt.get();
   final AppCache appCache = getIt.get();
   final AdHelper adHelper = getIt.get();
 
@@ -55,21 +57,37 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   @override
   void initState() {
     super.initState();
-    purchaseService.products.listen((iapItems) {
-      for (var element in iapItems) {
-        print('iapItems: $element');
-        switch (element.identifier) {
-          case 'monthly':
-            listOfPurchase[0].price = element.priceString;
-            break;
-          case 'yearly':
-            listOfPurchase[1].price = element.priceString;
-            break;
-          case 'lifetime':
-            listOfPurchase[2].price = element.priceString;
+    for (var element in premiumManager.availableProducts) {
+      debugPrint('iapItems: ${element.id}');
+      switch (element.id) {
+        case 'monthly_subscription_premium':
+          listOfPurchase[0].price = element.price;
+          break;
+        case 'yearly_subscription':
+          listOfPurchase[1].price = element.price;
+          break;
+        case 'lifetime_access':
+          listOfPurchase[2].price = element.price;
+      }
+    }
+
+    premiumManager.purchaseStream.listen((purchaseDetails) async {
+      for (var purchase in purchaseDetails) {
+        await premiumManager.handlePurchase(purchase);
+        if (purchase.status == PurchaseStatus.purchased) {
+          _handlePurchaseSuccessfully();
+          EasyLoading.dismiss();
+        } else {
+          EasyLoading.dismiss();
+          Fluttertoast.showToast(
+              msg: "Purchase error!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.SNACKBAR,
+              timeInSecForIosWeb: 1,
+              textColor: Colors.red,
+              fontSize: 16.0);
         }
       }
-      setState(() {});
     });
   }
 
@@ -251,22 +269,20 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
                     EasyLoading.show(status: 'Processing purchase');
                     switch (indexChecked) {
                       case 0:
-                        if (await purchaseService.buy('monthly')) {
-                          _handlePurchaseSuccessfully();
-                        }
-                        EasyLoading.dismiss();
+                        await premiumManager.purchaseProduct(premiumManager
+                            .availableProducts
+                            .firstWhere((test) =>
+                                test.id == "monthly_subscription_premium"));
                         break;
                       case 1:
-                        if (await purchaseService.buy('yearly')) {
-                          _handlePurchaseSuccessfully();
-                        }
-                        EasyLoading.dismiss();
+                        await premiumManager.purchaseProduct(
+                            premiumManager.availableProducts.firstWhere(
+                                (test) => test.id == "yearly_subscription"));
                         break;
                       case 2:
-                        if (await purchaseService.buy('lifetime')) {
-                          _handlePurchaseSuccessfully();
-                        }
-                        EasyLoading.dismiss();
+                        await premiumManager.purchaseProduct(
+                            premiumManager.availableProducts.firstWhere(
+                                (test) => test.id == "lifetime_access"));
                         break;
                     }
                   },
@@ -319,7 +335,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                'Subscription automatically renews after the end of the current period. You will be charged 100,000d. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app or in Google Play',
+                'Subscription automatically renews after the end of the current period. You will be charged ${listOfPurchase[indexChecked].price}. Cancel anytime. You can manage and cancel subscriptions in Setting of Sleep Sounds app or in Google Play',
                 style: TextStyleConstant.smallTextStyle,
                 textAlign: TextAlign.center,
               ),
@@ -327,35 +343,6 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
             const SizedBox(
               height: 8,
             ),
-            // const Spacer(),
-            // Row(
-            //   children: [
-            //     const Spacer(),
-            //     InkWell(
-            //       child: const Text(
-            //         'Term of Service',
-            //         style: TextStyle(color: Colors.white),
-            //       ),
-            //       onTap: () {
-            //         _launchTermOfService();
-            //       },
-            //     ),
-            //     const Text(
-            //       ' and ',
-            //       style: TextStyle(color: Colors.white54),
-            //     ),
-            //     InkWell(
-            //       child: const Text(
-            //         'Privacy Policy',
-            //         style: TextStyle(color: Colors.white),
-            //       ),
-            //       onTap: () {
-            //         _launchPrivacy();
-            //       },
-            //     ),
-            //     const Spacer(),
-            //   ],
-            // )
           ],
         ),
       ),
@@ -502,7 +489,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   }
 
   String btText(index) {
-    const String constString = 'Subscribe for 100,000';
+    const String constString = 'Subscribe for ';
     if (index == 1) {
       return '$constString${listOfPurchase[1].price} ₫/year';
     } else if (index == 0) {

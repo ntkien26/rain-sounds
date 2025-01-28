@@ -73,7 +73,7 @@ dependencies:
   audio_video_progress_bar: ^2.0.0
   flutter_rating_bar: ^4.0.1
   flutter_launcher_icons: ^0.11.0
-  purchases_flutter: ^8.3.0
+  in_app_purchase: ^3.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

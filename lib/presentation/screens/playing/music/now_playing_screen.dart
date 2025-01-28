@@ -5,6 +5,7 @@ import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/app_injector.dart';
 import 'package:rain_sounds/common/utils/ad_helper.dart';
 import 'package:rain_sounds/data/remote/model/music_model.dart';
+import 'package:rain_sounds/domain/iap/PremiumManager.dart';
 import 'package:rain_sounds/presentation/base/banner_ad.dart';
 import 'package:rain_sounds/presentation/base/count_down_timer.dart';
 import 'package:rain_sounds/presentation/base/navigation_service.dart';
@@ -31,6 +32,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
 
   final AdHelper adHelper = getIt.get();
   final AppCache appCache = getIt.get();
+  final PremiumManager premiumManager = getIt.get();
 
   @override
   void dispose() {
@@ -145,7 +147,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                       height: 12,
                     ),
                     const Spacer(),
-                    const AppBannerAd()
+                    !premiumManager.isPremium() ? const AppBannerAd() : const SizedBox()
                   ]),
                 );
               }),

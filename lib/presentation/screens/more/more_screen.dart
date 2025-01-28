@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:rain_sounds/common/configs/app_cache.dart';
 import 'package:rain_sounds/common/injector/network_di.dart';
 import 'package:rain_sounds/data/local/model/more.dart';
-import 'package:rain_sounds/domain/iap/purchase_service.dart';
+import 'package:rain_sounds/domain/iap/PremiumManager.dart';
 import 'package:rain_sounds/presentation/base/base_stateful_widget.dart';
 import 'package:rain_sounds/presentation/screens/more/bedtime_reminder/bedtime_reminder_screen.dart';
 import 'package:rain_sounds/presentation/screens/more/widget/more_item_widget.dart';
-import 'package:rain_sounds/presentation/screens/more/widget/premium_item_widget.dart';
 import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
@@ -41,7 +40,7 @@ class _MoreScreenState extends State<MoreScreen>
   ];
 
   final AppCache appCache = getIt.get();
-  final PurchaseService purchaseService = getIt.get();
+  final PremiumManager premiumManager = getIt.get();
   ValueNotifier<double> starRating = ValueNotifier(3);
 
   static const _appID = 1631507315;
@@ -49,8 +48,8 @@ class _MoreScreenState extends State<MoreScreen>
   @override
   void initState() {
     super.initState();
-    purchaseService.purchaseUpdated.listen((updated) {
-      if (updated) setState(() {});
+    premiumManager.purchaseStream.listen((updated) {
+      if (updated.isNotEmpty) setState(() {});
     });
   }
 

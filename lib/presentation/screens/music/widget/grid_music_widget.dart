@@ -12,6 +12,8 @@ import 'package:rain_sounds/presentation/utils/assets.dart';
 import 'package:rain_sounds/presentation/utils/color_constant.dart';
 import 'package:rain_sounds/presentation/utils/styles.dart';
 
+import '../../../../common/utils/InterstitialAdManager.dart';
+
 class GridMusicWidget extends StatelessWidget {
   GridMusicWidget({
     Key? key,
@@ -19,6 +21,7 @@ class GridMusicWidget extends StatelessWidget {
   }) : super(key: key);
   final List<MusicModel>? listMusic;
   final AdHelper adHelper = getIt.get();
+  final InterstitialAdManager adManager = getIt.get();
 
   @override
   Widget build(BuildContext context) {
@@ -56,32 +59,22 @@ class GridMusicWidget extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     if (musicItem?.premium == true && !appCache.isPremiumMember()) {
-                      // getIt<NavigationService>()
-                      //     .navigateToScreen(screen: const InAppPurchaseScreen());
-                      adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
-                        getIt<NavigationService>().navigateToScreen(
-                            screen: NowPlayingScreen(
-                                musicModel: musicItem ?? MusicModel()));
-                      }, onAdFailedToLoad: () {
-                        getIt<NavigationService>().navigateToScreen(
-                            screen: NowPlayingScreen(
-                                musicModel: musicItem ?? MusicModel()));
-                      });
+                      getIt<NavigationService>()
+                          .navigateToScreen(screen: const InAppPurchaseScreen());
+                    } else if (musicItem?.premium == false && !appCache.isPremiumMember()) {
+                      adManager.checkAndShowAd(
+                          context,
+                          NowPlayingScreen(
+                              musicModel: musicItem ?? MusicModel()));
                     } else {
-                      adHelper.showInterstitialAd(onAdDismissedFullScreenContent: () {
-                        getIt<NavigationService>().navigateToScreen(
-                            screen: NowPlayingScreen(
-                                musicModel: musicItem ?? MusicModel()));
-                      }, onAdFailedToLoad: () {
-                        getIt<NavigationService>().navigateToScreen(
-                            screen: NowPlayingScreen(
-                                musicModel: musicItem ?? MusicModel()));
-                      });
+                      getIt<NavigationService>().navigateToScreen(
+                          screen: NowPlayingScreen(
+                              musicModel: musicItem ?? MusicModel()));
                     }
                   },
                   child: Container(
                     height: size.height * 0.165,
-                    // width: size.width * 0.5,
+                    width: size.width * 0.5,
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                         image: DecorationImage(
@@ -126,12 +119,14 @@ class GridMusicWidget extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    '${musicItem?.title}',
-                    style: TextStyleConstant.songTitleTextStyle,
-                    overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      '${musicItem?.title}',
+                      style: TextStyleConstant.songTitleTextStyle,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ],
