@@ -68,11 +68,12 @@ class _RelaxScreenState extends State<RelaxScreen>
                       ),
                       InkWell(
                           onTap: () {
-                            // getIt<NavigationService>()
-                            //     .navigateToScreen(screen: const InAppPurchaseScreen());
+                            if (!appCache.isPremiumMember()) {
+                              getIt<NavigationService>().navigateToScreen(
+                                  screen: const InAppPurchaseScreen());
+                            }
                           },
-                          child: SvgPicture.asset(IconPaths.icCrown)
-                      )
+                          child: SvgPicture.asset(IconPaths.icCrown))
                     ],
                   ),
                   const SizedBox(

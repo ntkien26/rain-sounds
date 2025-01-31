@@ -115,8 +115,8 @@ class _SoundsScreenState extends State<SoundsScreen> {
                               const SizedBox(
                                 height: 16,
                               ),
-                              SizedBox(
-                                height: 460,
+                              Expanded(
+                                flex: 10,
                                 child: PageView.builder(
                                     itemCount: totalPage,
                                     onPageChanged: (page) {

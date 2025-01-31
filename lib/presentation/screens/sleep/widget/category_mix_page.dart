@@ -350,7 +350,7 @@ class _MixItemState extends State<MixItem> {
             Stack(
               children: [
                 Container(
-                  height: size.height * 0.21,
+                  height: size.height * 0.20,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(
@@ -361,7 +361,7 @@ class _MixItemState extends State<MixItem> {
                 ),
                 if (widget.mix.premium == true && !appCache.isPremiumMember())
                   SizedBox(
-                    height: size.height * 0.21,
+                    height: size.height * 0.20,
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: ClipRRect(
@@ -387,7 +387,7 @@ class _MixItemState extends State<MixItem> {
                 widget.mix.name ?? '',
                 style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.w400),
               ),
             ),

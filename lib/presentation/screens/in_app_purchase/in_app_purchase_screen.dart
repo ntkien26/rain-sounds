@@ -29,7 +29,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   List<PurchaseModel> listOfPurchase = [
     PurchaseModel(
       title: 'Monthly',
-      text: '3 days trial free',
+      text: 'Popular choice',
       price: '',
       isIcon: false,
       color1: k1B8961,
@@ -45,7 +45,7 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
     ),
     PurchaseModel(
       title: 'Lifetime',
-      text: 'Sale off 20%',
+      text: 'Smartest choice',
       price: '',
       isIcon: false,
       color1: k1B4E89,
