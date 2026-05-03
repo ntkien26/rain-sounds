@@ -90,31 +90,27 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> {
                             .navigateToScreen(screen: SetTimerScreen());
                         setState(() {});
                       },
-                      child: Column(
-                        children: [
-                          Container(
-                            // padding: const EdgeInsets.all(20),
-                            margin: const EdgeInsets.all(16),
-                            height: MediaQuery.of(context).size.width - 32,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                              widget.musicModel.background ?? ''),
-                                fit: BoxFit.fill,
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(12)),
-                            ),
+                      child: Container(
+                        // padding: const EdgeInsets.all(20),
+                        margin: const EdgeInsets.all(16),
+                        height: MediaQuery.of(context).size.width - 32,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                widget.musicModel.background ?? ''),
+                            fit: BoxFit.fill,
                           ),
-                          const SizedBox(
-                            height: 32,
-                          ),
-                          CountDownTimer(
-                            isNowPlayScreen: true,
-                          )
-                        ],
+                          borderRadius: const BorderRadius.all(
+                              Radius.circular(12)),
+                        ),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    CountDownTimer(
+                      isNowPlayScreen: true,
                     ),
                     const SizedBox(
                       height: 12,

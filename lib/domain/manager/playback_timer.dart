@@ -13,6 +13,7 @@ class PlaybackTimer extends ChangeNotifier {
   ValueStream<int> get remainingTime => _remainingTime.stream;
 
   int startTime = 1800;
+  int totalTime = 1800;
   Status status = Status.idle;
   final interval = const Duration(seconds: 1);
 
@@ -45,6 +46,7 @@ class PlaybackTimer extends ChangeNotifier {
     if (status == Status.idle) {
       Duration duration = parseTime(
           time ?? const Duration(minutes: 30).toString());
+      totalTime = duration.inSeconds;
         timer = Timer.periodic(interval, (timer) {
           _remainingTime.add(duration.inSeconds - timer.tick);
         notifyListeners();
@@ -67,6 +69,7 @@ class PlaybackTimer extends ChangeNotifier {
         time ?? const Duration(minutes: 30).toString());
     _remainingTime.add(duration.inSeconds);
     startTime = duration.inSeconds;
+    totalTime = duration.inSeconds;
     status = Status.idle;
     timer?.cancel();
     timer = null;
@@ -77,6 +80,24 @@ class PlaybackTimer extends ChangeNotifier {
     timer?.cancel();
     timer = null;
     status = Status.off;
+    notifyListeners();
+  }
+
+  seek(int secondsElapsed) {
+    if (status == Status.off) return;
+    int newRemaining = totalTime - secondsElapsed;
+    if (newRemaining < 0) newRemaining = 0;
+    
+    startTime = newRemaining;
+    _remainingTime.add(newRemaining);
+    
+    if (status == Status.running) {
+      timer?.cancel();
+      timer = Timer.periodic(interval, (timer) {
+        _remainingTime.add(startTime - timer.tick);
+        notifyListeners();
+      });
+    }
     notifyListeners();
   }
 }

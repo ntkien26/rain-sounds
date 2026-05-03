@@ -92,70 +92,70 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                             getIt<NavigationService>()
                                 .navigateToScreen(screen: SetTimerScreen());
                           },
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.all(16),
-                                height: MediaQuery.of(context).size.width - 32,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        '${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp'),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(12)),
-                                ),
+                          child: Container(
+                            margin: const EdgeInsets.all(16),
+                            height: MediaQuery.of(context).size.width - 32,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    '${Assets.baseImagesPath}/${widget.mix.cover?.background}.webp'),
+                                fit: BoxFit.fill,
                               ),
-                              const SizedBox(
-                                height: 64,
-                              ),
-                              CountDownTimer(
-                                isNowPlayScreen: true,
-                              )
-                            ],
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(12)),
+                            ),
                           ),
                         ),
+                        const SizedBox(
+                          height: 64,
+                        ),
+                        CountDownTimer(
+                          isNowPlayScreen: true,
+                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                showModalBottomSheet<int>(
-                                  isDismissible: true,
-                                  scrollControlDisabledMaxHeightRatio: 0.875,
-                                  context: context,
-                                  builder: (context) {
-                                    return EditSelectedSoundScreen(
-                                      mix: state.mix!,
-                                      selection: 1,
-                                      onCancelClick: () {
-                                        Navigator.pop(context);
+                            Expanded(
+                              child: Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet<int>(
+                                      isDismissible: true,
+                                      scrollControlDisabledMaxHeightRatio: 0.875,
+                                      context: context,
+                                      builder: (context) {
+                                        return EditSelectedSoundScreen(
+                                          mix: state.mix!,
+                                          selection: 1,
+                                          onCancelClick: () {
+                                            Navigator.pop(context);
+                                          },
+                                        );
                                       },
                                     );
+                                    _bloc.add(RefreshEvent(mix: state.mix!));
                                   },
-                                );
-                                _bloc.add(RefreshEvent(mix: state.mix!));
-                              },
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 24,
-                                    width: 24,
-                                    child: SvgPicture.asset(
-                                      IconPaths.icAmbience,
-                                      color: Colors.white,
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: SvgPicture.asset(
+                                          IconPaths.icAmbience,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      const Text(
+                                        'Edit',
+                                        style: TextStyle(color: Colors.white),
+                                      )
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  const Text(
-                                    'Edit',
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
+                                ),
                               ),
                             ),
                             StreamBuilder(
@@ -170,53 +170,57 @@ class _NowMixPlayingScreenState extends State<NowMixPlayingScreen> {
                                     });
                               },
                             ),
-                            InkWell(
-                              onTap: () {
-                                showModalBottomSheet<int>(
-                                  isDismissible: true,
-                                  scrollControlDisabledMaxHeightRatio: 1,
-                                  context: context,
-                                  builder: (context) {
-                                    return EditSelectedSoundScreen(
-                                      mix: state.mix!,
-                                      selection: 0,
-                                      onCancelClick: () {
-                                        Navigator.pop(context);
+                            Expanded(
+                              child: Center(
+                                child: InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet<int>(
+                                      isDismissible: true,
+                                      scrollControlDisabledMaxHeightRatio: 1,
+                                      context: context,
+                                      builder: (context) {
+                                        return EditSelectedSoundScreen(
+                                          mix: state.mix!,
+                                          selection: 0,
+                                          onCancelClick: () {
+                                            Navigator.pop(context);
+                                          },
+                                        );
                                       },
                                     );
+                                    _bloc.add(RefreshEvent(mix: state.mix!));
                                   },
-                                );
-                                _bloc.add(RefreshEvent(mix: state.mix!));
-                              },
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 24,
-                                    width: 24,
-                                    child: badges.Badge(
-                                      showBadge: true,
-                                      position: BadgePosition.topEnd(end: -14),
-                                      badgeContent: Text(
-                                        state.mix?.sounds?.length.toString() ??
-                                            '',
-                                        style: const TextStyle(
-                                            color: Colors.white),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: badges.Badge(
+                                          showBadge: true,
+                                          position: BadgePosition.topEnd(end: -14),
+                                          badgeContent: Text(
+                                            state.mix?.sounds?.length.toString() ??
+                                                '',
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          badgeColor: Colors.blueAccent,
+                                          child: SvgPicture.asset(
+                                            IconPaths.icSelected,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
-                                      badgeColor: Colors.blueAccent,
-                                      child: SvgPicture.asset(
-                                        IconPaths.icSelected,
-                                        color: Colors.white,
+                                      const SizedBox(
+                                        height: 4,
                                       ),
-                                    ),
+                                      const Text(
+                                        'Selected',
+                                        style: TextStyle(color: Colors.white),
+                                      )
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    height: 4,
-                                  ),
-                                  const Text(
-                                    'Selected',
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
+                                ),
                               ),
                             ),
                           ],

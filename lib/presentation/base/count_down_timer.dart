@@ -52,7 +52,7 @@ class CountDownTimer extends StatelessWidget {
                     ProgressBar(
                       progress: Duration(
                           seconds: _playbackTimer.status != Status.off
-                              ? snapshot.data as int
+                              ? (_playbackTimer.totalTime - (snapshot.data as int)).clamp(0, _playbackTimer.totalTime)
                               : 0),
                       baseBarColor: Colors.white.withOpacity(0.24),
                       bufferedBarColor: Colors.white.withOpacity(0.24),
@@ -61,9 +61,9 @@ class CountDownTimer extends StatelessWidget {
                       progressBarColor: Colors.white,
                       thumbRadius: 8.0,
                       // buffered: Duration(milliseconds: 2000),
-                      total: Duration(seconds: _playbackTimer.startTime),
+                      total: Duration(seconds: _playbackTimer.totalTime),
                       onSeek: (duration) {
-                        print('User selected a new time: $duration');
+                        _playbackTimer.seek(duration.inSeconds);
                       },
                     ),
                   ],
