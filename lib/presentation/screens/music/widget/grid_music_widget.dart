@@ -33,7 +33,7 @@ class GridMusicWidget extends StatelessWidget {
       crossAxisCount: 2,
       mainAxisSpacing: 8,
       crossAxisSpacing: 16,
-      childAspectRatio: 0.9,
+      childAspectRatio: 0.82,
       padding: const EdgeInsets.symmetric(vertical: 16),
       children: List.generate(
         listMusic?.length ?? 1,
@@ -117,7 +117,7 @@ class GridMusicWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 12,
                 ),
                 Expanded(
                   child: Padding(

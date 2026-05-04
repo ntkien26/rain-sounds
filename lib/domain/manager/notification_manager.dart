@@ -49,9 +49,10 @@ class NotificationService {
 
   Future<void> createReminderNotification(
       NotificationWeekAndTime notificationSchedule) async {
+    String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: createUniqueId(),
+        id: notificationSchedule.dayOfTheWeek, // Use weekday (1-7) as ID for deterministic behavior
         channelKey: 'scheduled_channel',
         title: 'Rain Sounds for Sleep',
         body: 'It\'s time go to bed',
@@ -65,6 +66,9 @@ class NotificationService {
         second: 0,
         millisecond: 0,
         repeats: true,
+        preciseAlarm: true,
+        allowWhileIdle: true,
+        timeZone: localTimeZone,
       ),
     );
   }
@@ -75,10 +79,6 @@ class NotificationService {
 
   Future<void> cancelMediaNotifications() async {
     await AwesomeNotifications().cancel(1919);
-  }
-
-  int createUniqueId() {
-    return DateTime.now().millisecondsSinceEpoch.remainder(100000);
   }
 }
 

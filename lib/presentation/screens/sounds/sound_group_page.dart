@@ -21,16 +21,22 @@ class SoundGroupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-        crossAxisCount: 3,
-        mainAxisSpacing: 4,
-        childAspectRatio: 0.8,
-        children: sounds
-            .map((e) => SoundItem(
-                  sound: e,
-                  soundsBloc: soundsBloc,
-                ))
-            .toList());
+    return LayoutBuilder(builder: (context, constraints) {
+      final double itemHeight = constraints.maxHeight / 3;
+      final double itemWidth = constraints.maxWidth / 3;
+      return GridView.count(
+          crossAxisCount: 3,
+          mainAxisSpacing: 0,
+          crossAxisSpacing: 0,
+          childAspectRatio: itemWidth / itemHeight,
+          physics: const NeverScrollableScrollPhysics(),
+          children: sounds
+              .map((e) => SoundItem(
+                    sound: e,
+                    soundsBloc: soundsBloc,
+                  ))
+              .toList());
+    });
   }
 }
 

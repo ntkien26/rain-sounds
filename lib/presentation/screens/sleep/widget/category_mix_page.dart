@@ -51,7 +51,7 @@ class CategoryMixPage extends StatelessWidget {
         2,
         StaggeredGridTile.count(
           crossAxisCellCount: 4,
-          mainAxisCellCount: 0.8,
+          mainAxisCellCount: 1.0,
           child: InkWell(
             onTap: () {
               getIt<NavigationService>()

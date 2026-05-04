@@ -201,11 +201,11 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      ValueListenableBuilder(
+                                      ValueListenableBuilder<TimeOfDay>(
                                           valueListenable: timeOfDay,
                                           builder: (context, time, _) {
                                             return Text(
-                                              '${timeOfDay.value.hour.toString()}:${timeOfDay.value.minute.toString()}',
+                                              '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
                                               style: TextStyleConstant.textTextStyle
                                                   .copyWith(
                                                   fontSize: 13, color: k8f8b9a),
@@ -303,7 +303,7 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
               TextButton(
                 onPressed: () async {
                   await appCache.setReminder(
-                      '${timeOfDay.value.hour.toString()}:${timeOfDay.value.minute.toString()}');
+                      '${timeOfDay.value.hour.toString().padLeft(2, '0')}:${timeOfDay.value.minute.toString().padLeft(2, '0')}');
                   await appCache.enableReminder(bedtimeReminderSwitch.value);
                   for (var element in listOfDays) {
                     await appCache.enableReminderFor(
