@@ -491,11 +491,11 @@ class _InAppPurchaseScreenState extends State<InAppPurchaseScreen> {
   String btText(index) {
     const String constString = 'Subscribe for ';
     if (index == 1) {
-      return '$constString${listOfPurchase[1].price} ₫/year';
+      return '$constString${listOfPurchase[1].price} / year';
     } else if (index == 0) {
-      return '$constString${listOfPurchase[0].price} ₫/month';
+      return '$constString${listOfPurchase[0].price} / month';
     } else {
-      return '$constString${listOfPurchase[0].price} ₫/month';
+      return '$constString${listOfPurchase[0].price} / month';
     }
   }
 }
