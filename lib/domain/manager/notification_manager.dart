@@ -1,24 +1,21 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
-  static final FlutterLocalNotificationsPlugin _notifications =
-      FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
-    // set the icon to null if you want to use the default app icon
-    AwesomeNotifications().initialize(
+    await AwesomeNotifications().initialize(
         null,
         [
           NotificationChannel(
               channelGroupKey: 'scheduled_channel_group',
               channelKey: 'scheduled_channel',
-              /* same name */
               channelName: 'Sleep sound',
               channelDescription: 'Notification channel for sleep sound',
               defaultColor: const Color(0xFF9D50DD),
-              ledColor: Colors.white),
+              ledColor: Colors.white,
+              importance: NotificationImportance.High,
+              defaultRingtoneType: DefaultRingtoneType.Notification),
           NotificationChannel(
               channelGroupKey: 'media_player_group',
               channelKey: 'media_player',
@@ -40,24 +37,59 @@ class NotificationService {
         ],
         debug: true);
 
-    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
-      if (!isAllowed) {
-        AwesomeNotifications().requestPermissionToSendNotifications();
-      }
-    });
+    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+    if (!isAllowed) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+
+    // Set up listeners for notification actions
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: onActionReceivedMethod,
+      onNotificationCreatedMethod: onNotificationCreatedMethod,
+      onNotificationDisplayedMethod: onNotificationDisplayedMethod,
+    );
+  }
+
+  /// Use this method to detect when a new notification or a schedule is created
+  @pragma("vm:entry-point")
+  static Future<void> onNotificationCreatedMethod(
+      ReceivedNotification receivedNotification) async {
+    debugPrint('Notification created: ${receivedNotification.id}');
+  }
+
+  /// Use this method to detect every time that a new notification is displayed
+  @pragma("vm:entry-point")
+  static Future<void> onNotificationDisplayedMethod(
+      ReceivedNotification receivedNotification) async {
+    debugPrint('Notification displayed: ${receivedNotification.id}');
+  }
+
+  /// Use this method to detect when the user taps on a notification
+  @pragma("vm:entry-point")
+  static Future<void> onActionReceivedMethod(
+      ReceivedAction receivedAction) async {
+    debugPrint('Notification action received: ${receivedAction.id}');
   }
 
   Future<void> createReminderNotification(
       NotificationWeekAndTime notificationSchedule) async {
-    String localTimeZone = await AwesomeNotifications().getLocalTimeZoneIdentifier();
+    String localTimeZone =
+        await AwesomeNotifications().getLocalTimeZoneIdentifier();
+
+    debugPrint(
+        'Scheduling notification for weekday: ${notificationSchedule.dayOfTheWeek}, '
+        'time: ${notificationSchedule.timeOfDay.hour}:${notificationSchedule.timeOfDay.minute}, '
+        'timeZone: $localTimeZone');
+
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
-        id: notificationSchedule.dayOfTheWeek, // Use weekday (1-7) as ID for deterministic behavior
+        id: notificationSchedule.dayOfTheWeek,
         channelKey: 'scheduled_channel',
         title: 'Rain Sounds for Sleep',
         body: 'It\'s time go to bed',
         category: NotificationCategory.Alarm,
         notificationLayout: NotificationLayout.Default,
+        wakeUpScreen: true,
       ),
       schedule: NotificationCalendar(
         weekday: notificationSchedule.dayOfTheWeek,
@@ -71,10 +103,20 @@ class NotificationService {
         timeZone: localTimeZone,
       ),
     );
+
+    // Verify it was scheduled
+    List<NotificationModel> scheduledList =
+        await AwesomeNotifications().listScheduledNotifications();
+    debugPrint('Total scheduled notifications: ${scheduledList.length}');
+    for (var n in scheduledList) {
+      debugPrint('  Scheduled: id=${n.content?.id}, title=${n.content?.title}, '
+          'schedule=${n.schedule}');
+    }
   }
 
   Future<void> cancelScheduledNotifications() async {
     await AwesomeNotifications().cancelAllSchedules();
+    debugPrint('All scheduled notifications cancelled');
   }
 
   Future<void> cancelMediaNotifications() async {

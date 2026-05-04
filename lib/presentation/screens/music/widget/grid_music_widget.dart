@@ -86,7 +86,7 @@ class GridMusicWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        musicItem?.badge != ""
+                        musicItem?.badge != null && musicItem?.badge != ""
                             ? Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(

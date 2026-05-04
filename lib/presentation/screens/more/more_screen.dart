@@ -147,7 +147,7 @@ class _MoreScreenState extends State<MoreScreen>
                                     break;
                                   case 3:
                                     Share.share(
-                                        'https://apps.apple.com/vn/app/id$_appID');
+                                        'https://play.google.com/store/apps/details?id=com.moewsoft.sleepsounds.relax');
                                     break;
                                   case 4:
                                     _launchPrivacy();
@@ -467,7 +467,7 @@ class _MoreScreenState extends State<MoreScreen>
                                 if (starRating.value >= 4.5) {
                                   try {
                                     launchUrl(Uri.parse(
-                                        'https://apps.apple.com/vn/app/id$_appID'));
+                                        'https://play.google.com/store/apps/details?id=com.moewsoft.sleepsounds.relax'));
                                   } catch (ex) {
                                     print('Launch url error: $ex');
                                   }

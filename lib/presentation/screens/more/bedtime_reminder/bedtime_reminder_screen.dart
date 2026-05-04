@@ -368,13 +368,24 @@ class _BedTimeReminderScreenState extends State<BedTimeReminderScreen> {
   }
 
   Future<void> setUpReminder() async {
+    debugPrint('setUpReminder called. isEnableReminder: ${appCache.isEnableReminder()}');
     if (!appCache.isEnableReminder()) {
       await notificationService.cancelScheduledNotifications();
       return;
     } else {
-      final daysChecked = listOfDays.where((element) => element.onCheck);
+      final daysChecked = listOfDays.where((element) => element.onCheck).toList();
+      debugPrint('Days checked: ${daysChecked.map((e) => '${e.fullName}(weekDay=${e.weekDay})').join(', ')}');
+      debugPrint('Time: ${timeOfDay.value.hour}:${timeOfDay.value.minute}');
+
+      if (daysChecked.isEmpty) {
+        debugPrint('WARNING: No days selected for reminder!');
+        await notificationService.cancelScheduledNotifications();
+        return;
+      }
+
       await notificationService.cancelScheduledNotifications();
       for (var element in daysChecked) {
+        debugPrint('Scheduling reminder for ${element.fullName} (weekDay=${element.weekDay})');
         await notificationService.createReminderNotification(
             NotificationWeekAndTime(
                 dayOfTheWeek: element.weekDay, timeOfDay: timeOfDay.value));
