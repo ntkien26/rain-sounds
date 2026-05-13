@@ -1,0 +1,47 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    name: Ping Supabase Edge Function
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Call keep-alive function
+        env:
+          KEEP_ALIVE_URL: ${{ secrets.SUPABASE_KEEP_ALIVE_URL }}
+          KEEP_ALIVE_SECRET: ${{ secrets.SUPABASE_KEEP_ALIVE_SECRET }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${KEEP_ALIVE_URL}" ]; then
+            echo "SUPABASE_KEEP_ALIVE_URL secret is required."
+            exit 1
+          fi
+
+          curl_args=(
+            --request GET
+            --silent
+            --show-error
+            --fail-with-body
+            --connect-timeout 10
+            --max-time 30
+            --retry 2
+            --retry-delay 5
+            --retry-all-errors
+            --header "Accept: application/json"
+          )
+
+          if [ -n "${KEEP_ALIVE_SECRET}" ]; then
+            curl_args+=(--header "Authorization: Bearer ${KEEP_ALIVE_SECRET}")
+          fi
+
+          curl "${curl_args[@]}" "${KEEP_ALIVE_URL}"
