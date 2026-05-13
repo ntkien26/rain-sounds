@@ -22,8 +22,8 @@ function jsonResponse(body: KeepAliveResponse, status = 200): Response {
 function validateOptionalBearerSecret(request: Request): boolean {
   const keepAliveSecret = Deno.env.get("KEEP_ALIVE_SECRET");
 
-  // Secret protection is optional. If KEEP_ALIVE_SECRET is not configured,
-  // the function can be called without an Authorization header.
+  // Secret protection is optional. Configure KEEP_ALIVE_SECRET to require
+  // a matching Authorization bearer token from scheduled callers.
   if (!keepAliveSecret) {
     return true;
   }

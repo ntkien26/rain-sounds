@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Call keep-alive function
         env:
-          KEEP_ALIVE_URL: ${{ secrets.SUPABASE_KEEP_ALIVE_URL }}
+          KEEP_ALIVE_URL: https://cwljzgynutaymkoteowv.supabase.co/functions/v1/keep-alive
           KEEP_ALIVE_SECRET: ${{ secrets.SUPABASE_KEEP_ALIVE_SECRET }}
         run: |
           set -euo pipefail
